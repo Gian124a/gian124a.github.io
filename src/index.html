@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="./output.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="styles/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <title>Portfolio</title>
+</head>
+<body class="relative bg-secundary-900 font-[poppins] h-[100vh]">
+
+    <header class="z-20 relative h-16 flex items-center justify-between px-6 md:h-20 lg:h-[70px]">
+        <h1 class="font-extrabold text-[26px] bg-gradient-to-t from-primary-800 to-primary-500 bg-clip-text text-transparent sm:text-[28px] md:text-[30px]">
+            PORTFOLIO
+        </h1>
+
+        <button onclick="">
+            <ion-icon id="button-menu" class="text-neutral-500 size-7 sm:size-7 md:size-10 lg:hidden" name="menu-outline"></ion-icon>
+        </button>
+
+        <a href="#" class="hidden px-4 py-[9px] bg-primary-500 rounded-[100px] text-[14px] font-medium items-center text-neutral-500 duration-300 hover:transition-colors hover:bg-primary-700 hover:duration-300 lg:flex">
+            <ion-icon name="call-outline" class="mr-2 size-5"></ion-icon>
+            Contacto
+        </a>
+    </header>
+
+    <nav class="fixed right-3 z-50 w-fit lg:top-0 lg:left-0 lg:right-0 lg:mx-auto lg:flex lg:justify-center lg:items-center lg:h-[70px]">
+        <ul id="menu-container" class="relative flex flex-col items-center p-[6px] overflow-hidden rounded-[12px] bg-gradient-to-b from-secundary-700 to-secundary-500 backdrop-blur-xl shadow-lg transition-all duration-500 ease-in-out lg:flex-row lg:p-1 lg:rounded-full lg:border lg:border-neutral-700 lg:backdrop-blur-sm">
+        
+            <!-- Fondo animado -->
+            <span id="active-bg" class="absolute z-[1] top-0 left-0 right-0 mx-auto rounded-[10px] bg-secundary-500/70 backdrop-blur-md border border-neutral-600/30
+         shadow-[inset_0_0_4px_rgba(106,102,167,0.5)] transition-all duration-500 ease-in-out lg:top-0 lg:bottom-0 lg:left-0 lg:right-auto lg:m-auto lg:h-[calc(100%-8px)] lg:w-[80px] lg:rounded-[100px] lg:bg-secundary-600 lg:border-neutral-700 lg:shadow-[inset_0_0_6px_rgba(106,102,167,0.7)]"></span>
+
+            <!-- Botones -->
+            <a href="#" class="relative z-10 px-[40px] py-[13px] sm:px-[45px] sm:py-[15px] md:px-[50px] md:py-[18px] lg:px-[17px] lg:py-[6px] lg:rounded-[100px] text-neutral-500 text-[14px] transition-all duration-300 lg:mr-2">Inicio</a>
+            <a href="#" class="relative z-10 px-[40px] py-[13px] sm:px-[45px] sm:py-[15px] md:px-[50px] md:py-[18px] lg:px-[17px] lg:py-[6px] lg:rounded-[100px] text-neutral-500 text-[14px] transition-all duration-300 lg:mr-2">Sobre mi</a>
+            <a href="#" class="relative z-10 px-[40px] py-[13px] sm:px-[45px] sm:py-[15px] md:px-[50px] md:py-[18px] lg:px-[17px] lg:py-[6px] lg:rounded-[100px] text-neutral-500 text-[14px] transition-all duration-300 lg:mr-2">Experiencias</a>
+            <a href="#" class="relative z-10 px-[40px] py-[13px] sm:px-[45px] sm:py-[15px] md:px-[50px] md:py-[18px] lg:px-[17px] lg:py-[6px] lg:rounded-[100px] text-neutral-500 text-[14px] transition-all duration-300 lg:mr-2">Proyectos</a>
+            <a href="#" class="relative z-10 px-[40px] py-[13px] sm:px-[45px] sm:py-[15px] md:px-[50px] md:py-[18px] lg:px-[17px] lg:py-[6px] lg:rounded-[100px] text-neutral-500 text-[14px] duration-300 lg:transition-all">Habilidades</a>
+            <a href="#" class="relative z-10 px-[40px] py-[13px] text-neutral-500 text-[14px] sm:px-[45px] sm:py-[15px] md:px-[50px] md:py-[18px] lg:hidden">Contacto</a>
+        </ul>
+    </nav>
+
+    
+
+    <script src="scripts/script.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+</html>
