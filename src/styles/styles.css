@@ -52,4 +52,25 @@
    #menu-container.open a:nth-child(4) { transition-delay: 0.2s; }
    #menu-container.open a:nth-child(5) { transition-delay: 0.25s; }
    #menu-container.open a:nth-child(6) { transition-delay: 0.3s; } 
- }  
+ } 
+ 
+ /* Oculta el scrollbar en móviles */
+  .no-scrollbar::-webkit-scrollbar {
+      display: none;
+  }
+  .no-scrollbar {
+      -ms-overflow-style: none; /* IE y Edge */
+      scrollbar-width: none; /* Firefox */
+  }
+
+  /* En pantallas 'sm' o mayores, desactiva el snap en las tarjetas pares para que el scroll avance de dos en dos */
+  @media (min-width: 640px) {
+    .project-card:nth-child(even) {
+      scroll-snap-align: none;
+    }
+    /* Asegura que el último elemento siempre sea un punto de anclaje,
+       incluso si es par, para manejar correctamente los totales impares. */
+    .project-card:last-child {
+        scroll-snap-align: start;
+    }
+  }

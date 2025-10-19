@@ -63,5 +63,174 @@ function animationButtonMenu() {
   });
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+    const scrollContainer = document.getElementById('scroll-container');
+    const dotEducacion = document.getElementById('dot-educacion');
+    const dotExperiencia = document.getElementById('dot-experiencia');
+    
+    const sections = [
+        document.getElementById('section-educacion'),
+        document.getElementById('section-experiencia')
+    ];
+
+    if (!scrollContainer || !dotEducacion || !dotExperiencia || sections.some(s => !s)) {
+        console.error("Faltan elementos HTML con los IDs requeridos (scroll-container, dot-educacion, etc.).");
+        return;
+    }
+
+    // Usamos IntersectionObserver para detectar qué sección está completamente visible
+    const observerOptions = {
+        root: scrollContainer,
+        rootMargin: '0px',
+        // Umbral de 0.9 (90% de visibilidad) para asegurar que el snap ha terminado
+        threshold: 0.9 
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // La sección ha entrado en el viewport
+                const sectionId = entry.target.id;
+                
+                // Función para cambiar colores
+                const setActiveDot = (activeId) => {
+                    if (activeId === 'section-educacion') {
+                        // Sección 1 Activa (Morado)
+                        dotEducacion.classList.replace('bg-secundary-500', 'bg-primary-500');
+                        // Sección 2 Inactiva (Gris)
+                        dotExperiencia.classList.replace('bg-primary-500', 'bg-secundary-500');
+                    } else if (activeId === 'section-experiencia') {
+                        // Sección 2 Activa (Morado)
+                        dotExperiencia.classList.replace('bg-secundary-500', 'bg-primary-500');
+                        // Sección 1 Inactiva (Gris)
+                        dotEducacion.classList.replace('bg-primary-500', 'bg-secundary-500');
+                    }
+                };
+
+                setActiveDot(sectionId);
+            }
+        });
+    }, observerOptions);
+
+    // Observar cada sección para saber cuándo entra en el viewport
+    sections.forEach(section => {
+        observer.observe(section);
+    });
+    
+    // Configurar el estado inicial al cargar la página (Educación debe ser Morado)
+    dotEducacion.classList.add('bg-primary-500');
+    dotExperiencia.classList.add('bg-neutral-500');
+
+    // === LÓGICA CARRUSEL DE PROYECTOS ===
+    const projectsScrollContainer = document.getElementById('projects-scroll-container');
+    const projectDotsContainer = document.getElementById('project-dots-container');
+    const projectCards = document.querySelectorAll('.project-card');
+    
+    if (!projectsScrollContainer || !projectDotsContainer || projectCards.length === 0) {
+        console.error("Faltan elementos para el carrusel de proyectos (scroll-container, dots-container, o project-cards).");
+        return;
+    }
+
+    const totalCards = projectCards.length;
+    const maxDots = 5;
+    const dotsToShow = Math.min(totalCards, maxDots);
+
+    // 1. Crear los puntos dinámicamente
+    for (let i = 0; i < dotsToShow; i++) {
+        const dot = document.createElement('div');
+        dot.classList.add('w-4', 'h-4', 'rounded-full', 'transition-all', 'duration-300');
+        if (i === 0) {
+            dot.classList.add('bg-primary-500');
+        } else {
+            dot.classList.add('bg-secundary-500');
+        }
+        projectDotsContainer.appendChild(dot);
+    }
+
+    const projectDots = projectDotsContainer.querySelectorAll('div');
+
+    // Función para actualizar los puntos (ahora es responsiva)
+    const updateDots = (visibleIndex) => {
+        const isSmScreen = window.innerWidth >= 640;
+        const itemsPerPage = isSmScreen ? 2 : 1;
+        const totalPages = Math.ceil(totalCards / itemsPerPage);
+        const currentPage = Math.floor(visibleIndex / itemsPerPage);
+
+        // Ocultar puntos si no son necesarios en la vista actual
+        projectDots.forEach((dot, index) => {
+            if (index < Math.min(totalPages, maxDots)) {
+                dot.style.display = 'flex';
+            } else {
+                dot.style.display = 'none';
+            }
+        });
+
+        // Resetear todos los puntos
+        projectDots.forEach(dot => {
+            dot.classList.replace('bg-primary-500', 'bg-secundary-500');
+            dot.classList.remove('scale-75');
+        });
+
+        if (totalPages <= maxDots) {
+            // Comportamiento normal si hay 5 o menos páginas
+            if (projectDots[currentPage]) {
+                projectDots[currentPage].classList.replace('bg-secundary-500', 'bg-primary-500');
+            }
+        } else {
+            // Comportamiento avanzado para más de 5 páginas
+            const lastPageIndex = totalPages - 1;
+            const lastDotIndex = maxDots - 1;
+
+            let dotIndexToActivate = 0;
+
+            if (currentPage < maxDots - 1) {
+                // Al principio, cada página activa su propio punto.
+                dotIndexToActivate = currentPage;
+            } else if (currentPage === lastPageIndex) {
+                // Al final (solo para la última página), se activa el último punto.
+                dotIndexToActivate = lastDotIndex;
+            } else {
+                // En el medio, el punto activo es el cuarto.
+                dotIndexToActivate = maxDots - 2; // Índice 3 (el cuarto punto)
+            }
+
+            projectDots[dotIndexToActivate].classList.replace('bg-secundary-500', 'bg-primary-500');
+
+            // Hacer el último punto más pequeño si no estamos en la última página
+            if (currentPage < lastPageIndex) {
+                projectDots[lastDotIndex].classList.add('scale-75');
+            }
+        }
+    };
+
+    // 2. Usar IntersectionObserver para el estado activo
+    const projectObserverOptions = {
+        root: projectsScrollContainer,
+        rootMargin: '0px',
+        threshold: 0.8 
+    };
+
+    const projectObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const visibleIndex = Array.from(projectCards).indexOf(entry.target);
+                updateDots(visibleIndex);
+            }
+        });
+    }, projectObserverOptions);
+
+    // 3. Observar cada tarjeta de proyecto
+    projectCards.forEach(card => projectObserver.observe(card));
+
+    // 4. Estado inicial
+    updateDots(0);
+
+    // 5. Re-evaluar al cambiar el tamaño de la ventana
+    window.addEventListener('resize', () => {
+        const currentVisibleCard = document.querySelector('.project-card.is-visible') || projectCards[0];
+        updateDots(Array.from(projectCards).indexOf(currentVisibleCard));
+    });
+});
+
 // Inicializa la función
 animationButtonMenu();
