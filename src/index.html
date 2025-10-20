@@ -274,7 +274,7 @@
 
         <div class="bg-[linear-gradient(to_right,#0C0B0D,#403B45,#403B45,#0C0B0D)] h-1 w-full"></div>
 
-        <section class="mt-10 relative flex flex-col gap-y-10">
+        <section class="mt-10 relative flex flex-col gap-y-10 2xl:h-[100vh] 2xl:mt-0 justify-center">
             <article class="flex flex-col gap-y-3 px-7 items-center lg:gap-y-5">
                 <h2 class="font-extrabold text-[30px] leading-[34px] text-center bg-gradient-to-t from-primary-800 to-primary-500 bg-clip-text text-transparent sm:text-[42px] sm:leading-[46px] md:text-[48px] md:leading-[52px] lg:text-[42px] lg:leading-[46px] xl:text-[6.5vh] xl:leading-[6.5vh] 2xl:text-[52px] 2xl:leading-[56px]">
                     PROYECTOS
@@ -444,6 +444,240 @@
                 <!-- Los puntos se generarán aquí con JavaScript -->
             </article>
         </section>
+
+        <div class="mt-10 bg-[linear-gradient(to_right,#0C0B0D,#403B45,#403B45,#0C0B0D)] h-1 w-full"></div>
+
+        <section class="relative mt-10 flex flex-col gap-y-7 xl:px-[36px] 2xl:px-[32px] 2xl:h-[100vh] 2xl:mt-0 2xl:gap-y-10 2xl:justify-center">
+            <article class="flex flex-col gap-y-[28px] items-center lg:gap-y-[42px]">
+                <div class="flex flex-col gap-y-3 px-7 items-center lg:order-1 lg:gap-y-5 xl:p-0 xl:order-1 2xl:gap-y-3">
+                    <h2 class="font-extrabold text-[32px] leading-[34px] text-center bg-gradient-to-t from-primary-800 to-primary-500 bg-clip-text text-transparent sm:text-[42px] sm:leading-[46px] md:text-[48px] md:leading-[52px] lg:text-[42px] lg:leading-[46px] xl:text-[6.5vh] xl:leading-[6.5vh] 2xl:text-[52px] 2xl:leading-[56px]">
+                        HABILIDADES
+                    </h2>
+                    <div class="relative sm:w-[90%] md:w-[90%] lg:w-[80%] xl:w-[75%] 2xl:w-[60%]">
+                        <p class="text-neutral-500 text-center text-[14px] md:text-[18px] lg:text-[2vh] 2xl:text-[1.6vh]">
+                            Como Desarrollador Frontend con un stack sólido, mi principal foco es el desarrollo móvil utilizando Flutter y Dart para crear experiencias de usuario fluidas y de alto rendimiento. Para la capa web, poseo dominio en HTML, CSS, y Tailwind CSS, junto con los lenguajes fundamentales JavaScript (JS) y TypeScript. Complemento mi flujo de trabajo con bases sólidas en Python para scripting o tareas backend ligeras. Finalmente, garantizo la calidad del código con Git y traduzco diseños a la perfección gracias a mi manejo de Figma.
+                        </p>
+                    </div>
+                </div>
+            </article>
+
+            <article id="skills-scroll-container" class="relative flex overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth lg:flex-row lg:flex-wrap lg:overflow-x-visible lg:gap-7 lg:justify-center">
+
+                    <!-- Tarjeta de Habilidad (ahora es la fuente de datos) -->
+                    <div class="skill-card relative flex-col gap-y-[24px] w-full sm:w-1/2 lg:w-auto flex-none lg:flex-initial snap-start flex items-center justify-center">
+                        <div class="w-[295px] rounded-[30px] bg-secundary-800 flex flex-col justify-between items-center py-4 px-7 gap-y-2 xl:w-[280px]">
+                            <div class="flex flex-col items-center gap-y-3">
+                                <div class="w-[80px] h-[80px] rounded-full bg-secundary-600 flex justify-center items-center xl:w-[70px] xl:h-[70px]">
+                                    <img src="assets/imgs/dart.svg" alt="Logo de Dart" class="skill-icon size-[35px] xl:size-[30px]">
+                                </div>
+                                <p class="skill-title text-neutral-500 text-[20px] font-semibold xl:text-[18px]">Dart</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="skill-description text-neutral-800 text-[14px] line-clamp-4 xl:text-[12px]">
+                                    Mi dominio de Dart se centra en la escritura de código limpio, eficiente y fuertemente tipado, fundamental para construir aplicaciones escalables. Poseo un año de experiencia utilizando Dart para manejar la lógica de negocio y la arquitectura de aplicaciones complejas. He gestionado la asincronía y el manejo de flujos de datos (Streams), siendo clave en la interacción con APIs como TMDB y WeatherAPI. Mi experiencia asegura que la capa lógica de las aplicaciones (incluyendo proyectos tipo Uber o Chat de WhatsApp) no solo sea funcional, sino también robusta, mantenible y optimizada para el rendimiento móvil.
+                                </p>
+                            </div>
+                            <button class="open-skill-modal-btn flex items-center w-fit gap-x-1 py-[6px] px-4 rounded-full cursor-pointer">
+                                <p class="text-neutral-500 text-[14px]">Leer más</p>
+                                <ion-icon name="chevron-down-outline" class="text-primary-500 text-[18px]"></ion-icon>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Nueva Tarjeta de Habilidad: Flutter -->
+                    <div class="skill-card relative flex-col gap-y-[24px] w-full sm:w-1/2 lg:w-auto flex-none lg:flex-initial snap-start flex items-center justify-center">
+                        <div class="w-[295px] rounded-[30px] bg-secundary-800 flex flex-col justify-between items-center py-4 px-7 gap-y-2 xl:w-[280px]">
+                            <div class="flex flex-col items-center gap-y-3">
+                                <div class="w-[80px] h-[80px] rounded-full bg-secundary-600 flex justify-center items-center xl:w-[70px] xl:h-[70px]">
+                                    <img src="assets/imgs/flutter.svg" alt="Logo de Flutter" class="skill-icon size-[35px] w-fit xl:size-[30px]">
+                                </div>
+                                <p class="skill-title text-neutral-500 text-[20px] font-semibold xl:text-[18px]">Flutter</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="skill-description text-neutral-800 text-[14px] line-clamp-4 xl:text-[12px]">
+                                    El Framework A lo largo de un año de desarrollo con Flutter, me he enfocado en transformar diseños en experiencias de usuario nativas, rápidas y visualmente atractivas. Mi fuerte es la construcción de interfaces complejas y reactivas con el sistema de widgets de Flutter. He implementado funcionalidades avanzadas en proyectos que van desde aplicaciones de clima hasta complejas herramientas de chat y geolocalización. Mi mayor fortaleza reside en la arquitectura del front-end, dominando la gestión de estado con BLoC y Riverpod para garantizar que las aplicaciones que desarrollo sean escalables y mantengan un rendimiento excepcional en iOS y Android.
+                                </p>
+                            </div>
+                            <button class="open-skill-modal-btn flex items-center w-fit gap-x-1 py-[6px] px-4 rounded-full cursor-pointer">
+                                <p class="text-neutral-500 text-[14px]">Leer más</p>
+                                <ion-icon name="chevron-down-outline" class="text-primary-500 text-[18px]"></ion-icon>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Nueva Tarjeta de Habilidad: Git -->
+                    <div class="skill-card relative flex-col gap-y-[24px] w-full sm:w-1/2 lg:w-auto flex-none lg:flex-initial snap-start flex items-center justify-center">
+                        <div class="w-[295px] rounded-[30px] bg-secundary-800 flex flex-col justify-between items-center py-4 px-7 gap-y-2 xl:w-[280px]">
+                            <div class="flex flex-col items-center gap-y-3">
+                                <div class="w-[80px] h-[80px] rounded-full bg-secundary-600 flex justify-center items-center xl:w-[70px] xl:h-[70px]">
+                                    <img src="assets/imgs/git.svg" alt="Logo de Git" class="skill-icon size-[35px] xl:size-[30px]">
+                                </div>
+                                <p class="skill-title text-neutral-500 text-[20px] font-semibold xl:text-[18px]">Git</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="skill-description text-neutral-800 text-[14px] line-clamp-4 xl:text-[12px]">
+                                    Mi dominio de Git se ha cimentado a través del desarrollo de múltiples proyectos individuales, lo que me ha proporcionado una base sólida y un entendimiento claro de los flujos de trabajo. Me enfoco en la gestión de repositorios para asegurar la integridad del código y mantener un historial de proyecto ordenado y coherente. Aunque mi experiencia directa no ha sido en entornos de equipo, poseo un conocimiento conceptual firme sobre la colaboración y feature branching, la gestión de pull requests y la resolución de conflictos, lo cual me permite integrarme rápidamente a cualquier entorno colaborativo que utilice Git como estándar.
+                                </p>
+                            </div>
+                            <button class="open-skill-modal-btn flex items-center w-fit gap-x-1 py-[6px] px-4 rounded-full cursor-pointer">
+                                <p class="text-neutral-500 text-[14px]">Leer más</p>
+                                <ion-icon name="chevron-down-outline" class="text-primary-500 text-[18px]"></ion-icon>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Nueva Tarjeta de Habilidad: HTML -->
+                    <div class="skill-card relative flex-col gap-y-[24px] w-full sm:w-1/2 lg:w-auto flex-none lg:flex-initial snap-start flex items-center justify-center">
+                        <div class="w-[295px] rounded-[30px] bg-secundary-800 flex flex-col justify-between items-center py-4 px-7 gap-y-2 xl:w-[280px]">
+                            <div class="flex flex-col items-center gap-y-3">
+                                <div class="w-[80px] h-[80px] rounded-full bg-secundary-600 flex justify-center items-center xl:w-[70px] xl:h-[70px]">
+                                    <img src="assets/imgs/html.svg" alt="Logo de HTML" class="skill-icon size-[35px] xl:size-[30px]">
+                                </div>
+                                <p class="skill-title text-neutral-500 text-[20px] font-semibold xl:text-[18px]">HTML</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="skill-description text-neutral-800 text-[14px] line-clamp-4 xl:text-[12px]">
+                                    Estoy consolidado en el uso de HTML, manejando con destreza la estructura semántica completa de los documentos web. Mi enfoque asegura que la base de cualquier sitio o aplicación sea sólida, accesible (A11y) y optimizada para el SEO. He trabajado con los estándares de HTML5, incluyendo la implementación de formularios complejos, elementos multimedia y el uso adecuado de etiquetas estructurales. Mi habilidad garantiza que el marcado sea limpio, bien organizado y listo para el estilismo sin fallas de jerarquía o estructura.
+                                </p>
+                            </div>
+                            <button class="open-skill-modal-btn flex items-center w-fit gap-x-1 py-[6px] px-4 rounded-full cursor-pointer">
+                                <p class="text-neutral-500 text-[14px]">Leer más</p>
+                                <ion-icon name="chevron-down-outline" class="text-primary-500 text-[18px]"></ion-icon>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Nueva Tarjeta de Habilidad: JavaScript -->
+                    <div class="skill-card relative flex-col gap-y-[24px] w-full sm:w-1/2 lg:w-auto flex-none lg:flex-initial snap-start flex items-center justify-center">
+                        <div class="w-[295px] rounded-[30px] bg-secundary-800 flex flex-col justify-between items-center py-4 px-7 gap-y-2 xl:w-[280px]">
+                            <div class="flex flex-col items-center gap-y-3">
+                                <div class="w-[80px] h-[80px] rounded-full bg-secundary-600 flex justify-center items-center xl:w-[70px] xl:h-[70px]">
+                                    <img src="assets/imgs/js.svg" alt="Logo de JavaScript" class="skill-icon size-[35px] xl:size-[30px]">
+                                </div>
+                                <p class="skill-title text-neutral-500 text-[20px] font-semibold xl:text-[18px]">JavaScript</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="skill-description text-neutral-800 text-[14px] line-clamp-4 xl:text-[12px]">
+                                    Tengo un conocimiento funcional y operativo de JavaScript, entendiendo cómo funciona la lógica detrás de la interactividad web y la manipulación del DOM. Mi base me permite escribir scripts para manejar eventos, realizar validaciones y crear funcionalidades dinámicas esenciales. Aunque no me he especializado en frameworks avanzados, mi dominio de los conceptos fundamentales me permite leer, comprender y modificar cualquier código JavaScript. Estoy en una posición excelente para comenzar la especialización en cualquier librería o framework de front-end o back-end requerido.
+                                </p>
+                            </div>
+                            <button class="open-skill-modal-btn flex items-center w-fit gap-x-1 py-[6px] px-4 rounded-full cursor-pointer">
+                                <p class="text-neutral-500 text-[14px]">Leer más</p>
+                                <ion-icon name="chevron-down-outline" class="text-primary-500 text-[18px]"></ion-icon>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Nueva Tarjeta de Habilidad: Python -->
+                    <div class="skill-card relative flex-col gap-y-[24px] w-full sm:w-1/2 lg:w-auto flex-none lg:flex-initial snap-start flex items-center justify-center">
+                        <div class="w-[295px] rounded-[30px] bg-secundary-800 flex flex-col justify-between items-center py-4 px-7 gap-y-2 xl:w-[280px]">
+                            <div class="flex flex-col items-center gap-y-3">
+                                <div class="w-[80px] h-[80px] rounded-full bg-secundary-600 flex justify-center items-center xl:w-[70px] xl:h-[70px]">
+                                    <img src="assets/imgs/python.svg" alt="Logo de Python" class="skill-icon size-[35px] xl:size-[30px]">
+                                </div>
+                                <p class="skill-title text-neutral-500 text-[20px] font-semibold xl:text-[18px]">Python</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="skill-description text-neutral-800 text-[14px] line-clamp-4 xl:text-[12px]">
+                                    Mi conocimiento de Python se centra en los fundamentos del lenguaje y la sintaxis, lo que me permite comprender y aplicar conceptos de programación esenciales, desde estructuras de datos hasta la lógica algorítmica. He adquirido las bases para utilizar Python en tareas de automatización y scripting simples. Al igual que con JavaScript, aunque no tengo experiencia específica con frameworks de backend como Django o Flask, mi comprensión de la sintaxis y los principios del lenguaje me permiten adoptar y aprender cualquier tecnología basada en Python de manera efectiva y rápida.
+                                </p>
+                            </div>
+                            <button class="open-skill-modal-btn flex items-center w-fit gap-x-1 py-[6px] px-4 rounded-full cursor-pointer">
+                                <p class="text-neutral-500 text-[14px]">Leer más</p>
+                                <ion-icon name="chevron-down-outline" class="text-primary-500 text-[18px]"></ion-icon>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Nueva Tarjeta de Habilidad: Figma -->
+                    <div class="skill-card relative flex-col gap-y-[24px] w-full sm:w-1/2 lg:w-auto flex-none lg:flex-initial snap-start flex items-center justify-center">
+                        <div class="w-[295px] rounded-[30px] bg-secundary-800 flex flex-col justify-between items-center py-4 px-7 gap-y-2 xl:w-[280px]">
+                            <div class="flex flex-col items-center gap-y-3">
+                                <div class="w-[80px] h-[80px] rounded-full bg-secundary-600 flex justify-center items-center xl:w-[70px] xl:h-[70px]">
+                                    <img src="assets/imgs/figma-purple.svg" alt="Logo de Figma" class="skill-icon size-[35px] xl:size-[30px]">
+                                </div>
+                                <p class="skill-title text-neutral-500 text-[20px] font-semibold xl:text-[18px]">Figma</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="skill-description text-neutral-800 text-[14px] line-clamp-4 xl:text-[12px]">
+                                    Utilizo Figma como mi herramienta principal para la prototipación, diseño de interfaz (UI) y la visualización de experiencias (UX). Mi enfoque se centra en transformar ideas y conceptos funcionales en diseños de alta fidelidad que sirven como mapa de ruta para el desarrollo. Tengo experiencia en la creación de diseños responsive, utilizando Auto Layout para asegurar que los elementos se adapten correctamente. Aunque no estoy especializado en la creación de Sistemas de Diseño (Design Systems) complejos para grandes equipos, utilizo componentes y estilos para mantener la coherencia visual en mis proyectos. Mi habilidad principal es producir prototipos interactivos claros que facilitan el handoff (entrega) al código, garantizando que el producto final sea pixel perfect y fácil de usar.
+                                </p>
+                            </div>
+                            <button class="open-skill-modal-btn flex items-center w-fit gap-x-1 py-[6px] px-4 rounded-full cursor-pointer">
+                                <p class="text-neutral-500 text-[14px]">Leer más</p>
+                                <ion-icon name="chevron-down-outline" class="text-primary-500 text-[18px]"></ion-icon>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Nueva Tarjeta de Habilidad: CSS -->
+                    <div class="skill-card relative flex-col gap-y-[24px] w-full sm:w-1/2 lg:w-auto flex-none lg:flex-initial snap-start flex items-center justify-center">
+                        <div class="w-[295px] rounded-[30px] bg-secundary-800 flex flex-col justify-between items-center py-4 px-7 gap-y-2 xl:w-[280px]">
+                            <div class="flex flex-col items-center gap-y-3">
+                                <div class="w-[80px] h-[80px] rounded-full bg-secundary-600 flex justify-center items-center xl:w-[70px] xl:h-[70px]">
+                                    <img src="assets/imgs/css.svg" alt="Logo de CSS" class="skill-icon size-[35px] xl:size-[30px]">
+                                </div>
+                                <p class="skill-title text-neutral-500 text-[20px] font-semibold xl:text-[18px]">CSS</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="skill-description text-neutral-800 text-[14px] line-clamp-4 xl:text-[12px]">
+                                    Poseo un dominio total de CSS para crear interfaces web visualmente atractivas y 100% responsive. Conozco a fondo cada una de las propiedades de este lenguaje de diseño en cascada, lo que me permite controlar con precisión el diseño y la presentación. Mi habilidad incluye la implementación de layouts complejos y adaptativos utilizando Flexbox y Grid, asegurando que los diseños se ajusten y se vean bien en cualquier tamaño de pantalla. Mi experiencia garantiza que las webs que desarrollo no solo tengan un buen diseño atractivo, sino que también sean funcionales en cualquier dispositivo móvil o de escritorio.
+                                </p>
+                            </div>
+                            <button class="open-skill-modal-btn flex items-center w-fit gap-x-1 py-[6px] px-4 rounded-full cursor-pointer">
+                                <p class="text-neutral-500 text-[14px]">Leer más</p>
+                                <ion-icon name="chevron-down-outline" class="text-primary-500 text-[18px]"></ion-icon>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Nueva Tarjeta de Habilidad: Tailwind CSS -->
+                    <div class="skill-card relative flex-col gap-y-[24px] w-full sm:w-1/2 lg:w-auto flex-none lg:flex-initial snap-start flex items-center justify-center">
+                        <div class="w-[295px] rounded-[30px] bg-secundary-800 flex flex-col justify-between items-center py-4 px-7 gap-y-2 xl:w-[280px]">
+                            <div class="flex flex-col items-center gap-y-3">
+                                <div class="w-[80px] h-[80px] rounded-full bg-secundary-600 flex justify-center items-center xl:w-[70px] xl:h-[70px]">
+                                    <img src="assets/imgs/tailwind.svg" alt="Logo de Tailwind CSS" class="skill-icon size-[35px] xl:size-[30px]">
+                                </div>
+                                <p class="skill-title text-neutral-500 text-[20px] font-semibold xl:text-[18px]">Tailwind</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="skill-description text-neutral-800 text-[14px] line-clamp-4 xl:text-[12px]">
+                                    Utilizo Tailwind CSS como una herramienta esencial para la optimización y la eficiencia del flujo de trabajo. Mi experiencia se centra en aplicar este framework utilitario directamente desde las clases de cada contenedor de HTML. Esta aproximación me ha ayudado a resumir y simplificar significativamente mi código, permitiéndome trabajar en un mismo archivo sin la necesidad de escribir y gestionar hojas de estilo externas extensas. Esto resulta en un desarrollo más rápido, más mantenible y con una alta consistencia de diseño al aplicar estilos directamente.
+                                </p>
+                            </div>
+                            <button class="open-skill-modal-btn flex items-center w-fit gap-x-1 py-[6px] px-4 rounded-full cursor-pointer">
+                                <p class="text-neutral-500 text-[14px]">Leer más</p>
+                                <ion-icon name="chevron-down-outline" class="text-primary-500 text-[18px]"></ion-icon>
+                            </button>
+                        </div>
+                    </div>
+            </article>
+
+            <article id="skills-dots-container" class="flex justify-center items-center gap-x-2 lg:hidden">
+                <!-- Los puntos se generarán aquí con JavaScript -->
+            </article>
+
+            <!-- Modal Genérico (Plantilla) -->
+            <div id="skill-modal-template" class="hidden fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm z-[100] p-4 items-center justify-center">
+                <div class=" bg-secundary-800 rounded-[30px] p-8 max-w-lg max-h-[80vh] w-full relative flex flex-col items-center gap-y-4">
+                    <button id="close-skill-modal-btn" aria-label="Cerrar modal" class="absolute top-4 right-4 p-1 flex items-center justify-center rounded-full cursor-pointer">
+                        <ion-icon name="close-outline" class="text-neutral-500 text-[28px]"></ion-icon>
+                    </button>
+                    
+                    <div class="flex flex-col items-center gap-y-3">
+                        <div class="w-[80px] h-[80px] rounded-full bg-secundary-600 flex justify-center items-center">
+                            <img id="modal-skill-icon" src="" alt="Logo de la habilidad" class="size-[35px]">
+                        </div>
+                        <p id="modal-skill-title" class="text-neutral-500 text-[20px] font-semibold"></p>
+                    </div>
+
+                    <div class="text-center overflow-y-auto no-scrollbar">
+                        <p id="modal-skill-description" class="text-neutral-700 text-[15px]"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
 
         <div class="mt-10 bg-[linear-gradient(to_right,#0C0B0D,#403B45,#403B45,#0C0B0D)] h-1 w-full"></div>
 

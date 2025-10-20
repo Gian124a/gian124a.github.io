@@ -121,115 +121,165 @@ document.addEventListener('DOMContentLoaded', () => {
     dotEducacion.classList.add('bg-primary-500');
     dotExperiencia.classList.add('bg-neutral-500');
 
-    // === LÓGICA CARRUSEL DE PROYECTOS ===
-    const projectsScrollContainer = document.getElementById('projects-scroll-container');
-    const projectDotsContainer = document.getElementById('project-dots-container');
-    const projectCards = document.querySelectorAll('.project-card');
+    // === LÓGICA DE CARRUSEL GENÉRICA ===
+    function setupCarousel(scrollContainerId, dotsContainerId, cardSelector) {
+        const scrollContainer = document.getElementById(scrollContainerId);
+        const dotsContainer = document.getElementById(dotsContainerId);
+        const cards = document.querySelectorAll(cardSelector);
+
+        if (!scrollContainer || !dotsContainer || cards.length === 0) {
+            console.warn(`Faltan elementos para el carrusel: ${scrollContainerId}, ${dotsContainerId}, o ${cardSelector}.`);
+            return;
+        }
+
+        const totalCards = cards.length;
+        const maxDots = 5;
+
+        // 1. Crear los puntos dinámicamente
+        dotsContainer.innerHTML = ''; // Limpiar puntos existentes
+        const dotsToShow = Math.min(Math.ceil(totalCards / (window.innerWidth >= 640 ? 2 : 1)), maxDots);
+        for (let i = 0; i < dotsToShow; i++) {
+            const dot = document.createElement('div');
+            dot.classList.add('w-4', 'h-4', 'rounded-full', 'transition-all', 'duration-300');
+            dot.classList.add(i === 0 ? 'bg-primary-500' : 'bg-secundary-500');
+            dotsContainer.appendChild(dot);
+        }
+
+        const dots = dotsContainer.querySelectorAll('div');
+
+        // Función para actualizar los puntos
+        const updateDots = (visibleIndex) => {
+            const isLgScreen = window.innerWidth >= 1024;
+            if (isLgScreen) { // En pantallas grandes, el carrusel está desactivado
+                dotsContainer.style.display = 'none';
+                return;
+            }
+            dotsContainer.style.display = 'flex';
+
+            const isSmScreen = window.innerWidth >= 640;
+            const itemsPerPage = isSmScreen ? 2 : 1;
+            const totalPages = Math.ceil(totalCards / itemsPerPage);
+            const currentPage = Math.floor(visibleIndex / itemsPerPage);
+
+            // Ocultar puntos si no son necesarios
+            dots.forEach((dot, index) => {
+                dot.style.display = index < Math.min(totalPages, maxDots) ? 'flex' : 'none';
+            });
+
+            // Resetear todos los puntos
+            dots.forEach(dot => {
+                dot.classList.replace('bg-primary-500', 'bg-secundary-500');
+                dot.classList.remove('scale-75');
+            });
+
+            if (totalPages <= maxDots) {
+                if (dots[currentPage]) {
+                    dots[currentPage].classList.replace('bg-secundary-500', 'bg-primary-500');
+                }
+            } else {
+                const lastPageIndex = totalPages - 1;
+                const lastDotIndex = maxDots - 1;
+                let dotIndexToActivate = 0;
+
+                if (currentPage < maxDots - 1) {
+                    dotIndexToActivate = currentPage;
+                } else if (currentPage === lastPageIndex) {
+                    dotIndexToActivate = lastDotIndex;
+                } else {
+                    dotIndexToActivate = maxDots - 2;
+                }
+
+                if (dots[dotIndexToActivate]) {
+                    dots[dotIndexToActivate].classList.replace('bg-secundary-500', 'bg-primary-500');
+                }
+
+                if (currentPage < lastPageIndex && dots[lastDotIndex]) {
+                    dots[lastDotIndex].classList.add('scale-75');
+                }
+            }
+        };
+
+        // 2. Usar IntersectionObserver para el estado activo
+        const observerOptions = {
+            root: scrollContainer,
+            rootMargin: '0px',
+            threshold: 0.8
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const visibleIndex = Array.from(cards).indexOf(entry.target);
+                    updateDots(visibleIndex);
+                }
+            });
+        }, observerOptions);
+
+        // 3. Observar cada tarjeta
+        cards.forEach(card => observer.observe(card));
+
+        // 4. Estado inicial y re-evaluación al cambiar tamaño
+        const handleResize = () => {
+            const firstVisibleCard = Array.from(cards).find(card => card.offsetParent !== null) || cards[0];
+            const visibleIndex = Array.from(cards).indexOf(firstVisibleCard);
+            updateDots(visibleIndex);
+        };
+        
+        window.addEventListener('resize', handleResize);
+        handleResize(); // Llamada inicial
+    }
+
+    // Inicializar carrusel para Proyectos
+    setupCarousel('projects-scroll-container', 'project-dots-container', '.project-card');
     
-    if (!projectsScrollContainer || !projectDotsContainer || projectCards.length === 0) {
-        console.error("Faltan elementos para el carrusel de proyectos (scroll-container, dots-container, o project-cards).");
-        return;
+    // Inicializar carrusel para Habilidades
+    setupCarousel('skills-scroll-container', 'skills-dots-container', '.skill-card');
+
+    // === LÓGICA MODAL DE HABILIDADES (DINÁMICO) ===
+    function setupSkillsModals() {
+        const modal = document.getElementById('skill-modal-template');
+        const openButtons = document.querySelectorAll('.open-skill-modal-btn');
+        const closeButton = document.getElementById('close-skill-modal-btn');
+
+        if (!modal || openButtons.length === 0 || !closeButton) {
+            console.warn("Faltan elementos para el modal de habilidades (plantilla, botones de abrir/cerrar).");
+            return;
+        }
+
+        const modalIcon = document.getElementById('modal-skill-icon');
+        const modalTitle = document.getElementById('modal-skill-title');
+        const modalDescription = document.getElementById('modal-skill-description');
+
+        openButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // 1. Encontrar la tarjeta de habilidad más cercana
+                const skillCard = button.closest('.skill-card');
+                if (!skillCard) return;
+
+                // 2. Extraer la información de la tarjeta
+                const iconSrc = skillCard.querySelector('.skill-icon')?.src;
+                const titleText = skillCard.querySelector('.skill-title')?.textContent;
+                const descriptionText = skillCard.querySelector('.skill-description')?.textContent;
+
+                // 3. Poblar el modal con la información
+                if (modalIcon) modalIcon.src = iconSrc || '';
+                if (modalTitle) modalTitle.textContent = titleText || 'Sin título';
+                if (modalDescription) modalDescription.textContent = descriptionText || 'Sin descripción.';
+
+                // 4. Mostrar el modal
+                modal.classList.remove('hidden');
+                modal.classList.add('flex'); // Usamos flex para centrar el contenido
+            });
+        });
+
+        // Evento para cerrar el modal
+        closeButton.addEventListener('click', () => {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        });
     }
 
-    const totalCards = projectCards.length;
-    const maxDots = 5;
-    const dotsToShow = Math.min(totalCards, maxDots);
-
-    // 1. Crear los puntos dinámicamente
-    for (let i = 0; i < dotsToShow; i++) {
-        const dot = document.createElement('div');
-        dot.classList.add('w-4', 'h-4', 'rounded-full', 'transition-all', 'duration-300');
-        if (i === 0) {
-            dot.classList.add('bg-primary-500');
-        } else {
-            dot.classList.add('bg-secundary-500');
-        }
-        projectDotsContainer.appendChild(dot);
-    }
-
-    const projectDots = projectDotsContainer.querySelectorAll('div');
-
-    // Función para actualizar los puntos (ahora es responsiva)
-    const updateDots = (visibleIndex) => {
-        const isSmScreen = window.innerWidth >= 640;
-        const itemsPerPage = isSmScreen ? 2 : 1;
-        const totalPages = Math.ceil(totalCards / itemsPerPage);
-        const currentPage = Math.floor(visibleIndex / itemsPerPage);
-
-        // Ocultar puntos si no son necesarios en la vista actual
-        projectDots.forEach((dot, index) => {
-            if (index < Math.min(totalPages, maxDots)) {
-                dot.style.display = 'flex';
-            } else {
-                dot.style.display = 'none';
-            }
-        });
-
-        // Resetear todos los puntos
-        projectDots.forEach(dot => {
-            dot.classList.replace('bg-primary-500', 'bg-secundary-500');
-            dot.classList.remove('scale-75');
-        });
-
-        if (totalPages <= maxDots) {
-            // Comportamiento normal si hay 5 o menos páginas
-            if (projectDots[currentPage]) {
-                projectDots[currentPage].classList.replace('bg-secundary-500', 'bg-primary-500');
-            }
-        } else {
-            // Comportamiento avanzado para más de 5 páginas
-            const lastPageIndex = totalPages - 1;
-            const lastDotIndex = maxDots - 1;
-
-            let dotIndexToActivate = 0;
-
-            if (currentPage < maxDots - 1) {
-                // Al principio, cada página activa su propio punto.
-                dotIndexToActivate = currentPage;
-            } else if (currentPage === lastPageIndex) {
-                // Al final (solo para la última página), se activa el último punto.
-                dotIndexToActivate = lastDotIndex;
-            } else {
-                // En el medio, el punto activo es el cuarto.
-                dotIndexToActivate = maxDots - 2; // Índice 3 (el cuarto punto)
-            }
-
-            projectDots[dotIndexToActivate].classList.replace('bg-secundary-500', 'bg-primary-500');
-
-            // Hacer el último punto más pequeño si no estamos en la última página
-            if (currentPage < lastPageIndex) {
-                projectDots[lastDotIndex].classList.add('scale-75');
-            }
-        }
-    };
-
-    // 2. Usar IntersectionObserver para el estado activo
-    const projectObserverOptions = {
-        root: projectsScrollContainer,
-        rootMargin: '0px',
-        threshold: 0.8 
-    };
-
-    const projectObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const visibleIndex = Array.from(projectCards).indexOf(entry.target);
-                updateDots(visibleIndex);
-            }
-        });
-    }, projectObserverOptions);
-
-    // 3. Observar cada tarjeta de proyecto
-    projectCards.forEach(card => projectObserver.observe(card));
-
-    // 4. Estado inicial
-    updateDots(0);
-
-    // 5. Re-evaluar al cambiar el tamaño de la ventana
-    window.addEventListener('resize', () => {
-        const currentVisibleCard = document.querySelector('.project-card.is-visible') || projectCards[0];
-        updateDots(Array.from(projectCards).indexOf(currentVisibleCard));
-    });
+    setupSkillsModals();
 });
 
 // Inicializa la función

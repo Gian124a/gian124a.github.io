@@ -65,12 +65,14 @@
 
   /* En pantallas 'sm' o mayores, desactiva el snap en las tarjetas pares para que el scroll avance de dos en dos */
   @media (min-width: 640px) {
-    .project-card:nth-child(even) {
+    .project-card:nth-child(even),
+    .skill-card:nth-child(even) {
       scroll-snap-align: none;
     }
     /* Asegura que el último elemento siempre sea un punto de anclaje,
        incluso si es par, para manejar correctamente los totales impares. */
-    .project-card:last-child {
+    .project-card:last-child,
+    .skill-card:last-child {
         scroll-snap-align: start;
     }
   }
