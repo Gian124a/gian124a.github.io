@@ -1,13 +1,18 @@
 // === FUNCIÓN PRINCIPAL DE ANIMACIÓN ===
 function animationButtonMenu() {
-  const menu = document.getElementById("menu-container");
-  const activeBg = document.getElementById("active-bg");
-  const links = menu.querySelectorAll("a");
-  const buttonMenu = document.getElementById("button-menu");
-
+  const menu = document.getElementById('menu-container');
+  const activeBg = document.getElementById('active-bg');
+  const links = menu.querySelectorAll('a');
+  const buttonMenu = document.getElementById('button-menu');
+  let userClicked = false;
+  let clickTimeout;
+  
   // --- Controla el movimiento del fondo activo ---
   function moveBgTo(link) {
-    const isMobile = window.innerWidth < 1024; // lg breakpoint
+    // Determina si el menú es vertical (móvil) u horizontal (escritorio/móvil horizontal)
+    // basándose en el estilo computado, que es más fiable que el ancho de la ventana.
+    const isMobile = window.getComputedStyle(menu).flexDirection === 'column';
+
     const offset = isMobile ? link.offsetTop : link.offsetLeft;
     const size = isMobile ? link.offsetHeight : link.offsetWidth;
 
@@ -28,38 +33,103 @@ function animationButtonMenu() {
 
   // --- Marca un link como activo ---
   function activateLink(link) {
-    links.forEach(l => l.classList.remove("active", "pointer-events-none"));
-    link.classList.add("active", "pointer-events-none");
+    links.forEach(l => l.classList.remove('active', 'pointer-events-none'));
+    link.classList.add('active', 'pointer-events-none');
     moveBgTo(link);
+  }
+
+  // --- Scroll suave a la sección con offset para el header ---
+  function scrollToSection(targetId) {
+    const targetSection = document.getElementById(targetId);
+    if (!targetSection) return;
+
+    const header = document.querySelector('header');
+    let headerOffset = 0;
+
+    // Solo necesitamos compensar la altura del header si este es 'fixed',
+    // ya que es el único caso en el que se superpone al contenido.
+    if (header && window.getComputedStyle(header).position === 'fixed') {
+        headerOffset = header.offsetHeight;
+    }
+
+    // Calculamos la posición final restando el offset del header si es necesario.
+    const elementPosition = targetSection.getBoundingClientRect().top; 
+    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+    window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
   }
 
   // --- Evento de clic en los links ---
   links.forEach(link => {
     link.addEventListener("click", e => {
+      // Prevenimos el comportamiento por defecto para manejar el scroll manualmente
       e.preventDefault();
+
+      // Marcar que el usuario hizo clic para desactivar temporalmente el scrollspy
+      userClicked = true;
+      clearTimeout(clickTimeout);
+      clickTimeout = setTimeout(() => userClicked = false, 1000); // Reactivar después de 1s
+
+      // 1. Activar el link visualmente
       activateLink(link);
+
+      // 2. Hacer scroll a la sección
+      scrollToSection(link.getAttribute('href').substring(1));
 
       // Si está en móvil, cierra el menú al seleccionar
       if (window.innerWidth < 1024) {
-        menu.classList.remove("open");
+        menu.classList.remove('open');
       }
     });
   });
 
+  // --- Actualiza el link activo mientras se hace scroll ---
+  function updateActiveLinkOnScroll() {
+    const sections = Array.from(links).map(link => {
+      const id = link.getAttribute('href')?.substring(1);
+      return id ? document.getElementById(id) : null;
+    }).filter(Boolean); // Filtra nulos si algún enlace no tiene href o sección
+
+    const observerOptions = {
+      root: null, // Observa en el viewport principal
+      rootMargin: '-50% 0px -50% 0px', // Activa cuando el centro de la sección cruza el centro de la pantalla
+      threshold: 0
+    };
+
+    const observer = new IntersectionObserver(entries => {
+      if (userClicked) return; // Si el usuario acaba de hacer clic, no hacer nada
+
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const sectionId = entry.target.id;
+          const correspondingLink = menu.querySelector(`a[href="#${sectionId}"]`);
+          if (correspondingLink) {
+            activateLink(correspondingLink);
+          }
+        }
+      });
+    }, observerOptions);
+
+    sections.forEach(section => {
+      if (section) observer.observe(section);
+    });
+  }
+
   // --- Mueve el fondo al primer elemento al cargar ---
-  window.addEventListener("load", () => {
+  window.addEventListener('load', () => {
     activateLink(links[0]);
+    updateActiveLinkOnScroll(); // Inicia el observador de scroll
   });
 
   // --- Reajusta la posición al redimensionar ---
-  window.addEventListener("resize", () => {
-    const activeLink = document.querySelector("a.active") || links[0];
+  window.addEventListener('resize', () => {
+    const activeLink = document.querySelector('a.active') || links[0];
     moveBgTo(activeLink);
   });
 
   // --- Abre / Cierra menú en móviles ---
-  buttonMenu.addEventListener("click", () => {
-    menu.classList.toggle("open");
+  buttonMenu.addEventListener('click', () => {
+    menu.classList.toggle('open');
   });
 }
 
