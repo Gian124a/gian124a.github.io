@@ -494,6 +494,52 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     setupFormValidation();
+
+    // === GESTIÓN INTELIGENTE DE SCROLL TÁCTIL ===
+    function setupSmartScroll() {
+        const scrollContainers = document.querySelectorAll('#scroll-container, #projects-scroll-container, #skills-scroll-container');
+
+        scrollContainers.forEach(container => {
+            let touchStartX = 0;
+            let touchStartY = 0;
+            let lastTouchY = 0;
+            let scrollDirection = '';
+
+            container.addEventListener('touchstart', (e) => {
+                touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY;
+                lastTouchY = e.touches[0].clientY;
+                scrollDirection = '';
+            }, { passive: false });
+
+            container.addEventListener('touchmove', (e) => {
+                const deltaX = e.touches[0].clientX - touchStartX;
+                const deltaY = e.touches[0].clientY - touchStartY;
+
+                if (!scrollDirection) {
+                    if (Math.abs(deltaY) > Math.abs(deltaX)) {
+                        scrollDirection = 'vertical';
+                    } else {
+                        scrollDirection = 'horizontal';
+                    }
+                }
+
+                if (scrollDirection === 'vertical') {
+                    e.preventDefault();
+                    const currentTouchY = e.touches[0].clientY;
+                    const scrollAmount = lastTouchY - currentTouchY;
+                    window.scrollBy(0, scrollAmount);
+                    lastTouchY = currentTouchY;
+                }
+            }, { passive: false });
+
+            container.addEventListener('touchend', () => {
+                scrollDirection = '';
+            });
+        });
+    }
+
+    setupSmartScroll();
 });
 
 // Inicializa la función
