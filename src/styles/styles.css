@@ -68,8 +68,7 @@
 #skills-scroll-container,
 #scroll-container {
   -webkit-overflow-scrolling: touch; /* suaviza el scroll en iOS */
-  touch-action: auto; /* permite pan horizontal y vertical */
-  overscroll-behavior: contain; /* previene el scroll chaining */
+  touch-action: pan-x; /* permite pan horizontal */
   pointer-events: auto; /* asegurar que acepten interacciones */
   z-index: 40; /* por encima de decoraciones que usan z-index bajo */
 }
