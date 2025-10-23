@@ -3,14 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="./output.css" rel="stylesheet">
+  <link href="src/output.css" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="styles/styles.css">
+  <link rel="stylesheet" href="src/styles/styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <title>Portfolio</title>
+  <title>Portfolio</title> 
 </head>
-<body class="relative bg-secundary-900 font-[poppins] h-[100vh]">
+<body class="relative bg-secundary-900 font-[poppins] min-h-screen overflow-x-hidden">
+    <!-- Contenedor para la notificación Toast (inicialmente invisible para permitir transición) -->
+    <div id="toast-notification" class="opacity-0 pointer-events-none fixed top-5 left-0 right-0 mx-auto w-fit p-4 rounded-lg shadow-lg text-white transition-opacity duration-300 z-[300] sm:left-auto sm:right-5"></div>
 
     <header class="z-[100] fixed w-full bg-secundary-900 sm:relative lg:bg-transparent lg:relative h-16 flex items-center justify-between px-[16px] sm:px-8 md:h-20 lg:h-[70px] lg:px-11 2xl:px-24">
         <h1 class="font-extrabold text-[28px] bg-gradient-to-t from-primary-800 to-primary-500 bg-clip-text text-transparent sm:text-[28px] md:text-[30px]">
@@ -45,11 +47,11 @@
     </nav>
 
     <main class="relative top-[64px] lg:top-0 flex flex-col px-4 sm:px-8 lg:px-12 sm:top-[40px]">
-        <section id="inicio" class="relative flex flex-col items-center pt-6 gap-y-4 md:gap-y-8 lg:justify-end lg:h-[calc(100vh_-_70px)] lg:gap-0 z-50 xl:pt-0">
+        <section id="inicio" class="relative flex flex-col items-center pt-6 gap-y-4 md:gap-y-8 lg:justify-end lg:h-[calc(100vh_-_70px)] lg:gap-0 z-50 xl:pt-0 ">
 
             <!-- Contenedor de imagen y texto -->
-            <article class="absolute top-[55px] h-fit w-full z-30 flex sm:w-[60vw] sm:top-[85px] md:w-[55vw] md:top-[80px] lg:right-0 lg:top-auto lg:bottom-[62px] lg:w-[75vh] xl:w-[84vh] xl:bottom-[25px] lg:z-40 2xl:bottom-[30px]">
-                <img src="assets/imgs/image-yo.svg" alt="Yo" class="w-full h-fit object-contain"/>
+            <article style="pointer-events: none;" class="absolute top-[55px] h-fit w-full z-30 flex sm:w-[60vw] sm:top-[85px] md:w-[55vw] md:top-[80px] lg:right-0 lg:top-auto lg:bottom-[62px] lg:w-[75vh] xl:w-[84vh] xl:bottom-[25px] lg:z-40 2xl:bottom-[30px] hero-image-pointer-events-none">
+                <img src="src/assets/imgs/image-yo.svg" alt="Yo" class="w-full h-fit object-contain"/>
             </article>
 
             <article class="relative h-full flex flex-col gap-y-11 lg:justify-center lg:w-fit xl:w-full xl:px-[45px] xl:gap-0 xl:h-full ">
@@ -64,7 +66,7 @@
 
                     <!-- Botón -->
                     <div class="mt-10 flex justify-center items-center lg:justify-start lg:mt-0">
-                        <a href="#" class="flex px-[18px] py-[12px] bg-primary-500 rounded-[100px] text-[14px] font-medium items-center text-neutral-500 duration-300 hover:bg-primary-600 transition-all hover:scale-[1.03] sm:text-[16px] sm:px-[22px] md:text-[16px] md:py-[13px] lg:text-[14px] lg:py-[10px] lg:px-[14px] xl:text-[12px] 2xl:text-[14px] 2xl:py-[12px]">
+                        <a href="#sobre-mi" class="flex px-[18px] py-[12px] bg-primary-500 rounded-[100px] text-[14px] font-medium items-center text-neutral-500 duration-300 hover:bg-primary-600 transition-all hover:scale-[1.03] sm:text-[16px] sm:px-[22px] md:text-[16px] md:py-[13px] lg:text-[14px] lg:py-[10px] lg:px-[14px] xl:text-[12px] 2xl:text-[14px] 2xl:py-[12px]">
                             Conóceme más
                             <ion-icon name="arrow-forward-outline" class="ml-2 text-[20px] sm:text-[20px] md:text-[24px] lg:text-[20px] xl:text-[16px] 2xl:text-[18px]"></ion-icon>
                         </a>
@@ -72,23 +74,20 @@
                 </div>
 
                 <div class="flex justify-around items-center px-[5px] sm:px-[10%] sm:justify-center sm:gap-x-[25px] lg:w-fit lg:px-0 lg:gap-x-3 lg:absolute lg:bottom-0 xl:bottom-3">
-                    <a href="#" class="w-[13.2vw] h-[13.2vw] bg-secundary-600 rounded-full flex justify-center items-center sm:w-[8vw] sm:h-[8vw] lg:w-[6.5vh] lg:h-[6.5vh] xl:w-[7vh] xl:h-[7vh] 2xl:w-[6vh] 2xl:h-[6vh] hover:bg-secundary-700 hover:transition-all hover:scale-[1.07] duration-300">
-                        <img src="assets/imgs/linkedin.svg" alt="" class="size-[7vw] text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
+                    <a href="https://www.linkedin.com/in/gianfranco-mu%C3%B1oz-744b0b384/" class="w-[13.2vw] h-[13.2vw] bg-secundary-600 rounded-full flex justify-center items-center sm:w-[8vw] sm:h-[8vw] lg:w-[6.5vh] lg:h-[6.5vh] xl:w-[7vh] xl:h-[7vh] 2xl:w-[6vh] 2xl:h-[6vh] hover:bg-secundary-700 hover:transition-all hover:scale-[1.07] duration-300">
+                        <img src="src/assets/imgs/linkedin.svg" alt="" class="size-[7vw] text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
                     </a>
-                    <a href="#" class="w-[13vw] h-[13vw] bg-secundary-600 rounded-full flex justify-center items-center sm:w-[8vw] sm:h-[8vw] lg:w-[6.5vh] lg:h-[6.5vh] xl:w-[7vh] xl:h-[7vh] 2xl:w-[6vh] 2xl:h-[6vh] hover:bg-secundary-700 hover:transition-all hover:scale-[1.07] duration-300">
-                        <img src="assets/imgs/whatsapp.svg" alt="" class="size-[6.8vw] text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
+                    <a href="https://wa.link/1jwwo2" class="w-[13vw] h-[13vw] bg-secundary-600 rounded-full flex justify-center items-center sm:w-[8vw] sm:h-[8vw] lg:w-[6.5vh] lg:h-[6.5vh] xl:w-[7vh] xl:h-[7vh] 2xl:w-[6vh] 2xl:h-[6vh] hover:bg-secundary-700 hover:transition-all hover:scale-[1.07] duration-300">
+                        <img src="src/assets/imgs/whatsapp.svg" alt="" class="size-[6.8vw] text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
                     </a>
-                    <a href="#" class="w-[13vw] h-[13vw] bg-secundary-600 rounded-full flex justify-center items-center sm:w-[8vw] sm:h-[8vw] lg:w-[6.5vh] lg:h-[6.5vh] xl:w-[7vh] xl:h-[7vh] 2xl:w-[6vh] 2xl:h-[6vh] hover:bg-secundary-700 hover:transition-all hover:scale-[1.07] duration-300">
-                        <img src="assets/imgs/github.svg" alt="" class="size-[6.8vw] text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
+                    <a href="https://github.com/Gian124a" class="w-[13vw] h-[13vw] bg-secundary-600 rounded-full flex justify-center items-center sm:w-[8vw] sm:h-[8vw] lg:w-[6.5vh] lg:h-[6.5vh] xl:w-[7vh] xl:h-[7vh] 2xl:w-[6vh] 2xl:h-[6vh] hover:bg-secundary-700 hover:transition-all hover:scale-[1.07] duration-300">
+                        <img src="src/assets/imgs/github.svg" alt="" class="size-[6.8vw] text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
                     </a>
-                    <a href="#" class="w-[13vw] h-[13vw] bg-secundary-600 rounded-full flex justify-center items-center sm:w-[8vw] sm:h-[8vw] lg:w-[6.5vh] lg:h-[6.5vh] xl:w-[7vh] xl:h-[7vh] 2xl:w-[6vh] 2xl:h-[6vh] hover:bg-secundary-700 hover:transition-all hover:scale-[1.07] duration-300">
-                        <img src="assets/imgs/figma.svg" alt="" class="size-[6.8vw] text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
+                    <a href="https://www.figma.com/@gian124a" class="w-[13vw] h-[13vw] bg-secundary-600 rounded-full flex justify-center items-center sm:w-[8vw] sm:h-[8vw] lg:w-[6.5vh] lg:h-[6.5vh] xl:w-[7vh] xl:h-[7vh] 2xl:w-[6vh] 2xl:h-[6vh] hover:bg-secundary-700 hover:transition-all hover:scale-[1.07] duration-300">
+                        <img src="src/assets/imgs/figma.svg" alt="" class="size-[6.8vw] text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
                     </a>
-                    <a href="#" class="w-[13vw] h-[13vw] bg-secundary-600 rounded-full flex justify-center items-center sm:w-[8vw] sm:h-[8vw] lg:w-[6.5vh] lg:h-[6.5vh] xl:w-[7vh] xl:h-[7vh] 2xl:w-[6vh] 2xl:h-[6vh] hover:bg-secundary-700 hover:transition-all hover:scale-[1.07] duration-300">
-                        <img src="assets/imgs/facebook.svg" alt="" class="size-[6.8vw] text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
-                    </a>
-                    <a href="#" class="w-[13vw] h-[13vw] bg-secundary-600 rounded-full flex justify-center items-center sm:w-[8vw] sm:h-[8vw] lg:w-[6.5vh] lg:h-[6.5vh] xl:w-[7vh] xl:h-[7vh] 2xl:w-[6vh] 2xl:h-[6vh] hover:bg-secundary-700 hover:transition-all hover:scale-[1.07] duration-300">
-                        <img src="assets/imgs/gmail.svg" alt="" class="size-[6.8vw] text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
+                    <a href="mailto:mgianfrancowork@gmail.com" class="w-[13vw] h-[13vw] bg-secundary-600 rounded-full flex justify-center items-center sm:w-[8vw] sm:h-[8vw] lg:w-[6.5vh] lg:h-[6.5vh] xl:w-[7vh] xl:h-[7vh] 2xl:w-[6vh] 2xl:h-[6vh] hover:bg-secundary-700 hover:transition-all hover:scale-[1.07] duration-300">
+                        <img src="src/assets/imgs/gmail.svg" alt="" class="size-[6.8vw] text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
                     </a>
                 </div>
             </article>
@@ -135,7 +134,7 @@
         </section>
 
         <section id="sobre-mi" class="relative pt-10 px-6 flex flex-col gap-y-5 z-50 md:gap-y-7 lg:h-[100vh] lg:flex-row lg:gap-x-10 lg:items-center lg:pt-0 xl:gap-x-0">
-            <div class="absolute z-[-1] w-full h-full top-0 left-0 right-0 bottom-0 m-auto rounded-full [background-image:radial-gradient(ellipse_at_center,_#4124AA_0%,_#2A1672_36%,_#21115B_63%,_#1B0E4A_85%,_#05030D_100%)] blur-3xl opacity-30 sm:w-[80%] md:w-full lg:h-[80%] 2xl:w-[90%]">
+            <div class="absolute z-[-1] w-full h-full top-0 left-0 right-0 bottom-0 m-auto rounded-full [background-image:radial-gradient(ellipse_at_center,_#4124AA_0%,_#2A1672_36%,_#21115B_63%,_#1B0E4A_85%,_#05030D_100%)] blur-3xl opacity-30 sm:w-[80%] md:w-full lg:h-[80%] 2xl:w-[90%] ">
             </div>
 
             <article class="text-[9vw] font-semibold text-neutral-500 flex justify-center items-center sm:text-[12vh] md:text-[5vw] lg:hidden">
@@ -143,7 +142,7 @@
             </article>
 
             <article class="flex justify-center lg:w-[50%] ">
-                <img class="w-[65vw] sm:w-[45vw] md:w-[40vw] md:max-w-[450px] lg:max-w-none lg:w-[60vh] 2xl:w-[68%] 2xl:max-w-[520px]" src="assets/imgs/image-yo-section2.svg" alt="">
+                <img class="w-[65vw] sm:w-[45vw] md:w-[40vw] md:max-w-[450px] lg:max-w-none lg:w-[60vh] 2xl:w-[68%] 2xl:max-w-[520px]" src="src/assets/imgs/image-yo-section2.svg" alt="">
             </article>
 
             <article class="flex flex-col items-center gap-y-[22px] md:gap-y-[30px] lg:w-[50%] lg:items-start lg:gap-y-[15px] 2xl:gap-y-[24px]">
@@ -173,8 +172,8 @@
 
                 <!-- Botón -->
                     <div class="flex justify-center items-center lg:justify-start lg:mt-0">
-                        <a href="#" class="flex px-[18px] py-[12px] bg-primary-500 rounded-[100px] text-[14px] font-medium items-center text-neutral-500 duration-300 hover:bg-primary-600 transition-all hover:scale-[1.03] sm:text-[16px] sm:px-[22px] md:text-[16px] md:py-[13px] lg:text-[14px] lg:py-[10px] lg:px-[14px] xl:text-[12px] 2xl:text-[14px] 2xl:py-[12px]">
-                            Descargar CV
+                        <a href="src/assets/imgs/CV-Gianfranco-Munoz.pdf" class="flex px-[18px] py-[12px] bg-primary-500 rounded-[100px] text-[14px] font-medium items-center text-neutral-500 duration-300 hover:bg-primary-600 transition-all hover:scale-[1.03] sm:text-[16px] sm:px-[22px] md:text-[16px] md:py-[13px] lg:text-[14px] lg:py-[10px] lg:px-[14px] xl:text-[12px] 2xl:text-[14px] 2xl:py-[12px]">
+                            Visualizar CV
                             <ion-icon name="cloud-download-outline" class="ml-2 text-[20px] sm:text-[20px] md:text-[24px] lg:text-[20px] xl:text-[16px] 2xl:text-[18px]"></ion-icon>
                         </a>
                     </div>
@@ -284,23 +283,23 @@
                 </h2>
                 <div class="relative lg:w-[80%] 2xl:w-[60%]">
                     <p class="text-neutral-500 text-center text-[3.8vw] sm:text-[5vh] md:text-[2.2vw] lg:text-[2vh] 2xl:text-[1.6vh]">
-                        Soy un desarrollador full-stack y móvil versátil. Mi principal experiencia es en aplicaciones multiplataforma (iOS/Android) con Flutter y Dart, donde manejo la lógica y el diseño UI/UX. También construyo sistemas web completos (front-end con HTML/CSS/JS y back-end). Mantengo un ciclo de desarrollo riguroso, desde el diseño en Figma hasta el despliegue, todo bajo control de Git.
+                        A continuación, presento una colección de aplicaciones móviles desarrolladas utilizando Flutter y Dart. Estos proyectos demuestran mi capacidad para crear interfaces de usuario de alto rendimiento, manejar la lógica de negocio en el lado del cliente y gestionar la integración eficiente de APIs para consumir backends preexistentes. Cada proyecto es una muestra de funcionalidad, diseño y código limpio.
                     </p>
                 </div>
             </article>
-            <article id="projects-scroll-container" class="relative flex overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth lg:flex-row lg:flex-wrap lg:overflow-x-visible lg:gap-7 lg:justify-center 2xl:px-22">
+            <article id="projects-scroll-container" class="relative flex overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth gap-x-4 lg:flex-row lg:flex-wrap lg:overflow-x-visible lg:gap-7 lg:justify-center 2xl:px-22">
 
                 <div class="hidden  sm:absolute z-[-1] sm:w-[70%] sm:h-[90%] sm:top-0 sm:left-0 sm:right-0 sm:bottom-0 sm:m-auto sm:rounded-full sm:[background-image:radial-gradient(ellipse_at_center,_#4124AA_0%,_#2A1672_36%,_#21115B_63%,_#1B0E4A_85%,_#05030D_100%)] sm:blur-3xl sm:opacity-25 md:hidden lg:flex lg:w-[85%] lg:h-[60%] xl:w-[90%] 2xl:w-[50%] 2xl:h-full">
                 </div>
 
                 <!-- Proyecto 1 (Ejemplo) -->
-                <div class="project-card relative flex-col gap-y-[24px] w-full sm:w-1/2 lg:w-fit flex-none lg:flex-initial snap-start flex items-center justify-center">
+                <div class="project-card relative flex-col gap-y-[24px] w-full sm:w-[calc(50%_-_8px)] lg:w-fit flex-none lg:flex-initial snap-center sm:snap-start flex items-center justify-center">
                     <div class="relative bg-secundary-700 w-[280px] h-[280px] rounded-[20px] p-[14px] gap-y-[15px] flex flex-col md:w-[300px] md:h-[300px] lg:w-[270px] lg:h-[270px] xl:w-[250px] xl:h-[250px]">
                         <div class="relative flex-1 rounded-[12px] overflow-hidden bg-secundary-800 flex justify-center items-center"></div>
                         <div class="flex justify-between items-center">
                             <div class="flex flex-col gap-y-1 lg:gap-0.5">
-                                <p class="text-[16px] text-neutral-500 font-semibold md:text-[18px] lg:text-[16px] xl:text-[15px]">Otro Proyecto</p>
-                                <p class="text-[14px] text-neutral-700 lg:text-[12px] xl:text-[11px]">Aplicacion Web</p>
+                                <p class="text-[16px] text-neutral-500 font-semibold md:text-[18px] lg:text-[16px] xl:text-[15px]">Cinemapedia</p>
+                                <p class="text-[14px] text-neutral-700 lg:text-[12px] xl:text-[11px]">App mobile</p>
                             </div>
                             <button class="bg-primary-500 w-[40px] h-[40px] rounded-full flex justify-center items-center xl:w-[35px] xl:h-[35px]">
                                 <ion-icon name="chevron-forward-outline" class="text-[22px] text-neutral-500"></ion-icon>
@@ -309,13 +308,13 @@
                     </div>
                 </div>
                 <!-- Proyecto 1 (Ejemplo) -->
-                <div class="project-card relative flex-col gap-y-[24px] w-full sm:w-1/2 lg:w-fit flex-none lg:flex-initial snap-start flex items-center justify-center">
+                <div class="project-card relative flex-col gap-y-[24px] w-full sm:w-[calc(50%_-_8px)] lg:w-fit flex-none lg:flex-initial snap-center sm:snap-start flex items-center justify-center">
                     <div class="relative bg-secundary-700 w-[280px] h-[280px] rounded-[20px] p-[14px] gap-y-[15px] flex flex-col md:w-[300px] md:h-[300px] lg:w-[270px] lg:h-[270px] xl:w-[250px] xl:h-[250px]">
                         <div class="relative flex-1 rounded-[12px] overflow-hidden bg-secundary-800 flex justify-center items-center"></div>
                         <div class="flex justify-between items-center">
                             <div class="flex flex-col gap-y-1 lg:gap-0.5">
-                                <p class="text-[16px] text-neutral-500 font-semibold md:text-[18px] lg:text-[15px]">Otro Proyecto</p>
-                                <p class="text-[14px] text-neutral-700 lg:text-[11px]">Aplicacion Web</p>
+                                <p class="text-[16px] text-neutral-500 font-semibold md:text-[18px] lg:text-[15px]">Echo</p>
+                                <p class="text-[14px] text-neutral-700 lg:text-[11px]">App mobile</p>
                             </div>
                             <button class="bg-primary-500 w-[40px] h-[40px] rounded-full flex justify-center items-center xl:w-[35px] xl:h-[35px]">
                                 <ion-icon name="chevron-forward-outline" class="text-[22px] text-neutral-500"></ion-icon>
@@ -324,13 +323,13 @@
                     </div>
                 </div>
                 <!-- Proyecto 1 (Ejemplo) -->
-                <div class="project-card relative flex-col gap-y-[24px] w-full sm:w-1/2 lg:w-fit flex-none lg:flex-initial snap-start flex items-center justify-center">
+                <div class="project-card relative flex-col gap-y-[24px] w-full sm:w-[calc(50%_-_8px)] lg:w-fit flex-none lg:flex-initial snap-center sm:snap-start flex items-center justify-center">
                     <div class="relative bg-secundary-700 w-[280px] h-[280px] rounded-[20px] p-[14px] gap-y-[15px] flex flex-col md:w-[300px] md:h-[300px] lg:w-[270px] lg:h-[270px] xl:w-[250px] xl:h-[250px]">
                         <div class="relative flex-1 rounded-[12px] overflow-hidden bg-secundary-800 flex justify-center items-center"></div>
                         <div class="flex justify-between items-center">
                             <div class="flex flex-col gap-y-1 lg:gap-0.5">
-                                <p class="text-[16px] text-neutral-500 font-semibold md:text-[18px] lg:text-[15px]">Otro Proyecto</p>
-                                <p class="text-[14px] text-neutral-700 lg:text-[11px]">Aplicacion Web</p>
+                                <p class="text-[16px] text-neutral-500 font-semibold md:text-[18px] lg:text-[15px]">Chat WhatsApp</p>
+                                <p class="text-[14px] text-neutral-700 lg:text-[11px]">App mobile</p>
                             </div>
                             <button class="bg-primary-500 w-[40px] h-[40px] rounded-full flex justify-center items-center xl:w-[35px] xl:h-[35px]">
                                 <ion-icon name="chevron-forward-outline" class="text-[22px] text-neutral-500"></ion-icon>
@@ -339,13 +338,13 @@
                     </div>
                 </div>
                 <!-- Proyecto 1 (Ejemplo) -->
-                <div class="project-card relative flex-col gap-y-[24px] w-full sm:w-1/2 lg:w-fit flex-none lg:flex-initial snap-start flex items-center justify-center">
+                <div class="project-card relative flex-col gap-y-[24px] w-full sm:w-[calc(50%_-_8px)] lg:w-fit flex-none lg:flex-initial snap-center sm:snap-start flex items-center justify-center">
                     <div class="relative bg-secundary-700 w-[280px] h-[280px] rounded-[20px] p-[14px] gap-y-[15px] flex flex-col md:w-[300px] md:h-[300px] lg:w-[270px] lg:h-[270px] xl:w-[250px] xl:h-[250px]">
                         <div class="relative flex-1 rounded-[12px] overflow-hidden bg-secundary-800 flex justify-center items-center"></div>
                         <div class="flex justify-between items-center">
                             <div class="flex flex-col gap-y-1 lg:gap-0.5">
-                                <p class="text-[16px] text-neutral-500 font-semibold md:text-[18px] lg:text-[15px]">Otro Proyecto</p>
-                                <p class="text-[14px] text-neutral-700 lg:text-[11px]">Aplicacion Web</p>
+                                <p class="text-[16px] text-neutral-500 font-semibold md:text-[18px] lg:text-[15px]">Motivate</p>
+                                <p class="text-[14px] text-neutral-700 lg:text-[11px]">App mobile</p>
                             </div>
                             <button class="bg-primary-500 w-[40px] h-[40px] rounded-full flex justify-center items-center xl:w-[35px] xl:h-[35px]">
                                 <ion-icon name="chevron-forward-outline" class="text-[22px] text-neutral-500"></ion-icon>
@@ -354,13 +353,13 @@
                     </div>
                 </div>
                 <!-- Proyecto 1 (Ejemplo) -->
-                <div class="project-card relative flex-col gap-y-[24px] w-full sm:w-1/2 lg:w-fit flex-none lg:flex-initial snap-start flex items-center justify-center">
+                <div class="project-card relative flex-col gap-y-[24px] w-full sm:w-[calc(50%_-_8px)] lg:w-fit flex-none lg:flex-initial snap-center sm:snap-start flex items-center justify-center">
                     <div class="relative bg-secundary-700 w-[280px] h-[280px] rounded-[20px] p-[14px] gap-y-[15px] flex flex-col md:w-[300px] md:h-[300px] lg:w-[270px] lg:h-[270px] xl:w-[250px] xl:h-[250px]">
                         <div class="relative flex-1 rounded-[12px] overflow-hidden bg-secundary-800 flex justify-center items-center"></div>
                         <div class="flex justify-between items-center">
                             <div class="flex flex-col gap-y-1 lg:gap-0.5">
-                                <p class="text-[16px] text-neutral-500 font-semibold md:text-[18px] lg:text-[15px]">Otro Proyecto</p>
-                                <p class="text-[14px] text-neutral-700 lg:text-[11px]">Aplicacion Web</p>
+                                <p class="text-[16px] text-neutral-500 font-semibold md:text-[18px] lg:text-[15px]">ProductMarket</p>
+                                <p class="text-[14px] text-neutral-700 lg:text-[11px]">App mobile</p>
                             </div>
                             <button class="bg-primary-500 w-[40px] h-[40px] rounded-full flex justify-center items-center xl:w-[35px] xl:h-[35px]">
                                 <ion-icon name="chevron-forward-outline" class="text-[22px] text-neutral-500"></ion-icon>
@@ -369,13 +368,13 @@
                     </div>
                 </div>
                 <!-- Proyecto 1 (Ejemplo) -->
-                <div class="project-card relative flex-col gap-y-[24px] w-full sm:w-1/2 lg:w-fit flex-none lg:flex-initial snap-start flex items-center justify-center">
+                <div class="project-card relative flex-col gap-y-[24px] w-full sm:w-[calc(50%_-_8px)] lg:w-fit flex-none lg:flex-initial snap-center sm:snap-start flex items-center justify-center">
                     <div class="relative bg-secundary-700 w-[280px] h-[280px] rounded-[20px] p-[14px] gap-y-[15px] flex flex-col md:w-[300px] md:h-[300px] lg:w-[270px] lg:h-[270px] xl:w-[250px] xl:h-[250px]">
                         <div class="relative flex-1 rounded-[12px] overflow-hidden bg-secundary-800 flex justify-center items-center"></div>
                         <div class="flex justify-between items-center">
                             <div class="flex flex-col gap-y-1 lg:gap-0.5">
-                                <p class="text-[16px] text-neutral-500 font-semibold md:text-[18px] lg:text-[15px]">Otro Proyecto</p>
-                                <p class="text-[14px] text-neutral-700 lg:text-[11px]">Aplicacion Web</p>
+                                <p class="text-[16px] text-neutral-500 font-semibold md:text-[18px] lg:text-[15px]">Copia de Uber</p>
+                                <p class="text-[14px] text-neutral-700 lg:text-[11px]">App mobile</p>
                             </div>
                             <button class="bg-primary-500 w-[40px] h-[40px] rounded-full flex justify-center items-center xl:w-[35px] xl:h-[35px]">
                                 <ion-icon name="chevron-forward-outline" class="text-[22px] text-neutral-500"></ion-icon>
@@ -384,13 +383,13 @@
                     </div>
                 </div>
                 <!-- Proyecto 1 (Ejemplo) -->
-                <div class="project-card relative flex-col gap-y-[24px] w-full sm:w-1/2 lg:w-fit flex-none lg:flex-initial snap-start flex items-center justify-center">
+                <div class="project-card relative flex-col gap-y-[24px] w-full sm:w-[calc(50%_-_8px)] lg:w-fit flex-none lg:flex-initial snap-center sm:snap-start flex items-center justify-center">
                     <div class="relative bg-secundary-700 w-[280px] h-[280px] rounded-[20px] p-[14px] gap-y-[15px] flex flex-col md:w-[300px] md:h-[300px] lg:w-[270px] lg:h-[270px] xl:w-[250px] xl:h-[250px]">
                         <div class="relative flex-1 rounded-[12px] overflow-hidden bg-secundary-800 flex justify-center items-center"></div>
                         <div class="flex justify-between items-center">
                             <div class="flex flex-col gap-y-1 lg:gap-0.5">
-                                <p class="text-[16px] text-neutral-500 font-semibold md:text-[18px] lg:text-[15px]">Otro Proyecto</p>
-                                <p class="text-[14px] text-neutral-700 lg:text-[11px]">Aplicacion Web</p>
+                                <p class="text-[16px] text-neutral-500 font-semibold md:text-[18px] lg:text-[15px]">SRSC</p>
+                                <p class="text-[14px] text-neutral-700 lg:text-[11px]">Aplicacion web</p>
                             </div>
                             <button class="bg-primary-500 w-[40px] h-[40px] rounded-full flex justify-center items-center xl:w-[35px] xl:h-[35px]">
                                 <ion-icon name="chevron-forward-outline" class="text-[22px] text-neutral-500"></ion-icon>
@@ -398,62 +397,18 @@
                         </div>
                     </div>
                 </div>
-                <!-- Proyecto 1 (Ejemplo) -->
-                <div class="project-card relative flex-col gap-y-[24px] w-full sm:w-1/2 lg:w-fit flex-none lg:flex-initial snap-start flex items-center justify-center">
-                    <div class="relative bg-secundary-700 w-[280px] h-[280px] rounded-[20px] p-[14px] gap-y-[15px] flex flex-col md:w-[300px] md:h-[300px] lg:w-[270px] lg:h-[270px] xl:w-[250px] xl:h-[250px]">
-                        <div class="relative flex-1 rounded-[12px] overflow-hidden bg-secundary-800 flex justify-center items-center"></div>
-                        <div class="flex justify-between items-center">
-                            <div class="flex flex-col gap-y-1 lg:gap-0.5">
-                                <p class="text-[16px] text-neutral-500 font-semibold md:text-[18px] lg:text-[15px]">Otro Proyecto</p>
-                                <p class="text-[14px] text-neutral-700 lg:text-[11px]">Aplicacion Web</p>
-                            </div>
-                            <button class="bg-primary-500 w-[40px] h-[40px] rounded-full flex justify-center items-center xl:w-[35px] xl:h-[35px]">
-                                <ion-icon name="chevron-forward-outline" class="text-[22px] text-neutral-500"></ion-icon>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <!-- Proyecto 1 (Ejemplo) -->
-                <div class="project-card relative flex-col gap-y-[24px] w-full sm:w-1/2 lg:w-fit flex-none lg:flex-initial snap-start flex items-center justify-center">
-                    <div class="relative bg-secundary-700 w-[280px] h-[280px] rounded-[20px] p-[14px] gap-y-[15px] flex flex-col md:w-[300px] md:h-[300px] lg:w-[270px] lg:h-[270px] xl:w-[250px] xl:h-[250px]">
-                        <div class="relative flex-1 rounded-[12px] overflow-hidden bg-secundary-800 flex justify-center items-center"></div>
-                        <div class="flex justify-between items-center">
-                            <div class="flex flex-col gap-y-1 lg:gap-0.5">
-                                <p class="text-[16px] text-neutral-500 font-semibold md:text-[18px] lg:text-[15px]">Otro Proyecto</p>
-                                <p class="text-[14px] text-neutral-700 lg:text-[11px]">Aplicacion Web</p>
-                            </div>
-                            <button class="bg-primary-500 w-[40px] h-[40px] rounded-full flex justify-center items-center xl:w-[35px] xl:h-[35px]">
-                                <ion-icon name="chevron-forward-outline" class="text-[22px] text-neutral-500"></ion-icon>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <!-- Proyecto 1 (Ejemplo) -->
-                <div class="project-card relative flex-col gap-y-[24px] w-full sm:w-1/2 lg:w-fit flex-none lg:flex-initial snap-start flex items-center justify-center">
-                    <div class="relative bg-secundary-700 w-[280px] h-[280px] rounded-[20px] p-[14px] gap-y-[15px] flex flex-col md:w-[300px] md:h-[300px] lg:w-[280px] lg:h-[280px] xl:w-[250px] xl:h-[250px]">
-                        <div class="relative flex-1 rounded-[12px] overflow-hidden bg-secundary-800 flex justify-center items-center"></div>
-                        <div class="flex justify-between items-center">
-                            <div class="flex flex-col gap-y-1 lg:gap-0.5">
-                                <p class="text-[16px] text-neutral-500 font-semibold md:text-[18px] lg:text-[15px]">Otro Proyecto</p>
-                                <p class="text-[14px] text-neutral-700 lg:text-[11px]">Aplicacion Web</p>
-                            </div>
-                            <button class="bg-primary-500 w-[40px] h-[40px] rounded-full flex justify-center items-center xl:w-[35px] xl:h-[35px]">
-                                <ion-icon name="chevron-forward-outline" class="text-[22px] text-neutral-500"></ion-icon>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                
 
             </article>
 
-            <article id="project-dots-container" class="flex justify-center items-center gap-x-2 lg:hidden">
+            <article id="project-dots-container" class="flex justify-center items-center gap-x-2 lg:hidden z-10">
                 <!-- Los puntos se generarán aquí con JavaScript -->
             </article>
         </section>
 
         <div class="mt-10 bg-[linear-gradient(to_right,#0C0B0D,#403B45,#403B45,#0C0B0D)] h-1 w-full"></div>
 
-        <section id="habilidades" class="relative mt-10 flex flex-col gap-y-7 xl:px-[36px] 2xl:px-[32px] 2xl:h-[100vh] 2xl:mt-0 2xl:gap-y-10 2xl:justify-center">
+        <section id="habilidades" class="relative mt-10 flex flex-col gap-y-7 md:gap-y-[48px] xl:px-[36px] 2xl:px-[32px] 2xl:h-[100vh] 2xl:mt-0 2xl:gap-y-10 2xl:justify-center">
             <div class="absolute z-[-1] w-full h-[100%] top-0 left-0 right-0 bottom-0 m-auto rounded-full [background-image:radial-gradient(ellipse_at_center,_#4124AA_0%,_#2A1672_36%,_#21115B_63%,_#1B0E4A_85%,_#05030D_100%)] blur-3xl opacity-25 sm:w-[80%] md:w-full lg:hidden lg:h-[80%] 2xl:w-[90%]">
             </div>
 
@@ -464,22 +419,22 @@
                     </h2>
                     <div class="relative lg:w-[80%] xl:w-[70%] 2xl:w-[60%]">
                         <p class="text-neutral-500 text-center text-[3.8vw] sm:text-[5vh] md:text-[2.2vw] lg:text-[2vh] 2xl:text-[1.6vh]">
-                            Soy un Desarrollador Frontend con foco principal en el desarrollo móvil de alto rendimiento usando Flutter y Dart. Mi stack web es sólido: domino HTML, CSS, Tailwind CSS, JavaScript y TypeScript. Complemento mi flujo con Python para scripting ligero. Garantizo la calidad del código mediante Git y traduzco diseños de Figma a la perfección.
+                            Mi stack tecnológico se centra en la eficiencia y la portabilidad del desarrollo móvil, complementado con sólidos conocimientos en el frontend web. A continuación, se detallan las herramientas y tecnologías que domino para convertir ideas en soluciones digitales funcionales.
                         </p>
                     </div>
                 </div>
             </article>
 
-            <article id="skills-scroll-container" class="relative flex overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth lg:flex-row lg:flex-wrap lg:overflow-x-visible lg:gap-7 lg:justify-center">
+            <article id="skills-scroll-container" class="relative flex overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth scroll-snap-stop-always gap-x-4 lg:flex-row lg:flex-wrap lg:overflow-x-visible lg:gap-7 lg:justify-center">
                     <div class="hidden sm:absolute z-[-1] sm:w-[70%] sm:h-[90%] sm:top-0 sm:left-0 sm:right-0 sm:bottom-0 sm:m-auto sm:rounded-full sm:[background-image:radial-gradient(ellipse_at_center,_#4124AA_0%,_#2A1672_36%,_#21115B_63%,_#1B0E4A_85%,_#05030D_100%)] sm:blur-3xl sm:opacity-25 md:hidden lg:flex lg:w-[85%] xl:w-[90%] 2xl:w-[70%]">
                     </div>
 
                     <!-- Tarjeta de Habilidad (ahora es la fuente de datos) -->
-                    <div class="skill-card relative flex-col gap-y-[24px] w-full sm:w-1/2 lg:w-auto flex-none lg:flex-initial snap-start flex items-center justify-center">
-                        <div class="w-[295px] rounded-[30px] bg-secundary-800 flex flex-col justify-between items-center py-4 px-7 gap-y-2 xl:w-[280px]">
+                    <div class="skill-card relative flex-col gap-y-[24px] w-full sm:w-[calc(50%_-_8px)] lg:w-auto flex-none lg:flex-initial snap-center sm:snap-start flex items-center justify-center">
+                        <div class="w-[295px] rounded-[30px] bg-secundary-800 flex flex-col justify-between items-center py-4 px-7 gap-y-2 lg:w-[280px]">
                             <div class="flex flex-col items-center gap-y-3">
                                 <div class="w-[80px] h-[80px] rounded-full bg-secundary-600 flex justify-center items-center xl:w-[70px] xl:h-[70px]">
-                                    <img src="assets/imgs/dart.svg" alt="Logo de Dart" class="skill-icon size-[35px] xl:size-[30px]">
+                                    <img src="src/assets/imgs/dart.svg" alt="Logo de Dart" class="skill-icon size-[35px] xl:size-[30px]">
                                 </div>
                                 <p class="skill-title text-neutral-500 text-[20px] font-semibold xl:text-[18px]">Dart</p>
                             </div>
@@ -496,11 +451,11 @@
                     </div>
 
                     <!-- Nueva Tarjeta de Habilidad: Flutter -->
-                    <div class="skill-card relative flex-col gap-y-[24px] w-full sm:w-1/2 lg:w-auto flex-none lg:flex-initial snap-start flex items-center justify-center">
-                        <div class="w-[295px] rounded-[30px] bg-secundary-800 flex flex-col justify-between items-center py-4 px-7 gap-y-2 xl:w-[280px]">
+                    <div class="skill-card relative flex-col gap-y-[24px] w-full sm:w-[calc(50%_-_8px)] lg:w-auto flex-none lg:flex-initial snap-center sm:snap-start flex items-center justify-center">
+                        <div class="w-[295px] rounded-[30px] bg-secundary-800 flex flex-col justify-between items-center py-4 px-7 gap-y-2 lg:w-[280px]">
                             <div class="flex flex-col items-center gap-y-3">
                                 <div class="w-[80px] h-[80px] rounded-full bg-secundary-600 flex justify-center items-center xl:w-[70px] xl:h-[70px]">
-                                    <img src="assets/imgs/flutter.svg" alt="Logo de Flutter" class="skill-icon size-[35px] w-fit xl:size-[30px]">
+                                    <img src="src/assets/imgs/flutter.svg" alt="Logo de Flutter" class="skill-icon size-[35px] w-fit xl:size-[30px]">
                                 </div>
                                 <p class="skill-title text-neutral-500 text-[20px] font-semibold xl:text-[18px]">Flutter</p>
                             </div>
@@ -517,17 +472,17 @@
                     </div>
 
                     <!-- Nueva Tarjeta de Habilidad: Git -->
-                    <div class="skill-card relative flex-col gap-y-[24px] w-full sm:w-1/2 lg:w-auto flex-none lg:flex-initial snap-start flex items-center justify-center">
-                        <div class="w-[295px] rounded-[30px] bg-secundary-800 flex flex-col justify-between items-center py-4 px-7 gap-y-2 xl:w-[280px]">
+                    <div class="skill-card relative flex-col gap-y-[24px] w-full sm:w-[calc(50%_-_8px)] lg:w-auto flex-none lg:flex-initial snap-center sm:snap-start flex items-center justify-center">
+                        <div class="w-[295px] rounded-[30px] bg-secundary-800 flex flex-col justify-between items-center py-4 px-7 gap-y-2 lg:w-[280px]">
                             <div class="flex flex-col items-center gap-y-3">
                                 <div class="w-[80px] h-[80px] rounded-full bg-secundary-600 flex justify-center items-center xl:w-[70px] xl:h-[70px]">
-                                    <img src="assets/imgs/git.svg" alt="Logo de Git" class="skill-icon size-[35px] xl:size-[30px]">
+                                    <img src="src/assets/imgs/git.svg" alt="Logo de Git" class="skill-icon size-[35px] xl:size-[30px]">
                                 </div>
                                 <p class="skill-title text-neutral-500 text-[20px] font-semibold xl:text-[18px]">Git</p>
                             </div>
                             <div class="text-center">
                                 <p class="skill-description text-neutral-800 text-[14px] line-clamp-4 xl:text-[12px]">
-                                    Mi dominio de Git se ha cimentado a través del desarrollo de múltiples proyectos individuales, lo que me ha proporcionado una base sólida y un entendimiento claro de los flujos de trabajo. Me enfoco en la gestión de repositorios para asegurar la integridad del código y mantener un historial de proyecto ordenado y coherente. Aunque mi experiencia directa no ha sido en entornos de equipo, poseo un conocimiento conceptual firme sobre la colaboración y feature branching, la gestión de pull requests y la resolución de conflictos, lo cual me permite integrarme rápidamente a cualquier entorno colaborativo que utilice Git como estándar.
+                                    Mi dominio de Git se ha cimentado a través del desarrollo de múltiples proyectos individuales, lo que me ha proporcionado una base sólida y un entendimiento claro de los flujos de trabajo. Me enfoco en la gestión de repositorios para asegurar la integridad del código y mantener un historial de proyecto ordenado y coherente. Aunque mi experiencia directa no ha sido en entornos de equipo, poseo un conocimiento conceptual firme sobre la colaboración, la gestión de pull requests y la resolución de conflictos, lo cual me permite integrarme rápidamente a cualquier entorno colaborativo que utilice Git como estándar.
                                 </p>
                             </div>
                             <button class="open-skill-modal-btn flex items-center w-fit gap-x-1 py-[6px] px-4 rounded-full cursor-pointer">
@@ -538,17 +493,17 @@
                     </div>
 
                     <!-- Nueva Tarjeta de Habilidad: HTML -->
-                    <div class="skill-card relative flex-col gap-y-[24px] w-full sm:w-1/2 lg:w-auto flex-none lg:flex-initial snap-start flex items-center justify-center">
-                        <div class="w-[295px] rounded-[30px] bg-secundary-800 flex flex-col justify-between items-center py-4 px-7 gap-y-2 xl:w-[280px]">
+                    <div class="skill-card relative flex-col gap-y-[24px] w-full sm:w-[calc(50%_-_8px)] lg:w-auto flex-none lg:flex-initial snap-center sm:snap-start flex items-center justify-center">
+                        <div class="w-[295px] rounded-[30px] bg-secundary-800 flex flex-col justify-between items-center py-4 px-7 gap-y-2 lg:w-[280px]">
                             <div class="flex flex-col items-center gap-y-3">
                                 <div class="w-[80px] h-[80px] rounded-full bg-secundary-600 flex justify-center items-center xl:w-[70px] xl:h-[70px]">
-                                    <img src="assets/imgs/html.svg" alt="Logo de HTML" class="skill-icon size-[35px] xl:size-[30px]">
+                                    <img src="src/assets/imgs/html.svg" alt="Logo de HTML" class="skill-icon size-[35px] xl:size-[30px]">
                                 </div>
                                 <p class="skill-title text-neutral-500 text-[20px] font-semibold xl:text-[18px]">HTML</p>
                             </div>
                             <div class="text-center">
                                 <p class="skill-description text-neutral-800 text-[14px] line-clamp-4 xl:text-[12px]">
-                                    Estoy consolidado en el uso de HTML, manejando con destreza la estructura semántica completa de los documentos web. Mi enfoque asegura que la base de cualquier sitio o aplicación sea sólida, accesible (A11y) y optimizada para el SEO. He trabajado con los estándares de HTML5, incluyendo la implementación de formularios complejos, elementos multimedia y el uso adecuado de etiquetas estructurales. Mi habilidad garantiza que el marcado sea limpio, bien organizado y listo para el estilismo sin fallas de jerarquía o estructura.
+                                    Estoy consolidado en el uso de HTML, manejando con destreza la estructura semántica completa de los documentos web. Mi enfoque asegura que la base de cualquier sitio o aplicación sea sólida, accesible y optimizada para el SEO. He trabajado con los estándares de HTML5, incluyendo la implementación de formularios complejos, elementos multimedia y el uso adecuado de etiquetas estructurales. Mi habilidad garantiza que el marcado sea limpio, bien organizado y listo para el estilismo sin fallas de jerarquía o estructura.
                                 </p>
                             </div>
                             <button class="open-skill-modal-btn flex items-center w-fit gap-x-1 py-[6px] px-4 rounded-full cursor-pointer">
@@ -559,11 +514,11 @@
                     </div>
 
                     <!-- Nueva Tarjeta de Habilidad: JavaScript -->
-                    <div class="skill-card relative flex-col gap-y-[24px] w-full sm:w-1/2 lg:w-auto flex-none lg:flex-initial snap-start flex items-center justify-center">
-                        <div class="w-[295px] rounded-[30px] bg-secundary-800 flex flex-col justify-between items-center py-4 px-7 gap-y-2 xl:w-[280px]">
+                    <div class="skill-card relative flex-col gap-y-[24px] w-full sm:w-[calc(50%_-_8px)] lg:w-auto flex-none lg:flex-initial snap-center sm:snap-start flex items-center justify-center">
+                        <div class="w-[295px] rounded-[30px] bg-secundary-800 flex flex-col justify-between items-center py-4 px-7 gap-y-2 lg:w-[280px]">
                             <div class="flex flex-col items-center gap-y-3">
                                 <div class="w-[80px] h-[80px] rounded-full bg-secundary-600 flex justify-center items-center xl:w-[70px] xl:h-[70px]">
-                                    <img src="assets/imgs/js.svg" alt="Logo de JavaScript" class="skill-icon size-[35px] xl:size-[30px]">
+                                    <img src="src/assets/imgs/js.svg" alt="Logo de JavaScript" class="skill-icon size-[35px] xl:size-[30px]">
                                 </div>
                                 <p class="skill-title text-neutral-500 text-[20px] font-semibold xl:text-[18px]">JavaScript</p>
                             </div>
@@ -580,11 +535,11 @@
                     </div>
 
                     <!-- Nueva Tarjeta de Habilidad: Python -->
-                    <div class="skill-card relative flex-col gap-y-[24px] w-full sm:w-1/2 lg:w-auto flex-none lg:flex-initial snap-start flex items-center justify-center">
-                        <div class="w-[295px] rounded-[30px] bg-secundary-800 flex flex-col justify-between items-center py-4 px-7 gap-y-2 xl:w-[280px]">
+                    <div class="skill-card relative flex-col gap-y-[24px] w-full sm:w-[calc(50%_-_8px)] lg:w-auto flex-none lg:flex-initial snap-center sm:snap-start flex items-center justify-center">
+                        <div class="w-[295px] rounded-[30px] bg-secundary-800 flex flex-col justify-between items-center py-4 px-7 gap-y-2 lg:w-[280px]">
                             <div class="flex flex-col items-center gap-y-3">
                                 <div class="w-[80px] h-[80px] rounded-full bg-secundary-600 flex justify-center items-center xl:w-[70px] xl:h-[70px]">
-                                    <img src="assets/imgs/python.svg" alt="Logo de Python" class="skill-icon size-[35px] xl:size-[30px]">
+                                    <img src="src/assets/imgs/python.svg" alt="Logo de Python" class="skill-icon size-[35px] xl:size-[30px]">
                                 </div>
                                 <p class="skill-title text-neutral-500 text-[20px] font-semibold xl:text-[18px]">Python</p>
                             </div>
@@ -601,11 +556,11 @@
                     </div>
 
                     <!-- Nueva Tarjeta de Habilidad: Figma -->
-                    <div class="skill-card relative flex-col gap-y-[24px] w-full sm:w-1/2 lg:w-auto flex-none lg:flex-initial snap-start flex items-center justify-center">
-                        <div class="w-[295px] rounded-[30px] bg-secundary-800 flex flex-col justify-between items-center py-4 px-7 gap-y-2 xl:w-[280px]">
+                    <div class="skill-card relative flex-col gap-y-[24px] w-full sm:w-[calc(50%_-_8px)] lg:w-auto flex-none lg:flex-initial snap-center sm:snap-start flex items-center justify-center">
+                        <div class="w-[295px] rounded-[30px] bg-secundary-800 flex flex-col justify-between items-center py-4 px-7 gap-y-2 lg:w-[280px]">
                             <div class="flex flex-col items-center gap-y-3">
-                                <div class="w-[80px] h-[80px] rounded-full bg-secundary-600 flex justify-center items-center xl:w-[70px] xl:h-[70px]">
-                                    <img src="assets/imgs/figma-purple.svg" alt="Logo de Figma" class="skill-icon size-[35px] xl:size-[30px]">
+                                <div class="w-[80px] h-[80px] rounded-full bg-secundary-600 flex justify-center items-center xl:w-[70px] lg:h-[70px]">
+                                    <img src="src/assets/imgs/figma-purple.svg" alt="Logo de Figma" class="skill-icon size-[35px] xl:size-[30px]">
                                 </div>
                                 <p class="skill-title text-neutral-500 text-[20px] font-semibold xl:text-[18px]">Figma</p>
                             </div>
@@ -622,11 +577,11 @@
                     </div>
 
                     <!-- Nueva Tarjeta de Habilidad: CSS -->
-                    <div class="skill-card relative flex-col gap-y-[24px] w-full sm:w-1/2 lg:w-auto flex-none lg:flex-initial snap-start flex items-center justify-center">
-                        <div class="w-[295px] rounded-[30px] bg-secundary-800 flex flex-col justify-between items-center py-4 px-7 gap-y-2 xl:w-[280px]">
+                    <div class="skill-card relative flex-col gap-y-[24px] w-full sm:w-[calc(50%_-_8px)] lg:w-auto flex-none lg:flex-initial snap-center sm:snap-start flex items-center justify-center">
+                        <div class="w-[295px] rounded-[30px] bg-secundary-800 flex flex-col justify-between items-center py-4 px-7 gap-y-2 lg:w-[280px]">
                             <div class="flex flex-col items-center gap-y-3">
-                                <div class="w-[80px] h-[80px] rounded-full bg-secundary-600 flex justify-center items-center xl:w-[70px] xl:h-[70px]">
-                                    <img src="assets/imgs/css.svg" alt="Logo de CSS" class="skill-icon size-[35px] xl:size-[30px]">
+                                <div class="w-[80px] h-[80px] rounded-full bg-secundary-600 flex justify-center items-center xl:w-[70px] lg:h-[70px]">
+                                    <img src="src/assets/imgs/css.svg" alt="Logo de CSS" class="skill-icon size-[35px] xl:size-[30px]">
                                 </div>
                                 <p class="skill-title text-neutral-500 text-[20px] font-semibold xl:text-[18px]">CSS</p>
                             </div>
@@ -643,11 +598,11 @@
                     </div>
 
                     <!-- Nueva Tarjeta de Habilidad: Tailwind CSS -->
-                    <div class="skill-card relative flex-col gap-y-[24px] w-full sm:w-1/2 lg:w-auto flex-none lg:flex-initial snap-start flex items-center justify-center">
-                        <div class="w-[295px] rounded-[30px] bg-secundary-800 flex flex-col justify-between items-center py-4 px-7 gap-y-2 xl:w-[280px]">
+                    <div class="skill-card relative flex-col gap-y-[24px] w-full sm:w-[calc(50%_-_8px)] lg:w-auto flex-none lg:flex-initial snap-center sm:snap-start flex items-center justify-center">
+                        <div class="w-[295px] rounded-[30px] bg-secundary-800 flex flex-col justify-between items-center py-4 px-7 gap-y-2 lg:w-[280px]">
                             <div class="flex flex-col items-center gap-y-3">
-                                <div class="w-[80px] h-[80px] rounded-full bg-secundary-600 flex justify-center items-center xl:w-[70px] xl:h-[70px]">
-                                    <img src="assets/imgs/tailwind.svg" alt="Logo de Tailwind CSS" class="skill-icon size-[35px] xl:size-[30px]">
+                                <div class="w-[80px] h-[80px] rounded-full bg-secundary-600 flex justify-center items-center xl:w-[70px] lg:h-[70px]">
+                                    <img src="src/assets/imgs/tailwind.svg" alt="Logo de Tailwind CSS" class="skill-icon size-[35px] xl:size-[30px]">
                                 </div>
                                 <p class="skill-title text-neutral-500 text-[20px] font-semibold xl:text-[18px]">Tailwind</p>
                             </div>
@@ -664,13 +619,13 @@
                     </div>
             </article>
 
-            <article id="skills-dots-container" class="flex justify-center items-center gap-x-2 lg:hidden">
+            <article id="skills-dots-container" class="flex justify-center items-center gap-x-2 lg:hidden z-10">
                 <!-- Los puntos se generarán aquí con JavaScript -->
             </article>
 
             <!-- Modal Genérico (Plantilla) -->
-            <div id="skill-modal-template" class="hidden fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm z-[100] p-4 items-center justify-center">
-                <div class=" bg-secundary-800 rounded-[30px] p-8 max-w-lg max-h-[80vh] w-full relative flex flex-col items-center gap-y-4">
+            <div id="skill-modal-template" class="fixed inset-0 bg-opacity-20 backdrop-blur-md z-[500] p-4 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 ease-in-out">
+                <div class="bg-secundary-800 rounded-[30px] p-8 max-w-lg max-h-[80vh] w-full relative flex flex-col items-center gap-y-4 transform scale-95 opacity-0 transition-all duration-300 ease-in-out">
                     <button id="close-skill-modal-btn" aria-label="Cerrar modal" class="absolute top-4 right-4 p-1 flex items-center justify-center rounded-full cursor-pointer">
                         <ion-icon name="close-outline" class="text-neutral-500 text-[28px]"></ion-icon>
                     </button>
@@ -699,22 +654,22 @@
                         CONTACTAME
                     </h2>
                     <div class="relative lg:w-[80%] xl:w-[70%] 2xl:w-[60%]">
-                        <p class="text-neutral-500 text-center text-[3.8vw] sm:text-[5vh] md:text-[2.2vw] lg:text-start lg:text-[2vh] 2xl:text-[1.6vh]">
-                            Soy un Desarrollador Frontend con foco principal en el desarrollo móvil de alto rendimiento usando Flutter y Dart. Mi stack web es sólido: domino HTML, CSS, Tailwind CSS, JavaScript y TypeScript. Complemento mi flujo con Python para scripting ligero. Garantizo la calidad del código mediante Git y traduzco diseños de Figma a la perfección.
+                        <p class="text-neutral-500 text-center text-[3.8vw] sm:text-[5vh] md:text-[2.2vw] lg:text-center lg:text-[2vh] xl:text-start 2xl:text-[1.6vh]">
+                            Si tienes una idea para una aplicación móvil, contáctanos. Analizaremos tu concepto y lo desarrollaremos. Puedes empezar llenando el formulario, enviando un correo, o por WhatsApp.
                         </p>
                     </div>
                 </div>
                 <div class="flex flex-col gap-y-[15px] md:gap-y-[20px] lg:flex-row lg:gap-x-[25px] lg:order-3 xl:order-2 xl:flex-col xl:items-start xl:w-full">
                     <div class="flex items-center gap-x-[15px] lg:gap-x-[15px] xl:gap-x-[10px]">
                         <div class="w-[13.2vw] h-[13.2vw] bg-secundary-600 rounded-full flex justify-center items-center sm:w-[8vw] sm:h-[8vw] lg:w-[6.5vh] lg:h-[6.5vh] xl:w-[7vh] xl:h-[7vh] 2xl:w-[6vh] 2xl:h-[6vh]">
-                            <img src="assets/imgs/gmail.svg" alt="" class="size-[7vw] text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
+                            <img src="src/assets/imgs/gmail.svg" alt="" class="size-[7vw] text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
                         </div>
-                        <p class="text-neutral-500 text-center text-[3.8vw] sm:text-[5vh] md:text-[2.5vw] lg:text-[2vh] 2xl:text-[1.6vh]">mgianfranco61@gmail.com</p>
+                        <p class="text-neutral-500 text-center text-[3.8vw] sm:text-[5vh] md:text-[2.5vw] lg:text-[2vh] 2xl:text-[1.6vh]">mgianfrancowork@gmail.com</p>
                     </div>
 
                     <div class="flex items-center gap-x-[15px] lg:gap-x-[15px] xl:gap-x-[10px]">
                         <div class="w-[13.2vw] h-[13.2vw] bg-secundary-600 rounded-full flex justify-center items-center sm:w-[8vw] sm:h-[8vw] lg:w-[6.5vh] lg:h-[6.5vh] xl:w-[7vh] xl:h-[7vh] 2xl:w-[6vh] 2xl:h-[6vh]">
-                            <img src="assets/imgs/whatsapp.svg" alt="" class="size-[7vw] text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
+                            <img src="src/assets/imgs/whatsapp.svg" alt="" class="size-[7vw] text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
                         </div>
                         <p class="text-neutral-500 text-center text-[3.8vw] sm:text-[5vh] md:text-[2.5vw] lg:text-[2vh] 2xl:text-[1.6vh]">tlf: 04241378464</p>
                     </div>
@@ -722,23 +677,20 @@
                 <div class="w-fit flex flex-col px-7 sm:px-[10%] gap-y-[15px] lg:order-2 xl:order-3 xl:w-full xl:items-start xl:px-0 xl:justify-start">
                     <p class="text-neutral-500 text-start text-[4vw] sm:text-[5vh] md:text-[2.5vw] lg:text-[2.2vh] 2xl:text-[1.6vh]">SIGUEME</p>
                     <div class="flex justify-around items-center sm:justify-center gap-x-[10px]">
-                        <a href="#" class="w-[13.2vw] h-[13.2vw] bg-secundary-600 rounded-full flex justify-center items-center sm:w-[8vw] sm:h-[8vw] lg:w-[6.5vh] lg:h-[6.5vh] xl:w-[7vh] xl:h-[7vh] 2xl:w-[6vh] 2xl:h-[6vh] hover:bg-secundary-700 hover:transition-all hover:scale-[1.07] duration-300">
-                            <img src="assets/imgs/linkedin.svg" alt="" class="size-[7vw] text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
+                        <a href="https://www.linkedin.com/in/gianfranco-mu%C3%B1oz-744b0b384/" class="w-[13.2vw] h-[13.2vw] bg-secundary-600 rounded-full flex justify-center items-center sm:w-[8vw] sm:h-[8vw] lg:w-[6.5vh] lg:h-[6.5vh] xl:w-[7vh] xl:h-[7vh] 2xl:w-[6vh] 2xl:h-[6vh] hover:bg-secundary-700 hover:transition-all hover:scale-[1.07] duration-300">
+                            <img src="src/assets/imgs/linkedin.svg" alt="" class="size-[7vw] text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
                         </a>
-                        <a href="#" class="w-[13vw] h-[13vw] bg-secundary-600 rounded-full flex justify-center items-center sm:w-[8vw] sm:h-[8vw] lg:w-[6.5vh] lg:h-[6.5vh] xl:w-[7vh] xl:h-[7vh] 2xl:w-[6vh] 2xl:h-[6vh] hover:bg-secundary-700 hover:transition-all hover:scale-[1.07] duration-300">
-                            <img src="assets/imgs/whatsapp.svg" alt="" class="size-[6.8vw] text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
+                        <a href="https://wa.link/1jwwo2" class="w-[13vw] h-[13vw] bg-secundary-600 rounded-full flex justify-center items-center sm:w-[8vw] sm:h-[8vw] lg:w-[6.5vh] lg:h-[6.5vh] xl:w-[7vh] xl:h-[7vh] 2xl:w-[6vh] 2xl:h-[6vh] hover:bg-secundary-700 hover:transition-all hover:scale-[1.07] duration-300">
+                            <img src="src/assets/imgs/whatsapp.svg" alt="" class="size-[6.8vw] text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
                         </a>
-                        <a href="#" class="w-[13vw] h-[13vw] bg-secundary-600 rounded-full flex justify-center items-center sm:w-[8vw] sm:h-[8vw] lg:w-[6.5vh] lg:h-[6.5vh] xl:w-[7vh] xl:h-[7vh] 2xl:w-[6vh] 2xl:h-[6vh] hover:bg-secundary-700 hover:transition-all hover:scale-[1.07] duration-300">
-                            <img src="assets/imgs/github.svg" alt="" class="size-[6.8vw] text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
+                        <a href="https://github.com/Gian124a" class="w-[13vw] h-[13vw] bg-secundary-600 rounded-full flex justify-center items-center sm:w-[8vw] sm:h-[8vw] lg:w-[6.5vh] lg:h-[6.5vh] xl:w-[7vh] xl:h-[7vh] 2xl:w-[6vh] 2xl:h-[6vh] hover:bg-secundary-700 hover:transition-all hover:scale-[1.07] duration-300">
+                            <img src="src/assets/imgs/github.svg" alt="" class="size-[6.8vw] text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
                         </a>
-                        <a href="#" class="w-[13vw] h-[13vw] bg-secundary-600 rounded-full flex justify-center items-center sm:w-[8vw] sm:h-[8vw] lg:w-[6.5vh] lg:h-[6.5vh] xl:w-[7vh] xl:h-[7vh] 2xl:w-[6vh] 2xl:h-[6vh] hover:bg-secundary-700 hover:transition-all hover:scale-[1.07] duration-300">
-                            <img src="assets/imgs/figma.svg" alt="" class="size-[6.8vw] text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
+                        <a href="https://www.figma.com/@gian124a" class="w-[13vw] h-[13vw] bg-secundary-600 rounded-full flex justify-center items-center sm:w-[8vw] sm:h-[8vw] lg:w-[6.5vh] lg:h-[6.5vh] xl:w-[7vh] xl:h-[7vh] 2xl:w-[6vh] 2xl:h-[6vh] hover:bg-secundary-700 hover:transition-all hover:scale-[1.07] duration-300">
+                            <img src="src/assets/imgs/figma.svg" alt="" class="size-[6.8vw] text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
                         </a>
-                        <a href="#" class="w-[13vw] h-[13vw] bg-secundary-600 rounded-full flex justify-center items-center sm:w-[8vw] sm:h-[8vw] lg:w-[6.5vh] lg:h-[6.5vh] xl:w-[7vh] xl:h-[7vh] 2xl:w-[6vh] 2xl:h-[6vh] hover:bg-secundary-700 hover:transition-all hover:scale-[1.07] duration-300">
-                            <img src="assets/imgs/facebook.svg" alt="" class="size-[6.8vw] text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
-                        </a>
-                        <a href="#" class="w-[13vw] h-[13vw] bg-secundary-600 rounded-full flex justify-center items-center sm:w-[8vw] sm:h-[8vw] lg:w-[6.5vh] lg:h-[6.5vh] xl:w-[7vh] xl:h-[7vh] 2xl:w-[6vh] 2xl:h-[6vh] hover:bg-secundary-700 hover:transition-all hover:scale-[1.07] duration-300">
-                            <img src="assets/imgs/gmail.svg" alt="" class="size-[6.8vw] text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
+                        <a href="mailto:mgianfrancowork@gmail.com" class="w-[13vw] h-[13vw] bg-secundary-600 rounded-full flex justify-center items-center sm:w-[8vw] sm:h-[8vw] lg:w-[6.5vh] lg:h-[6.5vh] xl:w-[7vh] xl:h-[7vh] 2xl:w-[6vh] 2xl:h-[6vh] hover:bg-secundary-700 hover:transition-all hover:scale-[1.07] duration-300">
+                            <img src="src/assets/imgs/gmail.svg" alt="" class="size-[6.8vw] text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
                         </a>
                     </div>
                 </div>
@@ -748,35 +700,81 @@
                 <div class="flex absolute w-[90%] h-[90%] sm:w-full sm:h-full z-[-1] top-0 left-0 right-0 bottom-0 m-auto sm:rounded-[10px] [background-image:radial-gradient(ellipse_at_center,_#4124AA_0%,_#2A1672_36%,_#21115B_63%,_#1B0E4A_85%,_#05030D_100%)] blur-3xl opacity-50">
                 </div>
 
-                <form action="" class="bg-secundary-800 p-[32px] flex flex-col gap-y-[20px] rounded-[30px] sm:flex-row sm:flex-wrap sm:justify-between sm:gap-y-[30px] sm:p-[50px] xl:p-[35px] xl:gap-y-[20px] 2xl:p-[50px] 2xl:gap-y-[35px]">
+                <form id="contact-form" action="https://formspree.io/f/xrbywavq" method="POST" class="bg-secundary-800 p-[32px] flex flex-col gap-y-[15px] rounded-[30px] sm:flex-row sm:flex-wrap sm:justify-between sm:gap-y-[20px] sm:p-[50px] xl:p-[35px] xl:gap-y-[15px] 2xl:p-[50px] 2xl:gap-y-[25px]" novalidate>
                     <div class="flex flex-col gap-y-[8px] sm:w-[48%]">
                         <label for="" class="font-medium text-[16px] text-neutral-500 sm:text-[18px] xl:text-[14px]">Nombre completo</label>
-                        <input type="text" class="bg-secundary-600 h-[48px] pl-[15px] text-[14px] rounded-[10px] outline-0 text-neutral-500 placeholder:text-neutral-700 sm:h-[52px] sm:text-[16px] xl:text-[14px] xl:h-[42px]" placeholder="Gianfranco Muñoz">
+                        <input type="text" name="name" class="bg-secundary-600 h-[48px] pl-[15px] text-[14px] rounded-[10px] outline-0 text-neutral-500 placeholder:text-neutral-700 sm:h-[52px] sm:text-[16px] xl:text-[14px] xl:h-[42px]" placeholder="Gianfranco Muñoz">
+                        <div class="error-message text-red-500 text-xs"></div>
                     </div>
                     <div class="flex flex-col gap-y-[8px] sm:w-[48%]">
                         <label for="" class="font-medium text-[16px] text-neutral-500 sm:text-[18px] xl:text-[14px]">Correo Electronico</label>
-                        <input type="email" class="bg-secundary-600 h-[48px] pl-[15px] text-[14px] rounded-[10px] outline-0 text-neutral-500 placeholder:text-neutral-700 sm:h-[52px] sm:text-[16px] xl:text-[14px] xl:h-[42px]" placeholder="mgianfranco61@gmail.com">
+                        <input type="email" name="email" class="bg-secundary-600 h-[48px] pl-[15px] text-[14px] rounded-[10px] outline-0 text-neutral-500 placeholder:text-neutral-700 sm:h-[52px] sm:text-[16px] xl:text-[14px] xl:h-[42px]" placeholder="mgianfranco61@gmail.com">
+                        <div class="error-message text-red-500 text-xs"></div>
                     </div>
                     <div class="flex flex-col gap-y-[8px] sm:w-[48%]">
                         <label for="" class="font-medium text-[16px] text-neutral-500 sm:text-[18px] xl:text-[14px]">Telefono</label>
-                        <input type="text" class="bg-secundary-600 h-[48px] pl-[15px] text-[14px] rounded-[10px] outline-0 text-neutral-500 placeholder:text-neutral-700 sm:h-[52px] sm:text-[16px] xl:text-[14px] xl:h-[42px]" placeholder="04241378464">
+                        <input type="tel" inputmode="numeric" name="phone" class="bg-secundary-600 h-[48px] pl-[15px] text-[14px] rounded-[10px] outline-0 text-neutral-500 placeholder:text-neutral-700 sm:h-[52px] sm:text-[16px] xl:text-[14px] xl:h-[42px]" placeholder="04241378464">
+                        <div class="error-message text-red-500 text-xs"></div>
                     </div>
                     <div class="flex flex-col gap-y-[8px] sm:w-[48%]">
-                        <label for="" class="font-medium text-[16px] text-neutral-500 sm:text-[18px] xl:text-[14px]">Nombre completo</label>
-                        <input type="text" class="bg-secundary-600 h-[48px] pl-[15px] text-[14px] rounded-[10px] outline-0 text-neutral-500 placeholder:text-neutral-700 sm:h-[52px] sm:text-[16px] xl:text-[14px] xl:h-[42px]" placeholder="Nuevo proyecto">
+                        <label for="" class="font-medium text-[16px] text-neutral-500 sm:text-[18px] xl:text-[14px]">Asunto</label>
+                        <input type="text" name="asunto" class="bg-secundary-600 h-[48px] pl-[15px] text-[14px] rounded-[10px] outline-0 text-neutral-500 placeholder:text-neutral-700 sm:h-[52px] sm:text-[16px] xl:text-[14px] xl:h-[42px]" placeholder="Nuevo proyecto">
+                        <div class="error-message text-red-500 text-xs"></div>
                     </div>
                     <div class="flex flex-col gap-y-[8px] sm:w-full">
                         <label for="" class="font-medium text-[16px] text-neutral-500 md:text-[18px] xl:text-[14px]">Mensaje</label>
-                        <textarea name="" class="bg-secundary-600 h-[250px] p-[15px] text-[14px] rounded-[10px] outline-0 text-neutral-500 placeholder:text-neutral-700 resize-none sm:text-[16px] xl:text-[14px] xl:h-[200px] 2xl:h-[230px]" placeholder="Escribe un mensaje de lo que desees..."></textarea>
+                        <textarea name="message" class="bg-secundary-600 h-[250px] p-[15px] text-[14px] rounded-[10px] outline-0 text-neutral-500 placeholder:text-neutral-700 resize-none sm:text-[16px] xl:text-[14px] xl:h-[200px] 2xl:h-[230px]" placeholder="Escribe un mensaje de lo que desees..."></textarea>
+                        <div class="error-message text-red-500 text-xs"></div>
                     </div>
-                    <button class="w-full h-[48px] text-neutral-500 bg-primary-500 rounded-[10px] text-[14px] sm:text-[16px] sm:h-[52px] lg:w-fit lg:px-[25px] xl:h-[42px] xl:text-[14px]">Enviar mensaje</button>
+                    <div class="sm:w-full flex flex-col items-start gap-y-2">
+                        <button type="submit" class="w-full h-[48px] text-neutral-500 bg-primary-500 rounded-[10px] text-[14px] cursor-pointer sm:text-[16px] sm:h-[52px] lg:w-fit lg:px-[25px] xl:h-[42px] xl:text-[14px] hover:bg-primary-600 transition-colors duration-300 disabled:bg-primary-800 disabled:cursor-not-allowed">Enviar mensaje</button>
+                    </div>
                 </form>
             </article>
         </section>
-
     </main>
+    <footer class="mt-25 bg-secundary-800 text-neutral-500 py-12 px-4 sm:px-8 lg:px-12 lg:mt-10">
+        <div class="max-w-6xl mx-auto flex flex-col items-center gap-y-8">
+            <!-- Logo -->
+            <h1 class="font-extrabold text-[28px] bg-gradient-to-t from-primary-800 to-primary-500 bg-clip-text text-transparent sm:text-[36px]">PORTFOLIO</h1>
+            
+            <!-- Enlaces de Navegación -->
+            <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-neutral-400">
+                <a href="#inicio" class="hover:text-primary-500 transition-colors">Inicio</a>
+                <a href="#sobre-mi" class="hover:text-primary-500 transition-colors">Sobre mi</a>
+                <a href="#experiencias" class="hover:text-primary-500 transition-colors">Experiencias</a>
+                <a href="#proyectos" class="hover:text-primary-500 transition-colors">Proyectos</a>
+                <a href="#habilidades" class="hover:text-primary-500 transition-colors">Habilidades</a>
+                <a href="#contacto" class="hover:text-primary-500 transition-colors">Contacto</a>
+            </div>
+            
+            <!-- Iconos de Redes Sociales -->
+            <div class="flex justify-center items-center gap-x-4">
+                <a href="https://www.linkedin.com/in/gianfranco-mu%C3%B1oz-744b0b384/" class="w-10 h-10 bg-secundary-600 rounded-full flex justify-center items-center hover:bg-secundary-700 hover:scale-105 transition-transform">
+                    <img src="src/assets/imgs/linkedin.svg" alt="LinkedIn" class="w-5 h-5">
+                </a>
+                <a href="https://wa.link/1jwwo2" class="w-10 h-10 bg-secundary-600 rounded-full flex justify-center items-center hover:bg-secundary-700 hover:scale-105 transition-transform">
+                    <img src="src/assets/imgs/whatsapp.svg" alt="GitHub" class="w-5 h-5">
+                </a>
+                <a href="https://github.com/Gian124a" class="w-10 h-10 bg-secundary-600 rounded-full flex justify-center items-center hover:bg-secundary-700 hover:scale-105 transition-transform">
+                    <img src="src/assets/imgs/github.svg" alt="" class="w-5 h-5">
+                </a>
+                <a href="https://www.figma.com/@gian124a" class="w-10 h-10 bg-secundary-600 rounded-full flex justify-center items-center hover:bg-secundary-700 hover:scale-105 transition-transform">
+                    <img src="src/assets/imgs/figma.svg" alt="figma" class="w-5 h-5">
+                </a>
+                <a href="mailto:mgianfrancowork@gmail.com" class="w-10 h-10 bg-secundary-600 rounded-full flex justify-center items-center hover:bg-secundary-700 hover:scale-105 transition-transform">
+                    <img src="src/assets/imgs/gmail.svg" alt="gmail" class="w-5 h-5">
+                </a>
+            </div>
+            
+            <!-- Copyright -->
+            <p class="text-xs text-neutral-600 mt-4">&copy; 2025 Gianfranco Muñoz. Todos los derechos reservados.</p>
+        </div>
+    </footer>
 
-    <script src="scripts/script.js"></script>
+           
+
+    <script src="src/scripts/script.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>

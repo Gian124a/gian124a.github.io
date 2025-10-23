@@ -273,7 +273,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const observerOptions = {
             root: scrollContainer,
             rootMargin: '0px',
-            threshold: 0.8
+            threshold: 0.1 // Reducido para detectar la visibilidad de las tarjetas de forma más fiable
         };
 
         const observer = new IntersectionObserver((entries) => {
@@ -335,21 +335,165 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (modalIcon) modalIcon.src = iconSrc || '';
                 if (modalTitle) modalTitle.textContent = titleText || 'Sin título';
                 if (modalDescription) modalDescription.textContent = descriptionText || 'Sin descripción.';
-
+                
                 // 4. Mostrar el modal
-                modal.classList.remove('hidden');
-                modal.classList.add('flex'); // Usamos flex para centrar el contenido
+                // Para la transición, manipulamos opacidad y pointer-events
+                modal.classList.remove('opacity-0', 'pointer-events-none');
+                modal.classList.add('opacity-100', 'pointer-events-auto');
+                // También para la card interna, para un efecto de "zoom"
+                modal.querySelector('div:first-child').classList.remove('scale-95', 'opacity-0');
+                modal.querySelector('div:first-child').classList.add('scale-100', 'opacity-100');
             });
         });
 
         // Evento para cerrar el modal
         closeButton.addEventListener('click', () => {
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
+            // Para la transición, manipulamos opacidad y pointer-events
+            modal.classList.remove('opacity-100', 'pointer-events-auto');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.querySelector('div:first-child').classList.remove('scale-100', 'opacity-100');
+            modal.querySelector('div:first-child').classList.add('scale-95', 'opacity-0');
         });
     }
 
     setupSkillsModals();
+
+    // === LÓGICA DE VALIDACIÓN DEL FORMULARIO DE CONTACTO ===
+    function setupFormValidation() {
+        const form = document.getElementById('contact-form');
+        if (!form) {
+            console.warn("No se encontró el formulario de contacto con el ID 'contact-form'.");
+            return;
+        }
+
+        const fields = {
+            name: { required: true, message: 'El nombre completo es obligatorio.' },
+            email: { required: true, isEmail: true, message: 'Por favor, introduce un correo electrónico válido.' },
+            phone: { required: true, isPhone: true, message: 'El teléfono es obligatorio.', invalidMessage: 'Por favor, introduce un número de teléfono válido.' },
+            asunto: { required: true, message: 'El asunto es obligatorio.' },
+            message: { required: true, message: 'El mensaje no puede estar vacío.' }
+        };
+
+        const validateEmail = (email) => {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(String(email).toLowerCase());
+        };
+
+        const validatePhone = (phone) => {
+            const re = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im;
+            return re.test(String(phone));
+        };
+
+        const validateField = (input) => {
+            const fieldName = input.name;
+            const config = fields[fieldName];
+            let isValid = true;
+
+            if (config.required && !input.value.trim()) {
+                showError(input, config.message);
+                isValid = false;
+            } else if (config.isEmail && !validateEmail(input.value.trim())) {
+                showError(input, config.message);
+                isValid = false;
+            } else if (config.isPhone && input.value.trim() && !validatePhone(input.value.trim())) {
+                showError(input, config.invalidMessage);
+                isValid = false;
+            } else {
+                clearError(input);
+            }
+            return isValid;
+        };
+
+        const showError = (input, message) => {
+            const formField = input.parentElement;
+            const errorContainer = formField.querySelector('.error-message');
+            errorContainer.textContent = message;
+            input.classList.add('input-error');
+        };
+
+        const clearError = (input) => {
+            const formField = input.parentElement;
+            const errorContainer = formField.querySelector('.error-message');
+            errorContainer.textContent = '';
+            input.classList.remove('input-error');
+        };
+
+        let toastTimeout;
+        const showToast = (message, type = 'success') => {
+            const toast = document.getElementById('toast-notification');
+            if (!toast) return;
+
+            clearTimeout(toastTimeout);
+
+            // Reiniciar estado de color
+            toast.classList.remove('success', 'error');
+
+            toast.textContent = message;
+            toast.classList.add(type); // 'success' or 'error'
+            
+            // Mostrar el toast con una transición suave
+            toast.classList.remove('opacity-0', 'pointer-events-none');
+            toast.classList.add('opacity-100', 'pointer-events-auto');
+
+            toastTimeout = setTimeout(() => {
+                toast.classList.replace('opacity-100', 'opacity-0');
+                toast.classList.add('pointer-events-none');
+            }, 5000); // Ocultar después de 5 segundos
+        };
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Prevenir siempre el envío por defecto para manejarlo con JS
+
+            let isValid = true;
+            for (const fieldName in fields) {
+                if (!validateField(form.elements[fieldName])) {
+                    isValid = false;
+                }
+            }
+
+            const submitButton = form.querySelector('button[type="submit"]');
+
+            if (isValid) {
+                // El formulario es válido, enviar con Fetch
+                const originalButtonText = submitButton.textContent;
+                submitButton.disabled = true;
+                submitButton.textContent = 'Enviando...';
+
+                try {
+                    const response = await fetch(form.action, {
+                        method: form.method,
+                        body: new FormData(form),
+                        headers: { 'Accept': 'application/json' }
+                    });
+
+                    if (response.ok) {
+                        showToast('¡Gracias! Tu mensaje ha sido enviado.', 'success');
+                        form.reset(); // Limpiar el formulario
+                    } else {
+                        throw new Error('Hubo un problema con el envío.');
+                    }
+                } catch (error) {
+                    showToast('Error al enviar. Inténtalo de nuevo.', 'error');
+                } finally {
+                    submitButton.disabled = false;
+                    submitButton.textContent = originalButtonText;
+                }
+            } else {
+                // Opcional: Enfocar el primer campo con error
+                const firstErrorField = form.querySelector('.input-error');
+                if (firstErrorField) firstErrorField.focus();
+            }
+        });
+
+        // Validar en tiempo real mientras el usuario escribe o sale del campo
+        for (const fieldName in fields) {
+            const input = form.elements[fieldName];
+            input.addEventListener('input', () => validateField(input));
+            input.addEventListener('blur', () => validateField(input));
+        }
+    }
+
+    setupFormValidation();
 });
 
 // Inicializa la función

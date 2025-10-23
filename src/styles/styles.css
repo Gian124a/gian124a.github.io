@@ -63,16 +63,47 @@
       scrollbar-width: none; /* Firefox */
   }
 
+/* Asegurar que los contenedores de carrusel acepten gestos táctiles y estén por encima de decoraciones */
+#projects-scroll-container,
+#skills-scroll-container,
+#scroll-container {
+  -webkit-overflow-scrolling: touch; /* suaviza el scroll en iOS */
+  touch-action: pan-x; /* permite pan horizontal */
+  pointer-events: auto; /* asegurar que acepten interacciones */
+  z-index: 40; /* por encima de decoraciones que usan z-index bajo */
+}
+
+/* Asegurar que las tarjetas no bloqueen el gesto por tener hijos con pointer-events */
+.project-card,
+.skill-card {
+  pointer-events: auto;
+}
+
+/* Clase auxiliar aplicada al hero image container para desactivarle eventos (fallback) */
+.hero-image-pointer-events-none { pointer-events: none; }
+
   /* En pantallas 'sm' o mayores, desactiva el snap en las tarjetas pares para que el scroll avance de dos en dos */
   @media (min-width: 640px) {
-    .project-card:nth-child(even),
-    .skill-card:nth-child(even) {
-      scroll-snap-align: none;
-    }
-    /* Asegura que el último elemento siempre sea un punto de anclaje,
-       incluso si es par, para manejar correctamente los totales impares. */
-    .project-card:last-child,
-    .skill-card:last-child {
-        scroll-snap-align: start;
-    }
+    /* Se eliminó la regla para project-card:last-child y skill-card:last-child para permitir snap-center */
   }
+
+/* === ESTILOS DE VALIDACIÓN DE FORMULARIO === */
+.input-error {
+  border: 1px solid #ef4444; /* Rojo de Tailwind (red-500) */
+}
+
+.error-message {
+  min-height: 1rem; /* Evita que el layout se mueva cuando aparece el mensaje */
+  transition: opacity 0.2s ease-in-out;
+}
+
+/* === ESTILOS DE NOTIFICACIÓN TOAST === */
+#toast-notification.success {
+  background-color: #22c55e; /* green-500 */
+}
+
+#toast-notification.error {
+  background-color: #ef4444; /* red-500 */
+}
+
+/* La clase 'hidden' de Tailwind ya hace esto, pero lo dejamos por si acaso */
