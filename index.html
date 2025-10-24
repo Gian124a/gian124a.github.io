@@ -2,13 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <base href="/portafolio/">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="src/output.css" rel="stylesheet"> <!-- Esta ruta ahora es relativa a la base -->
+  <link href="src/output.css" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="src/styles/styles.css"> <!-- Esta ruta ahora es relativa a la base -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
   <title>Portfolio</title> 
 </head>
 <body class="relative bg-secundary-900 font-[poppins] min-h-screen overflow-x-hidden">
@@ -26,12 +27,12 @@
         </h1>
 
         <button onclick="">
-            <ion-icon id="button-menu" class="text-neutral-500 size-7 sm:size-7 md:size-10 lg:hidden" name="menu-outline"></ion-icon>
+            <i id="button-menu" class="fa-solid fa-bars material-symbols-outlined text-neutral-500 text-[20px]"></i>
         </button>
 
         <a href="#contacto" class="hidden px-4 py-[9px] bg-primary-500 rounded-[100px] text-[14px] font-medium items-center text-neutral-500 duration-300 hover:transition-colors hover:bg-primary-700 hover:duration-300 lg:flex">
-            <ion-icon name="call-outline" class="mr-2 size-5"></ion-icon>
             Contacto
+            <i class="fa-regular fa-address-card ml-2 text-neutral-500"></i>
         </a>
     </header>
 
@@ -74,7 +75,7 @@
                     <div class="mt-10 flex justify-center items-center lg:justify-start lg:mt-0">
                         <a href="#sobre-mi" class="flex px-[18px] py-[12px] bg-primary-500 rounded-[100px] text-[14px] font-medium items-center text-neutral-500 duration-300 hover:bg-primary-600 transition-all hover:scale-[1.03] sm:text-[16px] sm:px-[22px] md:text-[16px] md:py-[13px] lg:text-[14px] lg:py-[10px] lg:px-[14px] xl:text-[12px] 2xl:text-[14px] 2xl:py-[12px]">
                             Conóceme más
-                            <ion-icon name="arrow-forward-outline" class="ml-2 text-[20px] sm:text-[20px] md:text-[24px] lg:text-[20px] xl:text-[16px] 2xl:text-[18px]"></ion-icon>
+                            <i class="fa-solid fa-chevron-right ml-2 text-[18px] sm:text-[18px] md:text-[24px] lg:text-[20px] xl:text-[16px] 2xl:text-[18px]"></i>
                         </a>
                     </div>
                 </div>
@@ -180,7 +181,7 @@
                     <div class="flex justify-center items-center lg:justify-start lg:mt-0">
                         <a href="src/assets/imgs/CV-Gianfranco-Munoz.pdf" class="flex px-[18px] py-[12px] bg-primary-500 rounded-[100px] text-[14px] font-medium items-center text-neutral-500 duration-300 hover:bg-primary-600 transition-all hover:scale-[1.03] sm:text-[16px] sm:px-[22px] md:text-[16px] md:py-[13px] lg:text-[14px] lg:py-[10px] lg:px-[14px] xl:text-[12px] 2xl:text-[14px] 2xl:py-[12px]">
                             Visualizar CV
-                            <ion-icon name="cloud-download-outline" class="ml-2 text-[20px] sm:text-[20px] md:text-[24px] lg:text-[20px] xl:text-[16px] 2xl:text-[18px]"></ion-icon>
+                            <i class="fa-regular fa-eye ml-2 text-[18px] sm:text-[18px] md:text-[24px] lg:text-[20px] xl:text-[16px] 2xl:text-[18px]"></i>
                         </a>
                     </div>
             </article>
@@ -205,31 +206,31 @@
 
                     <div class="relative flex-1 flex flex-col items-center gap-y-[16px] w-[94%] max-w-[340px] sm:max-w-[420px] md:max-w-[490px] md:gap-y-[32px] lg:max-w-[53vh] lg:gap-y-[1.8vh] xl:max-w-[50vh] xl:gap-y-[2vh] 2xl:max-w-[44vh]">
 
-                        <a href="#" class="relative w-full bg-secundary-700 rounded-[20px] py-[12px] pl-[16px] flex flex-col items-start gap-y-[4px] sm:gap-y-[8px] md:gap-y-[6px] md:py-[23px] md:pl-[22px] lg:py-[1.5vh] lg:gap-y-[0.35vh] xl:py-[2vh] xl:gap-y-[0.4vh] 2xl:py-[1.4vh]">
+                        <div class="relative w-full bg-secundary-700 rounded-[20px] py-[12px] pl-[16px] flex flex-col items-start gap-y-[4px] sm:gap-y-[8px] md:gap-y-[6px] md:py-[23px] md:pl-[22px] lg:py-[1.5vh] lg:gap-y-[0.35vh] xl:py-[2vh] xl:gap-y-[0.4vh] 2xl:py-[1.4vh]">
                             <p class="text-primary-500 text-[12px] font-semibold sm:text-[14px] md:text-[16px] lg:text-[1.8vh]">2022 - 2025</p>
                             <p class="text-[16px] font-bold text-neutral-500 sm:text-[18px] md:text-[20px] lg:text-[2.5vh] 2xl:text-[2vh]">Técnico Superior en informática</p>
                             <p class="text-[12px] text-neutral-800 font-semibold sm:text-[14px] md:text-[16px] lg:text-[1.8vh]">Instituto Universitario Jesús Obrero</p>
-                        </a>
-                        <a href="#" class="relative w-full bg-secundary-700 rounded-[20px] py-[12px] pl-[16px] flex flex-col items-start gap-y-[4px] sm:gap-y-[8px] md:gap-y-[6px] md:py-[23px] md:pl-[22px] lg:py-[1.5vh] lg:gap-y-[0.35vh] xl:py-[2vh] xl:gap-y-[0.4vh] 2xl:py-[1.4vh]">
+                        </div>
+                        <div class="relative w-full bg-secundary-700 rounded-[20px] py-[12px] pl-[16px] flex flex-col items-start gap-y-[4px] sm:gap-y-[8px] md:gap-y-[6px] md:py-[23px] md:pl-[22px] lg:py-[1.5vh] lg:gap-y-[0.35vh] xl:py-[2vh] xl:gap-y-[0.4vh] 2xl:py-[1.4vh]">
                             <p class="text-primary-500 text-[12px] font-semibold sm:text-[14px] md:text-[16px] lg:text-[1.8vh] xl:text-[1.8vh]">2023</p>
                             <p class="text-[16px] font-bold text-neutral-500 sm:text-[18px] md:text-[20px] lg:text-[2.5vh] 2xl:text-[2vh]">Curso de excel experto con macros</p>
                             <p class="text-[12px] text-neutral-800 font-semibold sm:text-[14px] md:text-[16px] lg:text-[1.8vh]">Udemy</p>
-                        </a>
-                        <a href="#" class="relative w-full bg-secundary-700 rounded-[20px] py-[12px] pl-[16px] flex flex-col items-start gap-y-[4px] sm:gap-y-[8px] md:gap-y-[6px] md:py-[23px] md:pl-[22px] lg:py-[1.5vh] lg:gap-y-[0.35vh] xl:py-[2vh] xl:gap-y-[0.4vh] 2xl:py-[1.4vh]">
+                        </div>
+                        <div class="relative w-full bg-secundary-700 rounded-[20px] py-[12px] pl-[16px] flex flex-col items-start gap-y-[4px] sm:gap-y-[8px] md:gap-y-[6px] md:py-[23px] md:pl-[22px] lg:py-[1.5vh] lg:gap-y-[0.35vh] xl:py-[2vh] xl:gap-y-[0.4vh] 2xl:py-[1.4vh]">
                             <p class="text-primary-500 text-[12px] font-semibold sm:text-[14px] md:text-[16px] lg:text-[1.8vh]">2024</p>
                             <p class="text-[16px] font-bold text-neutral-500 sm:text-[18px] md:text-[20px] lg:text-[2.5vh] 2xl:text-[2vh]">Curso de JavaScript Avanzado</p>
                             <p class="text-[12px] text-neutral-800 font-semibold sm:text-[14px] md:text-[16px] lg:text-[1.8vh]">Udemy</p>
-                        </a>
-                        <a href="#" class="relative w-full bg-secundary-700 rounded-[20px] py-[12px] pl-[16px] flex flex-col items-start gap-y-[4px] sm:gap-y-[8px] md:gap-y-[6px] md:py-[23px] md:pl-[22px] lg:py-[1.5vh] lg:gap-y-[0.35vh] xl:py-[2vh] xl:gap-y-[0.4vh] 2xl:py-[1.4vh]">
+                        </div>
+                        <div class="relative w-full bg-secundary-700 rounded-[20px] py-[12px] pl-[16px] flex flex-col items-start gap-y-[4px] sm:gap-y-[8px] md:gap-y-[6px] md:py-[23px] md:pl-[22px] lg:py-[1.5vh] lg:gap-y-[0.35vh] xl:py-[2vh] xl:gap-y-[0.4vh] 2xl:py-[1.4vh]">
                             <p class="text-primary-500 text-[12px] font-semibold sm:text-[14px] md:text-[16px] lg:text-[1.8vh]">2024</p>
                             <p class="text-[16px] font-bold text-neutral-500 sm:text-[18px] md:text-[20px] lg:text-[2.5vh] 2xl:text-[2vh]">Curso de Dart - Flutter avanzado</p>
                             <p class="text-[12px] text-neutral-800 font-semibold sm:text-[14px] md:text-[16px] lg:text-[1.8vh]">Udemy</p>
-                        </a>
-                        <a href="#" class="relative w-full bg-secundary-700 rounded-[20px] py-[12px] pl-[16px] flex flex-col items-start gap-y-[4px] sm:gap-y-[8px] md:gap-y-[6px] md:py-[23px] md:pl-[22px] lg:py-[1.5vh] lg:gap-y-[0.35vh] xl:py-[2vh] xl:gap-y-[0.4vh] 2xl:py-[1.4vh]">
+                        </div>
+                        <div class="relative w-full bg-secundary-700 rounded-[20px] py-[12px] pl-[16px] flex flex-col items-start gap-y-[4px] sm:gap-y-[8px] md:gap-y-[6px] md:py-[23px] md:pl-[22px] lg:py-[1.5vh] lg:gap-y-[0.35vh] xl:py-[2vh] xl:gap-y-[0.4vh] 2xl:py-[1.4vh]">
                             <p class="text-primary-500 text-[12px] font-semibold sm:text-[14px] md:text-[16px] lg:text-[1.8vh]">2025</p>
                             <p class="text-[16px] font-bold text-neutral-500 sm:text-[18px] md:text-[20px] lg:text-[2.5vh] 2xl:text-[2vh]">Curso de Flutter experto</p>
                             <p class="text-[12px] text-neutral-800 font-semibold sm:text-[14px] md:text-[16px] lg:text-[1.8vh]">Devtalles</p>
-                        </a>
+                        </div>
                     </div>
                 </div>
 
@@ -243,31 +244,31 @@
                     </h2>
 
                     <div class="relative flex-1 flex flex-col items-center gap-y-[16px] w-[94%] max-w-[340px] sm:max-w-[420px] md:max-w-[490px] md:gap-y-[32px] lg:max-w-[53vh] lg:gap-y-[1.8vh] xl:max-w-[50vh] xl:gap-y-[2vh] 2xl:max-w-[44vh]">
-                        <a href="#" class="relative w-full bg-secundary-700 rounded-[20px] py-[12px] pl-[16px] flex flex-col items-start gap-y-[4px] sm:gap-y-[8px] md:gap-y-[6px] md:py-[23px] md:pl-[22px] lg:py-[1.5vh] lg:gap-y-[0.35vh] xl:py-[2vh] xl:gap-y-[0.4vh] 2xl:py-[1.4vh]">
+                        <div class="relative w-full bg-secundary-700 rounded-[20px] py-[12px] pl-[16px] flex flex-col items-start gap-y-[4px] sm:gap-y-[8px] md:gap-y-[6px] md:py-[23px] md:pl-[22px] lg:py-[1.5vh] lg:gap-y-[0.35vh] xl:py-[2vh] xl:gap-y-[0.4vh] 2xl:py-[1.4vh]">
                             <p class="text-primary-500 text-[12px] font-semibold sm:text-[14px] md:text-[16px] lg:text-[1.8vh]">2024</p>
                             <p class="text-[16px] font-bold text-neutral-500 sm:text-[18px] md:text-[20px] lg:text-[2.5vh] 2xl:text-[2.0vh]">Sistema de reversa de salas</p>
                             <p class="text-[12px] text-neutral-800 font-semibold sm:text-[14px] md:text-[16px] lg:text-[1.8vh]">Pasantias en Natulac C.A</p>
-                        </a>
-                        <a href="#" class="relative w-full bg-secundary-700 rounded-[20px] py-[12px] pl-[16px] flex flex-col items-start gap-y-[4px] sm:gap-y-[8px] md:gap-y-[6px] md:py-[23px] md:pl-[22px] lg:py-[1.5vh] lg:gap-y-[0.35vh] xl:py-[2vh] xl:gap-y-[0.4vh] 2xl:py-[1.4vh]">
+                        </div>
+                        <div class="relative w-full bg-secundary-700 rounded-[20px] py-[12px] pl-[16px] flex flex-col items-start gap-y-[4px] sm:gap-y-[8px] md:gap-y-[6px] md:py-[23px] md:pl-[22px] lg:py-[1.5vh] lg:gap-y-[0.35vh] xl:py-[2vh] xl:gap-y-[0.4vh] 2xl:py-[1.4vh]">
                             <p class="text-primary-500 text-[12px] font-semibold sm:text-[14px] md:text-[16px] lg:text-[1.8vh]">2025</p>
                             <p class="text-[16px] font-bold text-neutral-500 sm:text-[18px] md:text-[20px] lg:text-[2.5vh] 2xl:text-[2.0vh]">App de peliculas usando API</p>
                             <p class="text-[12px] text-neutral-800 font-semibold sm:text-[14px] md:text-[16px] lg:text-[1.8vh]">Proyecto propio</p>
-                        </a>
-                        <a href="#" class="relative w-full bg-secundary-700 rounded-[20px] py-[12px] pl-[16px] flex flex-col items-start gap-y-[4px] sm:gap-y-[8px] md:gap-y-[6px] md:py-[23px] md:pl-[22px] lg:py-[1.5vh] lg:gap-y-[0.35vh] xl:py-[2vh] xl:gap-y-[0.4vh] 2xl:py-[1.4vh]">
+                        </div>
+                        <div class="relative w-full bg-secundary-700 rounded-[20px] py-[12px] pl-[16px] flex flex-col items-start gap-y-[4px] sm:gap-y-[8px] md:gap-y-[6px] md:py-[23px] md:pl-[22px] lg:py-[1.5vh] lg:gap-y-[0.35vh] xl:py-[2vh] xl:gap-y-[0.4vh] 2xl:py-[1.4vh]">
                             <p class="text-primary-500 text-[12px] font-semibold sm:text-[14px] md:text-[16px] lg:text-[1.8vh]">2025</p>
                             <p class="text-[16px] font-bold text-neutral-500 sm:text-[18px] md:text-[20px] lg:text-[2.5vh] 2xl:text-[2.0vh]">App de chat de whatsapp</p>
                             <p class="text-[12px] text-neutral-800 font-semibold sm:text-[14px] md:text-[16px] lg:text-[1.8vh]">Proyecto propio</p>
-                        </a>
-                        <a href="#" class="relative w-full bg-secundary-700 rounded-[20px] py-[12px] pl-[16px] flex flex-col items-start gap-y-[4px] sm:gap-y-[8px] md:gap-y-[6px] md:py-[23px] md:pl-[22px] lg:py-[1.5vh] lg:gap-y-[0.35vh] xl:py-[2vh] xl:gap-y-[0.4vh] 2xl:py-[1.4vh]">
+                        </div>
+                        <div class="relative w-full bg-secundary-700 rounded-[20px] py-[12px] pl-[16px] flex flex-col items-start gap-y-[4px] sm:gap-y-[8px] md:gap-y-[6px] md:py-[23px] md:pl-[22px] lg:py-[1.5vh] lg:gap-y-[0.35vh] xl:py-[2vh] xl:gap-y-[0.4vh] 2xl:py-[1.4vh]">
                             <p class="text-primary-500 text-[12px] font-semibold sm:text-[14px] md:text-[16px] lg:text-[1.8vh]">2025</p>
                             <p class="text-[16px] font-bold text-neutral-500 sm:text-[18px] md:text-[20px] lg:text-[2.5vh] 2xl:text-[2.0vh]">Aplicacion del clima usando API</p>
                             <p class="text-[12px] text-neutral-800 font-semibold sm:text-[14px] md:text-[16px] lg:text-[1.8vh]">Proyecto propio</p>
-                        </a>
-                        <a href="#" class="relative w-full bg-secundary-700 rounded-[20px] py-[12px] pl-[16px] flex flex-col items-start gap-y-[4px] sm:gap-y-[8px] md:gap-y-[6px] md:py-[23px] md:pl-[22px] lg:py-[1.5vh] lg:gap-y-[0.35vh] xl:py-[2vh] xl:gap-y-[0.4vh] 2xl:py-[1.4vh]">
+                        </div>
+                        <div class="relative w-full bg-secundary-700 rounded-[20px] py-[12px] pl-[16px] flex flex-col items-start gap-y-[4px] sm:gap-y-[8px] md:gap-y-[6px] md:py-[23px] md:pl-[22px] lg:py-[1.5vh] lg:gap-y-[0.35vh] xl:py-[2vh] xl:gap-y-[0.4vh] 2xl:py-[1.4vh]">
                             <p class="text-primary-500 text-[12px] font-semibold sm:text-[14px] md:text-[16px] lg:text-[1.8vh]">2025</p>
                             <p class="text-[16px] font-bold text-neutral-500 sm:text-[18px] md:text-[20px] lg:text-[2.5vh] 2xl:text-[2.0vh]">App de salud mental</p>
                             <p class="text-[12px] text-neutral-800 font-semibold sm:text-[14px] md:text-[16px] lg:text-[1.8vh]">Proyecto propio</p>
-                        </a>
+                        </div>
                     </div>
                 </div>
             </article>
@@ -311,7 +312,7 @@
                                 <p class="project-description hidden">Cinemapedia es una aplicación móvil desarrollada con Flutter que funciona como una cartelera de cine completa, permitiendo a los usuarios consultar las películas en emisión, acceder a información detallada de cada título, y utilizar una potente funcionalidad de búsqueda para explorar la base de datos completa. La aplicación utiliza la API de The Movie Database (TMDB) como fuente de datos y sigue patrones de arquitectura limpia con Riverpod para una gestión de estado robusta. Además, los usuarios pueden añadir a favoritos las películas que más les interesen para un acceso rápido y personalizado.</p>
                             </div>
                             <button class="open-project-modal-btn cursor-pointer bg-primary-500 w-[40px] h-[40px] rounded-full flex justify-center items-center xl:w-[35px] xl:h-[35px]">
-                                <ion-icon name="chevron-forward-outline" class="text-[22px] text-neutral-500"></ion-icon>
+                                <i class="fa-solid fa-chevron-right text-[22px] text-neutral-500"></i>
                             </button>
                         </div>
                     </div>
@@ -329,7 +330,7 @@
                                 <p class="project-description hidden">Echo es una aplicación del clima móvil desarrollada con Flutter que ofrece pronósticos globales precisos, permitiendo a los usuarios ver el clima en tiempo real y las previsiones detalladas para los próximos siete días en cualquier ciudad o región del mundo, utilizando la API de WeatherAPI. La aplicación ofrece funcionalidad de búsqueda global y permite a los usuarios añadir a favoritos sus ubicaciones deseadas, las cuales se almacenan en una base de datos local para persistencia. Desarrollada con Riverpod para una gestión de estado eficiente, Echo solicita permisos de ubicación al inicio para proporcionar inmediatamente el clima de la ubicación actual del usuario.</p>
                             </div>
                             <button class="open-project-modal-btn cursor-pointer bg-primary-500 w-[40px] h-[40px] rounded-full flex justify-center items-center xl:w-[35px] xl:h-[35px]">
-                                <ion-icon name="chevron-forward-outline" class="text-[22px] text-neutral-500"></ion-icon>
+                                <i class="fa-solid fa-chevron-right text-[22px] text-neutral-500"></i>
                             </button>
                         </div>
                     </div>
@@ -347,7 +348,7 @@
                                 <p class="project-description hidden">Desarrollada en Flutter, esta es una aplicación de mensajería en tiempo real cuya interfaz de usuario imita el diseño familiar y limpio de WhatsApp. La aplicación incluye un sistema completo de registro y login, y al ingresar, presenta una lista exhaustiva de todos los usuarios registrados. Lo distintivo de esta plataforma es su funcionalidad de chat completamente operativa: cada usuario mantiene una conversación privada y en tiempo real con cada uno de los demás usuarios listados. La funcionalidad de mensajería instantánea se logra mediante el uso de WebSockets, mientras que la arquitectura de la aplicación se basa en Riverpod para la gestión de estado, y cuenta con un backend con Express.js y MongoDB.</p>
                             </div>
                             <button class="open-project-modal-btn cursor-pointer bg-primary-500 w-[40px] h-[40px] rounded-full flex justify-center items-center xl:w-[35px] xl:h-[35px]">
-                                <ion-icon name="chevron-forward-outline" class="text-[22px] text-neutral-500"></ion-icon>
+                                <i class="fa-solid fa-chevron-right text-[22px] text-neutral-500"></i>
                             </button>
                         </div>
                     </div>
@@ -365,7 +366,7 @@
                                 <p class="project-description hidden">Product es mi primera aplicación móvil funcional, desarrollada completamente con Flutter. La aplicación actúa como un sistema CRUD (Crear, Leer, Actualizar, Eliminar) para la gestión de productos, utilizando un backend proporcionado por un colega. Incluye un sistema de registro y login para autenticación de usuarios. Una vez dentro, se muestra una lista completa de artículos, permitiendo a los usuarios crear, editar o eliminar productos. Además, al seleccionar cualquier ítem de la lista, se visualiza la información detallada del producto. Para la gestión de estado y el manejo de datos se utilizó la arquitectura Riverpod.</p>
                             </div>
                             <button class="open-project-modal-btn cursor-pointer bg-primary-500 w-[40px] h-[40px] rounded-full flex justify-center items-center xl:w-[35px] xl:h-[35px]">
-                                <ion-icon name="chevron-forward-outline" class="text-[22px] text-neutral-500"></ion-icon>
+                                <i class="fa-solid fa-chevron-right text-[22px] text-neutral-500"></i>
                             </button>
                         </div>
                     </div>
@@ -384,7 +385,7 @@
                                 <p class="project-description hidden">Motivate es un proyecto de aplicación móvil en desarrollo, diseñado para fomentar la salud y el bienestar mental del usuario. La aplicación contará con un sistema completo de registro y login. En su pantalla principal, se mostrará una frase motivadora aleatoria al iniciar la sesión. La característica central es un avanzado sistema de notificaciones programadas con Firebase, donde el usuario podrá configurar la hora y el tipo específico de frase motivacional (ej., para el trabajo o el entrenamiento) que recibirá diariamente. Además de las frases preestablecidas, el usuario podrá crear sus propias frases para integrarlas en sus notificaciones diarias. Motivate también incluirá una sección dedicada a la práctica de meditaciones, cuyos datos quedarán registrados para que el usuario pueda monitorear su progreso y consistencia. Finalmente, el usuario tendrá una sección para gestionar su perfil y consultar información adicional sobre la aplicación.</p>
                             </div>
                             <button class="open-project-modal-btn cursor-pointer bg-primary-500 w-[40px] h-[40px] rounded-full flex justify-center items-center xl:w-[35px] xl:h-[35px]">
-                                <ion-icon name="chevron-forward-outline" class="text-[22px] text-neutral-500"></ion-icon>
+                                <i class="fa-solid fa-chevron-right text-[22px] text-neutral-500"></i>
                             </button>
                         </div>
                     </div>
@@ -399,7 +400,7 @@
             <div id="project-modal-template" class="fixed inset-0 bg-secundary-900/30 backdrop-blur-md z-[500] p-4 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 ease-in-out">
                 <div class="bg-secundary-800 rounded-[20px] p-5 w-full max-w-md relative flex flex-col items-center gap-y-4 transform scale-95 opacity-0 transition-all duration-300 ease-in-out max-h-[70vh] overflow-y-auto no-scrollbar sm:max-h-[80vh] lg:max-w-lg xl:max-w-[450px]">
                     <button id="close-project-modal-btn" aria-label="Cerrar modal" class="absolute z-[100] top-6 right-6 p-1 flex items-center justify-center rounded-full cursor-pointer">
-                        <ion-icon name="close-outline" class="text-neutral-500 text-[28px]"></ion-icon>
+                        <img src="src/assets/imgs/logo-close.svg" alt="">
                     </button>
                     
                     <div class="w-full h-48 rounded-[15px] overflow-hidden flex justify-center items-center flex-shrink-0 sm:h-56 md:h-64">
@@ -414,7 +415,7 @@
 
                     <a id="modal-project-link" href="#" target="_blank" class="flex w-full mt-2 px-4 py-3 bg-primary-500 rounded-[10px] text-sm font-medium items-center justify-center text-neutral-500 duration-300 hover:bg-primary-600 transition-all hover:scale-105 md:text-base flex-shrink-0 xl:text-[14px] xl:py-2">
                         Ver en GitHub
-                        <ion-icon name="logo-github" class="ml-2 text-[20px]"></ion-icon>
+                        <i class="fa-brands fa-github ml-2 text-[20px] text-neutral-500"></i>
                     </a>
                 </div>
             </div>
@@ -459,7 +460,7 @@
                             </div>
                             <button class="open-skill-modal-btn flex items-center w-fit gap-x-1 py-[6px] px-4 rounded-full cursor-pointer">
                                 <p class="text-neutral-500 text-[14px]">Leer más</p>
-                                <ion-icon name="chevron-down-outline" class="text-primary-500 text-[18px]"></ion-icon>
+                                <i class="fa-solid fa-chevron-down text-primary-500 text-[18px]"></i>
                             </button>
                         </div>
                     </div>
@@ -480,7 +481,7 @@
                             </div>
                             <button class="open-skill-modal-btn flex items-center w-fit gap-x-1 py-[6px] px-4 rounded-full cursor-pointer">
                                 <p class="text-neutral-500 text-[14px]">Leer más</p>
-                                <ion-icon name="chevron-down-outline" class="text-primary-500 text-[18px]"></ion-icon>
+                                <i class="fa-solid fa-chevron-down text-primary-500 text-[18px]"></i>
                             </button>
                         </div>
                     </div>
@@ -501,7 +502,7 @@
                             </div>
                             <button class="open-skill-modal-btn flex items-center w-fit gap-x-1 py-[6px] px-4 rounded-full cursor-pointer">
                                 <p class="text-neutral-500 text-[14px]">Leer más</p>
-                                <ion-icon name="chevron-down-outline" class="text-primary-500 text-[18px]"></ion-icon>
+                                <i class="fa-solid fa-chevron-down text-primary-500 text-[18px]"></i>
                             </button>
                         </div>
                     </div>
@@ -522,7 +523,7 @@
                             </div>
                             <button class="open-skill-modal-btn flex items-center w-fit gap-x-1 py-[6px] px-4 rounded-full cursor-pointer">
                                 <p class="text-neutral-500 text-[14px]">Leer más</p>
-                                <ion-icon name="chevron-down-outline" class="text-primary-500 text-[18px]"></ion-icon>
+                                <i class="fa-solid fa-chevron-down text-primary-500 text-[18px]"></i>
                             </button>
                         </div>
                     </div>
@@ -543,7 +544,7 @@
                             </div>
                             <button class="open-skill-modal-btn flex items-center w-fit gap-x-1 py-[6px] px-4 rounded-full cursor-pointer">
                                 <p class="text-neutral-500 text-[14px]">Leer más</p>
-                                <ion-icon name="chevron-down-outline" class="text-primary-500 text-[18px]"></ion-icon>
+                                <i class="fa-solid fa-chevron-down text-primary-500 text-[18px]"></i>
                             </button>
                         </div>
                     </div>
@@ -564,7 +565,7 @@
                             </div>
                             <button class="open-skill-modal-btn flex items-center w-fit gap-x-1 py-[6px] px-4 rounded-full cursor-pointer">
                                 <p class="text-neutral-500 text-[14px]">Leer más</p>
-                                <ion-icon name="chevron-down-outline" class="text-primary-500 text-[18px]"></ion-icon>
+                                <i class="fa-solid fa-chevron-down text-primary-500 text-[18px]"></i>
                             </button>
                         </div>
                     </div>
@@ -585,7 +586,7 @@
                             </div>
                             <button class="open-skill-modal-btn flex items-center w-fit gap-x-1 py-[6px] px-4 rounded-full cursor-pointer">
                                 <p class="text-neutral-500 text-[14px]">Leer más</p>
-                                <ion-icon name="chevron-down-outline" class="text-primary-500 text-[18px]"></ion-icon>
+                                <i class="fa-solid fa-chevron-down text-primary-500 text-[18px]"></i>
                             </button>
                         </div>
                     </div>
@@ -606,7 +607,7 @@
                             </div>
                             <button class="open-skill-modal-btn flex items-center w-fit gap-x-1 py-[6px] px-4 rounded-full cursor-pointer">
                                 <p class="text-neutral-500 text-[14px]">Leer más</p>
-                                <ion-icon name="chevron-down-outline" class="text-primary-500 text-[18px]"></ion-icon>
+                                <i class="fa-solid fa-chevron-down text-primary-500 text-[18px]"></i>
                             </button>
                         </div>
                     </div>
@@ -627,7 +628,7 @@
                             </div>
                             <button class="open-skill-modal-btn flex items-center w-fit gap-x-1 py-[6px] px-4 rounded-full cursor-pointer">
                                 <p class="text-neutral-500 text-[14px]">Leer más</p>
-                                <ion-icon name="chevron-down-outline" class="text-primary-500 text-[18px]"></ion-icon>
+                                <i class="fa-solid fa-chevron-down text-primary-500 text-[18px]"></i>
                             </button>
                         </div>
                     </div>
@@ -641,7 +642,7 @@
             <div id="skill-modal-template" class="fixed inset-0 bg-opacity-20 backdrop-blur-md z-[500] p-4 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 ease-in-out">
                 <div class="bg-secundary-800 rounded-[30px] p-8 max-w-lg max-h-[80vh] w-full relative flex flex-col items-center gap-y-4 transform scale-95 opacity-0 transition-all duration-300 ease-in-out">
                     <button id="close-skill-modal-btn" aria-label="Cerrar modal" class="absolute top-4 right-4 p-1 flex items-center justify-center rounded-full cursor-pointer">
-                        <ion-icon name="close-outline" class="text-neutral-500 text-[28px]"></ion-icon>
+                        <img src="src/assets/imgs/logo-close.svg" class="text-neutral-500 text-[28px]" alt="">
                     </button>
                     
                     <div class="flex flex-col items-center gap-y-3">
@@ -766,6 +767,9 @@
             <div class="flex justify-center items-center gap-x-4">
                 <a href="https://www.linkedin.com/in/gianfranco-mu%C3%B1oz-744b0b384/" class="w-10 h-10 bg-secundary-600 rounded-full flex justify-center items-center hover:bg-secundary-700 hover:scale-105 transition-transform">
                     <img src="src/assets/imgs/linkedin.svg" alt="LinkedIn" class="w-5 h-5">
+                </a>
+                <a href="https://wa.link/1jwwo2" class="w-10 h-10 bg-secundary-600 rounded-full flex justify-center items-center hover:bg-secundary-700 hover:scale-105 transition-transform">
+                    <img src="src/assets/imgs/whatsapp.svg" alt="WhatsApp" class="w-5 h-5">
                 </a>
                 <a href="https://github.com/Gian124a" class="w-10 h-10 bg-secundary-600 rounded-full flex justify-center items-center hover:bg-secundary-700 hover:scale-105 transition-transform">
                     <img src="src/assets/imgs/github.svg" alt="GitHub" class="w-5 h-5">
