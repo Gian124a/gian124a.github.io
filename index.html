@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <base href="/portafolio/">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="src/output.css" rel="stylesheet">
+  <link href="src/output.css" rel="stylesheet"> <!-- Esta ruta ahora es relativa a la base -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="src/styles/styles.css">
+  <link rel="stylesheet" href="src/styles/styles.css"> <!-- Esta ruta ahora es relativa a la base -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <title>Portfolio</title> 
 </head>
@@ -56,7 +57,7 @@
 
             <!-- Contenedor de imagen y texto -->
             <article style="pointer-events: none;" class="absolute top-[55px] h-fit w-full z-30 flex sm:w-[60vw] sm:top-[85px] md:w-[55vw] md:top-[80px] lg:right-0 lg:top-auto lg:bottom-[62px] lg:w-[75vh] xl:w-[84vh] xl:bottom-[25px] lg:z-40 2xl:bottom-[30px] hero-image-pointer-events-none">
-                <img src="src/assets/imgs/image-yo.svg" alt="Yo" class="w-full h-fit object-contain"/>
+                <img src="src/assets/imgs/image-yo.svg" alt="Yo" class="w-full h-fit object-contain"/> <!-- Esta ruta ahora es relativa a la base -->
             </article>
 
             <article class="relative h-full flex flex-col gap-y-11 lg:justify-center lg:w-fit xl:w-full xl:px-[45px] xl:gap-0 xl:h-full ">
@@ -80,19 +81,19 @@
 
                 <div class="flex justify-around items-center px-[5px] sm:px-[10%] sm:justify-center sm:gap-x-[25px] lg:w-fit lg:px-0 lg:gap-x-3 lg:absolute lg:bottom-0 xl:bottom-3">
                     <a href="https://www.linkedin.com/in/gianfranco-mu%C3%B1oz-744b0b384/" class="w-[13.2vw] h-[13.2vw] bg-secundary-600 rounded-full flex justify-center items-center sm:w-[8vw] sm:h-[8vw] lg:w-[6.5vh] lg:h-[6.5vh] xl:w-[7vh] xl:h-[7vh] 2xl:w-[6vh] 2xl:h-[6vh] hover:bg-secundary-700 hover:transition-all hover:scale-[1.07] duration-300">
-                        <img src="src/assets/imgs/linkedin.svg" alt="" class="size-[7vw] text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
+                        <img src="src/assets/imgs/linkedin.svg" alt="LinkedIn" class="size-[7vw] text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
                     </a>
                     <a href="https://wa.link/1jwwo2" class="w-[13vw] h-[13vw] bg-secundary-600 rounded-full flex justify-center items-center sm:w-[8vw] sm:h-[8vw] lg:w-[6.5vh] lg:h-[6.5vh] xl:w-[7vh] xl:h-[7vh] 2xl:w-[6vh] 2xl:h-[6vh] hover:bg-secundary-700 hover:transition-all hover:scale-[1.07] duration-300">
-                        <img src="src/assets/imgs/whatsapp.svg" alt="" class="size-[6.8vw] text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
+                        <img src="src/assets/imgs/whatsapp.svg" alt="WhatsApp" class="size-[6.8vw] text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
                     </a>
                     <a href="https://github.com/Gian124a" class="w-[13vw] h-[13vw] bg-secundary-600 rounded-full flex justify-center items-center sm:w-[8vw] sm:h-[8vw] lg:w-[6.5vh] lg:h-[6.5vh] xl:w-[7vh] xl:h-[7vh] 2xl:w-[6vh] 2xl:h-[6vh] hover:bg-secundary-700 hover:transition-all hover:scale-[1.07] duration-300">
-                        <img src="src/assets/imgs/github.svg" alt="" class="size-[6.8vw] text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
+                        <img src="src/assets/imgs/github.svg" alt="GitHub" class="size-[6.8vw] text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
                     </a>
                     <a href="https://www.figma.com/@gian124a" class="w-[13vw] h-[13vw] bg-secundary-600 rounded-full flex justify-center items-center sm:w-[8vw] sm:h-[8vw] lg:w-[6.5vh] lg:h-[6.5vh] xl:w-[7vh] xl:h-[7vh] 2xl:w-[6vh] 2xl:h-[6vh] hover:bg-secundary-700 hover:transition-all hover:scale-[1.07] duration-300">
-                        <img src="src/assets/imgs/figma.svg" alt="" class="size-[6.8vw] text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
+                        <img src="src/assets/imgs/figma.svg" alt="Figma" class="size-[6.8vw] text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
                     </a>
                     <a href="mailto:mgianfrancowork@gmail.com" class="w-[13vw] h-[13vw] bg-secundary-600 rounded-full flex justify-center items-center sm:w-[8vw] sm:h-[8vw] lg:w-[6.5vh] lg:h-[6.5vh] xl:w-[7vh] xl:h-[7vh] 2xl:w-[6vh] 2xl:h-[6vh] hover:bg-secundary-700 hover:transition-all hover:scale-[1.07] duration-300">
-                        <img src="src/assets/imgs/gmail.svg" alt="" class="size-[6.8vw] text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
+                        <img src="src/assets/imgs/gmail.svg" alt="Gmail" class="size-[6.8vw] text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
                     </a>
                 </div>
             </article>
@@ -147,7 +148,7 @@
             </article>
 
             <article class="flex justify-center lg:w-[50%] ">
-                <img class="w-[65vw] sm:w-[45vw] md:w-[40vw] md:max-w-[450px] lg:max-w-none lg:w-[60vh] 2xl:w-[68%] 2xl:max-w-[520px]" src="src/assets/imgs/image-yo-section2.svg" alt="">
+                <img class="w-[65vw] sm:w-[45vw] md:w-[40vw] md:max-w-[450px] lg:max-w-none lg:w-[60vh] 2xl:w-[68%] 2xl:max-w-[520px]" src="src/assets/imgs/image-yo-section2.svg" alt="Sobre mi">
             </article>
 
             <article class="flex flex-col items-center gap-y-[22px] md:gap-y-[30px] lg:w-[50%] lg:items-start lg:gap-y-[15px] 2xl:gap-y-[24px]">
@@ -301,7 +302,7 @@
                 <div class="project-card relative flex-col gap-y-[24px] w-full sm:w-[calc(50%_-_8px)] lg:w-fit flex-none lg:flex-initial snap-center sm:snap-start flex items-center justify-center" data-project-url="https://github.com/Gian124a/cinemapedia">
                     <div class="relative bg-secundary-700 w-[280px] h-[280px] rounded-[20px] p-[14px] gap-y-[15px] flex flex-col md:w-[300px] md:h-[300px] lg:w-[270px] lg:h-[270px] xl:w-[250px] xl:h-[250px]">
                         <div class="relative flex-1 rounded-[12px] overflow-hidden bg-secundary-800 flex justify-center items-center">
-                            <img src="src/assets/mockups/cinemapedia.png" alt="" class="project-image absolute left-0 top-0 w-full h-full object-cover">
+                            <img src="src/assets/mockups/cinemapedia.png" alt="Mockup de Cinemapedia" class="project-image absolute left-0 top-0 w-full h-full object-cover">
                         </div>
                         <div class="flex justify-between items-center">
                             <div class="flex flex-col gap-y-1 lg:gap-0.5">
@@ -319,7 +320,7 @@
                 <div class="project-card relative flex-col gap-y-[24px] w-full sm:w-[calc(50%_-_8px)] lg:w-fit flex-none lg:flex-initial snap-center sm:snap-start flex items-center justify-center" data-project-url="https://github.com/Gian124a/weather_echo.git">
                     <div class="relative bg-secundary-700 w-[280px] h-[280px] rounded-[20px] p-[14px] gap-y-[15px] flex flex-col md:w-[300px] md:h-[300px] lg:w-[270px] lg:h-[270px] xl:w-[250px] xl:h-[250px]">
                         <div class="relative flex-1 rounded-[12px] overflow-hidden bg-secundary-800 flex justify-center items-center">
-                            <img src="src/assets/mockups/echo.png" alt="" class="project-image absolute left-0 top-0 w-full h-full object-cover">
+                            <img src="src/assets/mockups/echo.png" alt="Mockup de Echo" class="project-image absolute left-0 top-0 w-full h-full object-cover">
                         </div>
                         <div class="flex justify-between items-center">
                             <div class="flex flex-col gap-y-1 lg:gap-0.5">
@@ -337,7 +338,7 @@
                 <div class="project-card relative flex-col gap-y-[24px] w-full sm:w-[calc(50%_-_8px)] lg:w-fit flex-none lg:flex-initial snap-center sm:snap-start flex items-center justify-center" data-project-url="https://github.com/Gian124a/chat-flutter.git">
                     <div class="relative bg-secundary-700 w-[280px] h-[280px] rounded-[20px] p-[14px] gap-y-[15px] flex flex-col md:w-[300px] md:h-[300px] lg:w-[270px] lg:h-[270px] xl:w-[250px] xl:h-[250px]">
                         <div class="relative flex-1 rounded-[12px] overflow-hidden bg-secundary-800 flex justify-center items-center">
-                            <img src="src/assets/mockups/whatsapp.png" alt="" class="project-image absolute left-0 top-0 w-full h-full object-cover">
+                            <img src="src/assets/mockups/whatsapp.png" alt="Mockup de Chat WhatsApp" class="project-image absolute left-0 top-0 w-full h-full object-cover">
                         </div>
                         <div class="flex justify-between items-center">
                             <div class="flex flex-col gap-y-1 lg:gap-0.5">
@@ -355,7 +356,7 @@
                 <div class="project-card relative flex-col gap-y-[24px] w-full sm:w-[calc(50%_-_8px)] lg:w-fit flex-none lg:flex-initial snap-center sm:snap-start flex items-center justify-center" data-project-url="https://github.com/Gian124a/products.git">
                     <div class="relative bg-secundary-700 w-[280px] h-[280px] rounded-[20px] p-[14px] gap-y-[15px] flex flex-col md:w-[300px] md:h-[300px] lg:w-[270px] lg:h-[270px] xl:w-[250px] xl:h-[250px]">
                         <div class="relative flex-1 rounded-[12px] overflow-hidden bg-secundary-800 flex justify-center items-center">
-                            <img src="src/assets/mockups/product.png" alt="" class="project-image absolute left-0 top-0 w-full h-full object-cover">
+                            <img src="src/assets/mockups/product.png" alt="Mockup de Product" class="project-image absolute left-0 top-0 w-full h-full object-cover">
                         </div>
                         <div class="flex justify-between items-center">
                             <div class="flex flex-col gap-y-1 lg:gap-0.5">
@@ -675,14 +676,14 @@
                 <div class="flex flex-col gap-y-[15px] md:gap-y-[20px] lg:flex-row lg:gap-x-[25px] lg:order-3 xl:order-2 xl:flex-col xl:items-start xl:w-full">
                     <div class="flex items-center gap-x-[15px] lg:gap-x-[15px] xl:gap-x-[10px]">
                         <div class="w-[13.2vw] h-[13.2vw] bg-secundary-600 rounded-full flex justify-center items-center sm:w-[8vw] sm:h-[8vw] lg:w-[6.5vh] lg:h-[6.5vh] xl:w-[7vh] xl:h-[7vh] 2xl:w-[6vh] 2xl:h-[6vh]">
-                            <img src="src/assets/imgs/gmail.svg" alt="" class="size-[7vw] text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
+                            <img src="src/assets/imgs/gmail.svg" alt="Gmail" class="size-[7vw] text-neutral-500 sm-size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
                         </div>
                         <p class="text-neutral-500 text-center text-[3.8vw] sm:text-[5vh] md:text-[2.5vw] lg:text-[2vh] 2xl:text-[1.6vh]">mgianfrancowork@gmail.com</p>
                     </div>
 
                     <div class="flex items-center gap-x-[15px] lg:gap-x-[15px] xl:gap-x-[10px]">
                         <div class="w-[13.2vw] h-[13.2vw] bg-secundary-600 rounded-full flex justify-center items-center sm:w-[8vw] sm:h-[8vw] lg:w-[6.5vh] lg:h-[6.5vh] xl:w-[7vh] xl:h-[7vh] 2xl:w-[6vh] 2xl:h-[6vh]">
-                            <img src="src/assets/imgs/whatsapp.svg" alt="" class="size-[7vw] text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
+                            <img src="src/assets/imgs/whatsapp.svg" alt="WhatsApp" class="size-[7vw] text-neutral-500 sm-size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
                         </div>
                         <p class="text-neutral-500 text-center text-[3.8vw] sm:text-[5vh] md:text-[2.5vw] lg:text-[2vh] 2xl:text-[1.6vh]">+58 4241378464</p>
                     </div>
@@ -691,19 +692,19 @@
                     <p class="text-neutral-500 text-start text-[4vw] sm:text-[5vh] md:text-[2.5vw] lg:text-[2.2vh] 2xl:text-[1.6vh]">SIGUEME</p>
                     <div class="flex justify-around items-center sm:justify-center gap-x-[10px]">
                         <a href="https://www.linkedin.com/in/gianfranco-mu%C3%B1oz-744b0b384/" class="w-[13.2vw] h-[13.2vw] bg-secundary-600 rounded-full flex justify-center items-center sm:w-[8vw] sm:h-[8vw] lg:w-[6.5vh] lg:h-[6.5vh] xl:w-[7vh] xl:h-[7vh] 2xl:w-[6vh] 2xl:h-[6vh] hover:bg-secundary-700 hover:transition-all hover:scale-[1.07] duration-300">
-                            <img src="src/assets/imgs/linkedin.svg" alt="" class="size-[7vw] text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
+                            <img src="src/assets/imgs/linkedin.svg" alt="LinkedIn" class="size-[7vw] text-neutral-500 sm-size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
                         </a>
                         <a href="https://wa.link/1jwwo2" class="w-[13vw] h-[13vw] bg-secundary-600 rounded-full flex justify-center items-center sm:w-[8vw] sm:h-[8vw] lg:w-[6.5vh] lg:h-[6.5vh] xl:w-[7vh] xl:h-[7vh] 2xl:w-[6vh] 2xl:h-[6vh] hover:bg-secundary-700 hover:transition-all hover:scale-[1.07] duration-300">
-                            <img src="src/assets/imgs/whatsapp.svg" alt="" class="size-[6.8vw] text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
+                            <img src="src/assets/imgs/whatsapp.svg" alt="WhatsApp" class="size-[6.8vw] text-neutral-500 sm-size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
                         </a>
                         <a href="https://github.com/Gian124a" class="w-[13vw] h-[13vw] bg-secundary-600 rounded-full flex justify-center items-center sm:w-[8vw] sm:h-[8vw] lg:w-[6.5vh] lg:h-[6.5vh] xl:w-[7vh] xl:h-[7vh] 2xl:w-[6vh] 2xl:h-[6vh] hover:bg-secundary-700 hover:transition-all hover:scale-[1.07] duration-300">
-                            <img src="src/assets/imgs/github.svg" alt="" class="size-[6.8vw] text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
+                            <img src="src/assets/imgs/github.svg" alt="GitHub" class="size-[6.8vw] text-neutral-500 sm-size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
                         </a>
                         <a href="https://www.figma.com/@gian124a" class="w-[13vw] h-[13vw] bg-secundary-600 rounded-full flex justify-center items-center sm:w-[8vw] sm:h-[8vw] lg:w-[6.5vh] lg:h-[6.5vh] xl:w-[7vh] xl:h-[7vh] 2xl:w-[6vh] 2xl:h-[6vh] hover:bg-secundary-700 hover:transition-all hover:scale-[1.07] duration-300">
-                            <img src="src/assets/imgs/figma.svg" alt="" class="size-[6.8vw] text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
+                            <img src="src/assets/imgs/figma.svg" alt="Figma" class="size-[6.8vw] text-neutral-500 sm-size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
                         </a>
                         <a href="mailto:mgianfrancowork@gmail.com" class="w-[13vw] h-[13vw] bg-secundary-600 rounded-full flex justify-center items-center sm:w-[8vw] sm:h-[8vw] lg:w-[6.5vh] lg:h-[6.5vh] xl:w-[7vh] xl:h-[7vh] 2xl:w-[6vh] 2xl:h-[6vh] hover:bg-secundary-700 hover:transition-all hover:scale-[1.07] duration-300">
-                            <img src="src/assets/imgs/gmail.svg" alt="" class="size-[6.8vw] text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
+                            <img src="src/assets/imgs/gmail.svg" alt="Gmail" class="size-[6.8vw] text-neutral-500 sm-size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]">
                         </a>
                     </div>
                 </div>
@@ -766,17 +767,14 @@
                 <a href="https://www.linkedin.com/in/gianfranco-mu%C3%B1oz-744b0b384/" class="w-10 h-10 bg-secundary-600 rounded-full flex justify-center items-center hover:bg-secundary-700 hover:scale-105 transition-transform">
                     <img src="src/assets/imgs/linkedin.svg" alt="LinkedIn" class="w-5 h-5">
                 </a>
-                <a href="https://wa.link/1jwwo2" class="w-10 h-10 bg-secundary-600 rounded-full flex justify-center items-center hover:bg-secundary-700 hover:scale-105 transition-transform">
-                    <img src="src/assets/imgs/whatsapp.svg" alt="GitHub" class="w-5 h-5">
-                </a>
                 <a href="https://github.com/Gian124a" class="w-10 h-10 bg-secundary-600 rounded-full flex justify-center items-center hover:bg-secundary-700 hover:scale-105 transition-transform">
-                    <img src="src/assets/imgs/github.svg" alt="" class="w-5 h-5">
+                    <img src="src/assets/imgs/github.svg" alt="GitHub" class="w-5 h-5">
                 </a>
                 <a href="https://www.figma.com/@gian124a" class="w-10 h-10 bg-secundary-600 rounded-full flex justify-center items-center hover:bg-secundary-700 hover:scale-105 transition-transform">
-                    <img src="src/assets/imgs/figma.svg" alt="figma" class="w-5 h-5">
+                    <img src="src/assets/imgs/figma.svg" alt="Figma" class="w-5 h-5">
                 </a>
                 <a href="mailto:mgianfrancowork@gmail.com" class="w-10 h-10 bg-secundary-600 rounded-full flex justify-center items-center hover:bg-secundary-700 hover:scale-105 transition-transform">
-                    <img src="src/assets/imgs/gmail.svg" alt="gmail" class="w-5 h-5">
+                    <img src="src/assets/imgs/gmail.svg" alt="Gmail" class="w-5 h-5">
                 </a>
             </div>
             
@@ -786,8 +784,8 @@
     </footer>
 
            
-    <script src="src/scripts/script.js"></script>
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="src/scripts/script.js"></script> <!-- Esta ruta ahora es relativa a la base -->
+    <script type="module" src="//unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="//unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
 </html>
