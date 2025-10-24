@@ -207,7 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 1. Crear los puntos dinámicamente
         dotsContainer.innerHTML = ''; // Limpiar puntos existentes
-        const dotsToShow = Math.min(Math.ceil(totalCards / (window.innerWidth >= 640 ? 2 : 1)), maxDots);
+        const dotsToShow = Math.min(Math.ceil(totalCards / (window.innerWidth >= 640 ? 2 : 1)), maxDots); // Muestra 2 tarjetas en sm y superior
         for (let i = 0; i < dotsToShow; i++) {
             const dot = document.createElement('div');
             dot.classList.add('w-4', 'h-4', 'rounded-full', 'transition-all', 'duration-300');
@@ -226,7 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             dotsContainer.style.display = 'flex';
 
-            const isSmScreen = window.innerWidth >= 640;
+            const isSmScreen = window.innerWidth >= 640; // sm breakpoint
             const itemsPerPage = isSmScreen ? 2 : 1;
             const totalPages = Math.ceil(totalCards / itemsPerPage);
             const currentPage = Math.floor(visibleIndex / itemsPerPage);
@@ -304,6 +304,77 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Inicializar carrusel para Habilidades
     setupCarousel('skills-scroll-container', 'skills-dots-container', '.skill-card');
+
+    // === LÓGICA MODAL DE PROYECTOS (DINÁMICO) ===
+    function setupProjectModals() {
+        const modal = document.getElementById('project-modal-template');
+        const openButtons = document.querySelectorAll('.open-project-modal-btn');
+        const closeButton = document.getElementById('close-project-modal-btn');
+
+        if (!modal || openButtons.length === 0 || !closeButton) {
+            console.warn("Faltan elementos para el modal de proyectos (plantilla, botones de abrir/cerrar).");
+            return;
+        }
+
+        const modalImage = document.getElementById('modal-project-image');
+        const modalPlaceholder = document.getElementById('modal-project-placeholder');
+        const modalTitle = document.getElementById('modal-project-title');
+        const modalDescription = document.getElementById('modal-project-description');
+        const modalLink = document.getElementById('modal-project-link');
+
+        openButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // 1. Encontrar la tarjeta de proyecto más cercana
+                const projectCard = button.closest('.project-card');
+                if (!projectCard) return;
+
+                // 2. Extraer la información de la tarjeta
+                const imageContainer = projectCard.querySelector('.project-image');
+                const imageSrc = imageContainer?.src; // .src solo existe en elementos <img>
+
+                const titleText = projectCard.querySelector('.project-title')?.textContent;
+                const descriptionText = projectCard.querySelector('.project-description')?.textContent;
+                const projectUrl = projectCard.dataset.projectUrl;
+
+                // 3. Poblar el modal con la información
+                if (imageSrc && modalImage && modalPlaceholder) {
+                    // Si hay una imagen, la mostramos y ocultamos el texto
+                    modalImage.src = imageSrc;
+                    modalImage.classList.remove('hidden');
+                    modalPlaceholder.classList.add('hidden');
+                } else if (modalImage && modalPlaceholder) {
+                    // Si no hay imagen, ocultamos la imagen y mostramos el texto
+                    modalImage.classList.add('hidden');
+                    modalPlaceholder.classList.remove('hidden');
+                }
+
+                if (modalTitle) modalTitle.textContent = titleText || 'Sin título';
+                if (modalDescription) modalDescription.textContent = descriptionText || 'Sin descripción.';
+                if (modalLink) {
+                    modalLink.href = projectUrl || '#';
+                    // Ocultar el botón si no hay URL
+                    modalLink.style.display = projectUrl && projectUrl !== '#' ? 'flex' : 'none';
+                }
+
+                // 4. Mostrar el modal
+                modal.classList.remove('opacity-0', 'pointer-events-none');
+                modal.classList.add('opacity-100', 'pointer-events-auto');
+                modal.querySelector('div:first-child').classList.remove('scale-95', 'opacity-0');
+                modal.querySelector('div:first-child').classList.add('scale-100', 'opacity-100');
+            });
+        });
+
+        // Evento para cerrar el modal
+        closeButton.addEventListener('click', () => {
+            modal.classList.remove('opacity-100', 'pointer-events-auto');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.querySelector('div:first-child').classList.remove('scale-100', 'opacity-100');
+            modal.querySelector('div:first-child').classList.add('scale-95', 'opacity-0');
+        });
+    }
+
+    setupProjectModals();
+
 
     // === LÓGICA MODAL DE HABILIDADES (DINÁMICO) ===
     function setupSkillsModals() {
