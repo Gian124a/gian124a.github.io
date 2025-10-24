@@ -359,6 +359,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // 4. Mostrar el modal
                 modal.classList.remove('opacity-0', 'pointer-events-none');
                 modal.classList.add('opacity-100', 'pointer-events-auto');
+                document.body.classList.add('overflow-hidden'); // Deshabilita el scroll del body
                 modal.querySelector('div:first-child').classList.remove('scale-95', 'opacity-0');
                 modal.querySelector('div:first-child').classList.add('scale-100', 'opacity-100');
             });
@@ -368,6 +369,7 @@ document.addEventListener('DOMContentLoaded', () => {
         closeButton.addEventListener('click', () => {
             modal.classList.remove('opacity-100', 'pointer-events-auto');
             modal.classList.add('opacity-0', 'pointer-events-none');
+            document.body.classList.remove('overflow-hidden'); // Habilita el scroll del body
             modal.querySelector('div:first-child').classList.remove('scale-100', 'opacity-100');
             modal.querySelector('div:first-child').classList.add('scale-95', 'opacity-0');
         });
@@ -411,6 +413,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Para la transición, manipulamos opacidad y pointer-events
                 modal.classList.remove('opacity-0', 'pointer-events-none');
                 modal.classList.add('opacity-100', 'pointer-events-auto');
+                document.body.classList.add('overflow-hidden'); // Deshabilita el scroll del body
                 // También para la card interna, para un efecto de "zoom"
                 modal.querySelector('div:first-child').classList.remove('scale-95', 'opacity-0');
                 modal.querySelector('div:first-child').classList.add('scale-100', 'opacity-100');
@@ -422,6 +425,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Para la transición, manipulamos opacidad y pointer-events
             modal.classList.remove('opacity-100', 'pointer-events-auto');
             modal.classList.add('opacity-0', 'pointer-events-none');
+            document.body.classList.remove('overflow-hidden'); // Habilita el scroll del body
             modal.querySelector('div:first-child').classList.remove('scale-100', 'opacity-100');
             modal.querySelector('div:first-child').classList.add('scale-95', 'opacity-0');
         });
@@ -615,3 +619,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Inicializa la función
 animationButtonMenu();
+
+// === LÓGICA DE LA PANTALLA DE CARGA ===
+window.addEventListener('load', () => {
+    const loader = document.getElementById('loader');
+    if (loader) {
+        // Ocultar el loader con una transición suave
+        loader.classList.add('opacity-0');
+
+        // Después de la transición, ocultarlo completamente para que no interfiera
+        setTimeout(() => {
+            loader.style.display = 'none';
+        }, 500); // Debe coincidir con la duración de la transición en el HTML/CSS
+    }
+});

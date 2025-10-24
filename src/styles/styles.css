@@ -53,6 +53,18 @@
    #menu-container.open a:nth-child(5) { transition-delay: 0.25s; }
    #menu-container.open a:nth-child(6) { transition-delay: 0.3s; } 
  } 
+
+ /* === LOADER SPINNER === */
+ .loader-spinner {
+  border-top-color: transparent;
+  animation: spin 1s linear infinite;
+ }
+
+ @keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+ }
  
  /* Oculta el scrollbar en móviles */
   .no-scrollbar::-webkit-scrollbar {
@@ -86,24 +98,3 @@
   @media (min-width: 640px) {
     /* Se eliminó la regla para project-card:last-child y skill-card:last-child para permitir snap-center */
   }
-
-/* === ESTILOS DE VALIDACIÓN DE FORMULARIO === */
-.input-error {
-  border: 1px solid #ef4444; /* Rojo de Tailwind (red-500) */
-}
-
-.error-message {
-  min-height: 1rem; /* Evita que el layout se mueva cuando aparece el mensaje */
-  transition: opacity 0.2s ease-in-out;
-}
-
-/* === ESTILOS DE NOTIFICACIÓN TOAST === */
-#toast-notification.success {
-  background-color: #22c55e; /* green-500 */
-}
-
-#toast-notification.error {
-  background-color: #ef4444; /* red-500 */
-}
-
-/* La clase 'hidden' de Tailwind ya hace esto, pero lo dejamos por si acaso */
