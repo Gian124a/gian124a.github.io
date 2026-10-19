@@ -1,17 +1,15 @@
 ---
-import '../styles/global.css';
+import Layout from '../layouts/Layout.astro';
 ---
 
-<html lang="es">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Portfolio (Astro)</title>
-	</head>
-	<body>
-		<h1 class="text-4xl font-bold text-indigo-600 p-8">Portfolio — Astro scaffold</h1>
-	</body>
-</html>
+<Layout title="Portfolio (Astro)">
+	<main class="p-8 text-neutral-50">
+		<h1 class="text-4xl font-bold">Fundaciones — Poppins</h1>
+		<div class="mt-6 flex gap-2">
+			<span class="size-12 bg-neutral-500"></span>
+			<span class="size-12 bg-primary-500"></span>
+			<span class="size-12 bg-secundary-500"></span>
+		</div>
+		<img src="/assets/icons/arrow-down.svg" alt="" class="mt-6 size-8" />
+	</main>
+</Layout>
