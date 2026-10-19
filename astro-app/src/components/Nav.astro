@@ -38,3 +38,125 @@ function linkClass(index: number, mobileOnly?: boolean) {
 		}
 	</ul>
 </nav>
+
+<script>
+	// === MENÚ, FONDO ACTIVO, SCROLLSPY Y SCROLL SUAVE ===
+	const menu = document.getElementById('menu-container') as HTMLElement;
+	const activeBg = document.getElementById('active-bg') as HTMLElement;
+	const links = menu.querySelectorAll<HTMLAnchorElement>('a');
+	const buttonMenu = document.getElementById('button-menu') as HTMLElement;
+	let userClicked = false;
+	let clickTimeout: number;
+
+	// --- Controla el movimiento del fondo activo ---
+	function moveBgTo(link: HTMLAnchorElement) {
+		// Determina si el menú es vertical (móvil) u horizontal (escritorio/móvil horizontal)
+		// basándose en el estilo computado, que es más fiable que el ancho de la ventana.
+		const isMobile = window.getComputedStyle(menu).flexDirection === 'column';
+
+		const offset = isMobile ? link.offsetTop : link.offsetLeft;
+		const size = isMobile ? link.offsetHeight : link.offsetWidth;
+
+		activeBg.style.transform = isMobile ? `translateY(${offset}px)` : `translateX(${offset}px)`;
+
+		if (isMobile) {
+			activeBg.style.height = `${size}px`;
+			activeBg.style.width = `calc(100% - 8px)`; // margen visual lateral
+		} else {
+			activeBg.style.width = `${size}px`;
+			activeBg.style.height = `calc(100% - 8px)`;
+		}
+	}
+
+	// --- Marca un link como activo ---
+	function activateLink(link: HTMLAnchorElement) {
+		links.forEach((l) => l.classList.remove('active', 'pointer-events-none'));
+		link.classList.add('active', 'pointer-events-none');
+		moveBgTo(link);
+	}
+
+	// --- Scroll suave a la sección con offset para el header ---
+	function scrollToSection(targetId: string) {
+		const targetSection = document.getElementById(targetId);
+		if (!targetSection) return;
+
+		const header = document.querySelector('header');
+		let headerOffset = 0;
+
+		// Solo compensamos la altura del header si es 'fixed' (único caso en que se superpone)
+		if (header && window.getComputedStyle(header).position === 'fixed') {
+			headerOffset = header.offsetHeight;
+		}
+
+		const elementPosition = targetSection.getBoundingClientRect().top;
+		const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+		window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+	}
+
+	// --- Evento de clic en los links ---
+	links.forEach((link) => {
+		link.addEventListener('click', (e) => {
+			e.preventDefault();
+
+			// Desactiva temporalmente el scrollspy mientras dura el scroll suave
+			userClicked = true;
+			clearTimeout(clickTimeout);
+			clickTimeout = window.setTimeout(() => (userClicked = false), 1000);
+
+			activateLink(link);
+			scrollToSection(link.getAttribute('href')!.substring(1));
+
+			// Si está en móvil, cierra el menú al seleccionar
+			if (window.innerWidth < 1024) {
+				menu.classList.remove('open');
+			}
+		});
+	});
+
+	// --- Actualiza el link activo mientras se hace scroll ---
+	function updateActiveLinkOnScroll() {
+		const sections = Array.from(links)
+			.map((link) => {
+				const id = link.getAttribute('href')?.substring(1);
+				return id ? document.getElementById(id) : null;
+			})
+			.filter(Boolean) as HTMLElement[];
+
+		const observer = new IntersectionObserver(
+			(entries) => {
+				if (userClicked) return;
+
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						const correspondingLink = menu.querySelector<HTMLAnchorElement>(
+							`a[href="#${entry.target.id}"]`,
+						);
+						if (correspondingLink) activateLink(correspondingLink);
+					}
+				});
+			},
+			// Activa cuando el centro de la sección cruza el centro de la pantalla
+			{ root: null, rootMargin: '-50% 0px -50% 0px', threshold: 0 },
+		);
+
+		sections.forEach((section) => observer.observe(section));
+	}
+
+	// --- Mueve el fondo al primer elemento al cargar ---
+	window.addEventListener('load', () => {
+		activateLink(links[0]);
+		updateActiveLinkOnScroll();
+	});
+
+	// --- Reajusta la posición al redimensionar ---
+	window.addEventListener('resize', () => {
+		const activeLink = document.querySelector<HTMLAnchorElement>('a.active') || links[0];
+		moveBgTo(activeLink);
+	});
+
+	// --- Abre / Cierra menú en móviles ---
+	buttonMenu.addEventListener('click', () => {
+		menu.classList.toggle('open');
+	});
+</script>
