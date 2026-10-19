@@ -124,6 +124,28 @@ import { skills } from '../../data/skills';
 
 <script>
 	import { setupCarousel } from "../../scripts/carousel";
+	import { setupModal } from "../../scripts/modal";
 
 	setupCarousel("skills-scroll-container", "skills-dots-container", ".skill-card");
+
+	const modalIcon = document.getElementById("modal-skill-icon") as HTMLImageElement | null;
+	const modalTitle = document.getElementById("modal-skill-title");
+	const modalDescription = document.getElementById("modal-skill-description");
+
+	setupModal({
+		modalId: "skill-modal-template",
+		openSelector: ".open-skill-modal-btn",
+		closeId: "close-skill-modal-btn",
+		cardSelector: ".skill-card",
+		label: "habilidades",
+		fill: (card) => {
+			const iconSrc = card.querySelector<HTMLImageElement>(".skill-icon")?.src;
+			const titleText = card.querySelector(".skill-title")?.textContent;
+			const descriptionText = card.querySelector(".skill-description")?.textContent;
+
+			if (modalIcon) modalIcon.src = iconSrc || "";
+			if (modalTitle) modalTitle.textContent = titleText || "Sin título";
+			if (modalDescription) modalDescription.textContent = descriptionText || "Sin descripción.";
+		},
+	});
 </script>
