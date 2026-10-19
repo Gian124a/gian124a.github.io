@@ -3,13 +3,13 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Portfolio (Astro)">
-	<main class="p-8 text-neutral-50">
-		<h1 class="text-4xl font-bold">Fundaciones — Poppins</h1>
-		<div class="mt-6 flex gap-2">
-			<span class="size-12 bg-neutral-500"></span>
-			<span class="size-12 bg-primary-500"></span>
-			<span class="size-12 bg-secundary-500"></span>
-		</div>
-		<img src="/assets/icons/arrow-down.svg" alt="" class="mt-6 size-8" />
+	<main class="relative top-[64px] lg:top-0 flex flex-col px-4 sm:px-8 lg:px-12 sm:top-[40px] text-neutral-50">
+		<!-- Provisional (Fase 3): anclas para probar Header/Nav/Footer; las secciones reales llegan en Fase 4 -->
+		<section id="inicio" class="h-[60vh]"></section>
+		<section id="sobre-mi"></section>
+		<section id="experiencias"></section>
+		<section id="proyectos"></section>
+		<section id="habilidades"></section>
+		<section id="contacto"></section>
 	</main>
 </Layout>
