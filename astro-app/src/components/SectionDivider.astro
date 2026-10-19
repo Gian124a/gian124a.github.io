@@ -1,0 +1,12 @@
+---
+interface Props {
+	class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<div
+	class:list={['bg-[linear-gradient(to_right,#0C0B0D,#403B45,#403B45,#0C0B0D)] h-1 w-full', className]}
+>
+</div>
