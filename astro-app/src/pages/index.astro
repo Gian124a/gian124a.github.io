@@ -5,12 +5,12 @@ import About from '../components/sections/About.astro';
 import Experience from '../components/sections/Experience.astro';
 import Projects from '../components/sections/Projects.astro';
 import Skills from '../components/sections/Skills.astro';
+import Contact from '../components/sections/Contact.astro';
 import SectionDivider from '../components/SectionDivider.astro';
 ---
 
 <Layout title="Portfolio (Astro)">
 	<main class="relative top-[64px] lg:top-0 flex flex-col px-4 sm:px-8 lg:px-12 sm:top-[40px] text-neutral-50">
-		<!-- Provisional (Fase 3): anclas para probar Header/Nav/Footer; las secciones reales llegan en Fase 4 -->
 		<Hero />
 		<About />
 		<SectionDivider class="mt-10 lg:mt-0" />
@@ -19,6 +19,7 @@ import SectionDivider from '../components/SectionDivider.astro';
 		<Projects />
 		<SectionDivider class="mt-10" />
 		<Skills />
-		<section id="contacto"></section>
+		<SectionDivider class="mt-10" />
+		<Contact />
 	</main>
 </Layout>
