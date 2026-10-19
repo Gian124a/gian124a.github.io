@@ -1,0 +1,40 @@
+---
+import { navLinks } from '../data/navigation';
+
+const baseLink =
+	'relative z-10 px-[40px] py-[13px] sm:px-[45px] sm:py-[15px] md:px-[50px] md:py-[18px] text-neutral-500 text-[14px]';
+const desktopLink = 'lg:px-[17px] lg:py-[6px] lg:rounded-[100px]';
+
+// Las clases difieren por posición en el legacy (paridad visual)
+function linkClass(index: number, mobileOnly?: boolean) {
+	if (mobileOnly) return `${baseLink} lg:hidden`;
+	if (index === navLinks.filter((l) => !l.mobileOnly).length - 1) {
+		return `${baseLink} ${desktopLink} duration-300 lg:transition-all`;
+	}
+	return `${baseLink} ${desktopLink} transition-all duration-300 lg:mr-2`;
+}
+---
+
+<nav
+	class="fixed top-[84px] right-3 z-[110] w-fit sm:absolute lg:absolute lg:top-0 lg:left-0 lg:right-0 lg:mx-auto lg:flex lg:justify-center lg:items-center lg:h-[70px]"
+>
+	<ul
+		id="menu-container"
+		class="relative flex flex-col items-center p-[6px] overflow-hidden rounded-[12px] bg-gradient-to-b from-secundary-800 to-secundary-600 backdrop-blur-xl shadow-lg transition-all duration-500 ease-in-out lg:flex-row lg:p-1 lg:rounded-full lg:border lg:border-neutral-700 lg:backdrop-blur-sm"
+	>
+		<!-- Fondo animado -->
+		<span
+			id="active-bg"
+			class="absolute z-[1] top-0 left-0 right-0 mx-auto rounded-[10px] bg-secundary-500/70 backdrop-blur-md border border-neutral-600/30 shadow-[inset_0_0_4px_rgba(106,102,167,0.5)] transition-all duration-500 ease-in-out lg:top-0 lg:bottom-0 lg:left-0 lg:right-auto lg:m-auto lg:h-[calc(100%-8px)] lg:w-[80px] lg:rounded-[100px] lg:bg-secundary-600 lg:border-neutral-700 lg:shadow-[inset_0_0_6px_rgba(106,102,167,0.7)]"
+		></span>
+
+		<!-- Botones -->
+		{
+			navLinks.map((link, i) => (
+				<a href={link.href} class={linkClass(i, link.mobileOnly)}>
+					{link.label}
+				</a>
+			))
+		}
+	</ul>
+</nav>
