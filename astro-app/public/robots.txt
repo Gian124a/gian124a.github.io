@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://steady-crisp-2975d0.netlify.app/sitemap-index.xml
