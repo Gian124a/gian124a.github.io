@@ -2,8 +2,8 @@
 
 ## Estado actual (legacy, NO romper)
 - `index.html` monolítico (secciones, nav, footer), `src/scripts/script.js`, `src/styles/styles.css`
-- Tailwind v4 vía CLI: `src/input.css` -> `src/output.css`. Iconos: bootstrap-icons
-- Analítica: Microsoft Clarity (snippet en `index.html`)
+- Tailwind v4 vía CLI: `src/input.css` -> `src/output.css`. Iconos: `<img>` SVG en `src/assets` (bootstrap-icons no se usa)
+- Analítica: Clarity sigue en `index.html` legacy pero **no se migra** a Astro
 
 ## Regla de oro
 El sitio legacy debe seguir funcionando en cada commit hasta la fase de corte (Fase 7).

@@ -6,7 +6,7 @@ en `astro-app/`, sección por sección, y se compara contra el legacy.
 ## Fases (marcar al terminar)
 - [x] **Fase 0 – Entorno**: CLAUDE.md, comandos `/fase` y `/verificar`, este plan.
 - [x] **Fase 1 – Scaffold**: crear `astro-app/` (Astro + Tailwind v4 vía `@tailwindcss/vite`), página vacía que compile. Rama `migracion/fase-1-scaffold`.
-- [ ] **Fase 2 – Fundaciones**: mover tokens de `src/input.css` (@theme), `styles.css`, assets a `astro-app/`; `Layout.astro` (head, meta, Clarity), iconos bootstrap-icons.
+- [x] **Fase 2 – Fundaciones**: tokens `@theme` de `src/input.css`, `styles.css` y assets portados a `astro-app/`; `Layout.astro` (head, meta, Poppins). Sin Clarity ni bootstrap-icons (ya no se usan). Rama `migracion/fase-2-fundaciones`.
 - [ ] **Fase 3 – Layout compartido**: `Header/Nav` y `Footer` como componentes.
 - [ ] **Fase 4 – Secciones (1 por sesión)**: las 6 `<section>` de `index.html` -> `src/components/sections/*.astro`. Datos repetidos (proyectos, skills) a `src/data/*.ts` o content collections.
 - [ ] **Fase 5 – Interactividad**: dividir `script.js` (635 líneas) en scripts por componente (`<script>` de Astro); islas (`client:*`) solo si hacen falta.
@@ -22,4 +22,5 @@ en `astro-app/`, sección por sección, y se compara contra el legacy.
 ## Bitácora
 (anotar aquí decisiones y hallazgos por fase)
 - Fase 1: Astro 7 + Tailwind v4 (`@tailwindcss/vite`), instalación independiente en `astro-app/`. Plugin `line-clamp` no se migra (v4 lo trae nativo; confirmar en Fase 4).
+- Fase 2: Clarity eliminado (ya no se usa) y bootstrap-icons no se instala (el legacy solo usa `<img>` SVG). Poppins es la fuente por defecto vía `--font-sans` en `@theme` (Google Fonts); reemplaza `font-[poppins]`. Assets en `astro-app/public/assets/` (30 archivos, incl. sin referencia); migrar a `astro:assets` en Fase 6. `lang="es"` (legacy: `en`). Se mantiene el nombre `secundary`. `tailwind.config.js` v3 y `line-clamp` no se portan (v4 lo trae nativo). Rutas legacy `src/assets/...` pasan a `/assets/...` al migrar el markup (Fases 3-4).
 - Se mergeó por error a `main` local (sin push); revertido. Desde entonces: integración solo en `dev`.
