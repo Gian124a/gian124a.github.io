@@ -29,9 +29,43 @@ const { title = 'Portfolio' } = Astro.props;
 		<title>{title}</title>
 	</head>
 	<body class="relative bg-secundary-900 font-sans min-h-screen overflow-x-hidden">
+		<!-- Pantalla de Carga -->
+		<div
+			id="loader"
+			class="fixed inset-0 z-[9999] flex items-center justify-center bg-secundary-900 transition-opacity duration-500 ease-in-out"
+		>
+			<div
+				class="loader-spinner h-16 w-16 rounded-full border-4 border-solid border-primary-500"
+			>
+			</div>
+		</div>
+
+		<!-- Contenedor para la notificación Toast (inicialmente invisible para permitir transición) -->
+		<div
+			id="toast-notification"
+			class="opacity-0 pointer-events-none fixed top-5 left-0 right-0 mx-auto w-fit p-4 rounded-lg shadow-lg text-white transition-opacity duration-300 z-[300] sm:left-auto sm:right-5"
+		>
+		</div>
+
 		<Header />
 		<Nav />
 		<slot />
 		<Footer />
+
+		<script>
+			// === LÓGICA DE LA PANTALLA DE CARGA ===
+			window.addEventListener('load', () => {
+				const loader = document.getElementById('loader');
+				if (loader) {
+					// Ocultar el loader con una transición suave
+					loader.classList.add('opacity-0');
+
+					// Después de la transición, ocultarlo completamente para que no interfiera
+					setTimeout(() => {
+						loader.style.display = 'none';
+					}, 500); // Debe coincidir con la duración de la transición
+				}
+			});
+		</script>
 	</body>
 </html>
