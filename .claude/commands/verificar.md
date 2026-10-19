@@ -1,7 +1,7 @@
 ---
-description: Verifica que la migración no rompió nada (build Astro + paridad con legacy)
+description: Verifica que los cambios no rompieron nada (build Astro + revisión visual)
 ---
-1. Si existe `astro-app/`, ejecuta `npm run build` ahí y reporta errores/warnings.
-2. Confirma con `git status` que no se modificaron archivos legacy fuera de lo previsto en la fase.
-3. Compara visualmente (Claude in Chrome o screenshots) la sección migrada contra `index.html` legacy: textos, espaciados, responsive (móvil/escritorio), interacciones de `script.js`.
-4. Reporta: qué pasó, qué falló, qué falta. No marques la fase como completa si algo falla.
+1. Ejecuta `npm run build` y reporta errores/warnings.
+2. Confirma con `git status` que solo se modificaron los archivos previstos.
+3. Revisa con `npm run preview` (Claude in Chrome o screenshots): textos, espaciados, responsive (móvil/escritorio) e interacciones (menú, carruseles, modales, formulario).
+4. Reporta: qué pasó, qué falló, qué falta.
