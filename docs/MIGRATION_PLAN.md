@@ -5,7 +5,7 @@ en `astro-app/`, sección por sección, y se compara contra el legacy.
 
 ## Fases (marcar al terminar)
 - [x] **Fase 0 – Entorno**: CLAUDE.md, comandos `/fase` y `/verificar`, este plan.
-- [ ] **Fase 1 – Scaffold**: crear `astro-app/` (Astro + Tailwind v4 vía `@tailwindcss/vite`), página vacía que compile. Rama `migracion/fase-1-scaffold`.
+- [x] **Fase 1 – Scaffold**: crear `astro-app/` (Astro + Tailwind v4 vía `@tailwindcss/vite`), página vacía que compile. Rama `migracion/fase-1-scaffold`.
 - [ ] **Fase 2 – Fundaciones**: mover tokens de `src/input.css` (@theme), `styles.css`, assets a `astro-app/`; `Layout.astro` (head, meta, Clarity), iconos bootstrap-icons.
 - [ ] **Fase 3 – Layout compartido**: `Header/Nav` y `Footer` como componentes.
 - [ ] **Fase 4 – Secciones (1 por sesión)**: las 6 `<section>` de `index.html` -> `src/components/sections/*.astro`. Datos repetidos (proyectos, skills) a `src/data/*.ts` o content collections.
