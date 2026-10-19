@@ -148,3 +148,52 @@ import { projects } from '../../data/projects';
 		</div>
 	</div>
 </section>
+
+<script>
+	import { setupSmartScroll } from "../../scripts/smart-scroll";
+	import { setupCarousel } from "../../scripts/carousel";
+	import { setupModal } from "../../scripts/modal";
+
+	setupCarousel("projects-scroll-container", "project-dots-container", ".project-card");
+
+	const modalImage = document.getElementById("modal-project-image") as HTMLImageElement | null;
+	const modalPlaceholder = document.getElementById("modal-project-placeholder");
+	const modalTitle = document.getElementById("modal-project-title");
+	const modalDescription = document.getElementById("modal-project-description");
+	const modalLink = document.getElementById("modal-project-link") as HTMLAnchorElement | null;
+
+	setupModal({
+		modalId: "project-modal-template",
+		openSelector: ".open-project-modal-btn",
+		closeId: "close-project-modal-btn",
+		cardSelector: ".project-card",
+		label: "proyectos",
+		fill: (card) => {
+			const imageSrc = card.querySelector<HTMLImageElement>(".project-image")?.src; // .src solo existe en <img>
+			const titleText = card.querySelector(".project-title")?.textContent;
+			const descriptionText = card.querySelector(".project-description")?.textContent;
+			const projectUrl = card.dataset.projectUrl;
+
+			if (imageSrc && modalImage && modalPlaceholder) {
+				// Si hay imagen, la mostramos y ocultamos el texto
+				modalImage.src = imageSrc;
+				modalImage.classList.remove("hidden");
+				modalPlaceholder.classList.add("hidden");
+			} else if (modalImage && modalPlaceholder) {
+				// Si no hay imagen, ocultamos la imagen y mostramos el texto
+				modalImage.classList.add("hidden");
+				modalPlaceholder.classList.remove("hidden");
+			}
+
+			if (modalTitle) modalTitle.textContent = titleText || "Sin título";
+			if (modalDescription) modalDescription.textContent = descriptionText || "Sin descripción.";
+			if (modalLink) {
+				modalLink.href = projectUrl || "#";
+				// Ocultar el botón si no hay URL
+				modalLink.style.display = projectUrl && projectUrl !== "#" ? "flex" : "none";
+			}
+		},
+	});
+
+	setupSmartScroll("projects-scroll-container");
+</script>

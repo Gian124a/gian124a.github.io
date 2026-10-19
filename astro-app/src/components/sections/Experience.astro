@@ -95,3 +95,50 @@ const columns = [
 		</div>
 	</article>
 </section>
+
+<script>
+	import { setupSmartScroll } from '../../scripts/smart-scroll';
+	// === PUNTOS DE ESTADO ENTRE EDUCACIÓN Y EXPERIENCIA ===
+	const scrollContainer = document.getElementById('scroll-container');
+	const dotEducacion = document.getElementById('dot-educacion');
+	const dotExperiencia = document.getElementById('dot-experiencia');
+
+	const sections = [
+		document.getElementById('section-educacion'),
+		document.getElementById('section-experiencia'),
+	];
+
+	if (!scrollContainer || !dotEducacion || !dotExperiencia || sections.some((s) => !s)) {
+		console.error(
+			'Faltan elementos HTML con los IDs requeridos (scroll-container, dot-educacion, etc.).',
+		);
+	} else {
+		const setActiveDot = (activeId: string) => {
+			if (activeId === 'section-educacion') {
+				dotEducacion.classList.replace('bg-secundary-500', 'bg-primary-500');
+				dotExperiencia.classList.replace('bg-primary-500', 'bg-secundary-500');
+			} else if (activeId === 'section-experiencia') {
+				dotExperiencia.classList.replace('bg-secundary-500', 'bg-primary-500');
+				dotEducacion.classList.replace('bg-primary-500', 'bg-secundary-500');
+			}
+		};
+
+		// Detecta qué sección está visible; 0.9 asegura que el snap ya terminó
+		const observer = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) setActiveDot(entry.target.id);
+				});
+			},
+			{ root: scrollContainer, rootMargin: '0px', threshold: 0.9 },
+		);
+
+		sections.forEach((section) => observer.observe(section!));
+
+		// Estado inicial (igual que el legacy: Educación activa)
+		dotEducacion.classList.add('bg-primary-500');
+		dotExperiencia.classList.add('bg-neutral-500');
+	}
+
+	setupSmartScroll('scroll-container');
+</script>

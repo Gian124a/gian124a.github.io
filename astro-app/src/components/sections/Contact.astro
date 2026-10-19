@@ -141,3 +141,153 @@ const isLinkedin = (label: string) => label === 'LinkedIn';
 		</form>
 	</article>
 </section>
+
+<script>
+	// === LÓGICA DE VALIDACIÓN DEL FORMULARIO DE CONTACTO ===
+	interface FieldConfig {
+		required: boolean;
+		message: string;
+		isEmail?: boolean;
+		isPhone?: boolean;
+		invalidMessage?: string;
+	}
+
+	const form = document.getElementById('contact-form') as HTMLFormElement | null;
+
+	if (!form) {
+		console.warn("No se encontró el formulario de contacto con el ID 'contact-form'.");
+	} else {
+		const fields: Record<string, FieldConfig> = {
+			name: { required: true, message: 'El nombre completo es obligatorio.' },
+			email: {
+				required: true,
+				isEmail: true,
+				message: 'Por favor, introduce un correo electrónico válido.',
+			},
+			phone: {
+				required: true,
+				isPhone: true,
+				message: 'El teléfono es obligatorio.',
+				invalidMessage: 'Por favor, introduce un número de teléfono válido.',
+			},
+			asunto: { required: true, message: 'El asunto es obligatorio.' },
+			message: { required: true, message: 'El mensaje no puede estar vacío.' },
+		};
+
+		type FieldElement = HTMLInputElement | HTMLTextAreaElement;
+
+		const validateEmail = (email: string) => {
+			const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+			return re.test(String(email).toLowerCase());
+		};
+
+		const validatePhone = (phone: string) => {
+			const re = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im;
+			return re.test(String(phone));
+		};
+
+		const showError = (input: FieldElement, message: string) => {
+			const errorContainer = input.parentElement!.querySelector('.error-message')!;
+			errorContainer.textContent = message;
+			input.classList.add('input-error');
+		};
+
+		const clearError = (input: FieldElement) => {
+			const errorContainer = input.parentElement!.querySelector('.error-message')!;
+			errorContainer.textContent = '';
+			input.classList.remove('input-error');
+		};
+
+		const validateField = (input: FieldElement) => {
+			const config = fields[input.name];
+			let isValid = true;
+
+			if (config.required && !input.value.trim()) {
+				showError(input, config.message);
+				isValid = false;
+			} else if (config.isEmail && !validateEmail(input.value.trim())) {
+				showError(input, config.message);
+				isValid = false;
+			} else if (config.isPhone && input.value.trim() && !validatePhone(input.value.trim())) {
+				showError(input, config.invalidMessage!);
+				isValid = false;
+			} else {
+				clearError(input);
+			}
+			return isValid;
+		};
+
+		let toastTimeout: number;
+		const showToast = (message: string, type = 'success') => {
+			const toast = document.getElementById('toast-notification');
+			if (!toast) return;
+
+			clearTimeout(toastTimeout);
+
+			// Reiniciar estado de color
+			toast.classList.remove('success', 'error');
+
+			toast.textContent = message;
+			toast.classList.add(type); // 'success' o 'error'
+
+			// Mostrar el toast con una transición suave
+			toast.classList.remove('opacity-0', 'pointer-events-none');
+			toast.classList.add('opacity-100', 'pointer-events-auto');
+
+			toastTimeout = window.setTimeout(() => {
+				toast.classList.replace('opacity-100', 'opacity-0');
+				toast.classList.add('pointer-events-none');
+			}, 5000); // Ocultar después de 5 segundos
+		};
+
+		form.addEventListener('submit', async (e) => {
+			e.preventDefault(); // Siempre se maneja con JS
+
+			let isValid = true;
+			for (const fieldName in fields) {
+				if (!validateField(form.elements.namedItem(fieldName) as FieldElement)) {
+					isValid = false;
+				}
+			}
+
+			const submitButton = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+
+			if (isValid) {
+				const originalButtonText = submitButton.textContent;
+				submitButton.disabled = true;
+				submitButton.textContent = 'Enviando...';
+
+				try {
+					const response = await fetch(form.action, {
+						method: form.method,
+						body: new FormData(form),
+						headers: { Accept: 'application/json' },
+					});
+
+					if (response.ok) {
+						showToast('¡Gracias! Tu mensaje ha sido enviado.', 'success');
+						form.reset();
+					} else {
+						throw new Error('Hubo un problema con el envío.');
+					}
+				} catch (error) {
+					showToast('Error al enviar. Inténtalo de nuevo.', 'error');
+				} finally {
+					submitButton.disabled = false;
+					submitButton.textContent = originalButtonText;
+				}
+			} else {
+				// Enfocar el primer campo con error
+				const firstErrorField = form.querySelector<HTMLElement>('.input-error');
+				if (firstErrorField) firstErrorField.focus();
+			}
+		});
+
+		// Validar en tiempo real mientras el usuario escribe o sale del campo
+		for (const fieldName in fields) {
+			const input = form.elements.namedItem(fieldName) as FieldElement;
+			input.addEventListener('input', () => validateField(input));
+			input.addEventListener('blur', () => validateField(input));
+		}
+	}
+</script>
