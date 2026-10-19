@@ -1,10 +1,16 @@
+import type { ImageMetadata } from 'astro';
+import cinemapedia from '../assets/mockups/cinemapedia.png';
+import echo from '../assets/mockups/echo.png';
+import whatsapp from '../assets/mockups/whatsapp.png';
+import product from '../assets/mockups/product.png';
+
 export interface Project {
 	title: string;
 	type: string;
 	description: string;
 	url: string;
 	/** Sin imagen se muestra el placeholder "En proceso". */
-	image?: string;
+	image?: ImageMetadata;
 	/** Paridad con el legacy: Cinemapedia usa tamaños de texto propios en lg. */
 	titleClass?: string;
 	typeClass?: string;
@@ -18,7 +24,7 @@ export const projects: Project[] = [
 		title: 'Cinemapedia',
 		type: 'App mobile',
 		url: 'https://github.com/Gian124a/cinemapedia',
-		image: '/assets/mockups/cinemapedia.png',
+		image: cinemapedia,
 		titleClass: 'lg:text-[16px] xl:text-[15px]',
 		typeClass: 'lg:text-[12px] xl:text-[11px]',
 		description:
@@ -28,7 +34,7 @@ export const projects: Project[] = [
 		title: 'Echo',
 		type: 'App mobile',
 		url: 'https://github.com/Gian124a/weather_echo.git',
-		image: '/assets/mockups/echo.png',
+		image: echo,
 		description:
 			'Echo es una aplicación del clima móvil desarrollada con Flutter que ofrece pronósticos globales precisos, permitiendo a los usuarios ver el clima en tiempo real y las previsiones detalladas para los próximos siete días en cualquier ciudad o región del mundo, utilizando la API de WeatherAPI. La aplicación ofrece funcionalidad de búsqueda global y permite a los usuarios añadir a favoritos sus ubicaciones deseadas, las cuales se almacenan en una base de datos local para persistencia. Desarrollada con Riverpod para una gestión de estado eficiente, Echo solicita permisos de ubicación al inicio para proporcionar inmediatamente el clima de la ubicación actual del usuario.',
 	},
@@ -36,7 +42,7 @@ export const projects: Project[] = [
 		title: 'Chat WhatsApp',
 		type: 'App mobile',
 		url: 'https://github.com/Gian124a/chat-flutter.git',
-		image: '/assets/mockups/whatsapp.png',
+		image: whatsapp,
 		description:
 			'Desarrollada en Flutter, esta es una aplicación de mensajería en tiempo real cuya interfaz de usuario imita el diseño familiar y limpio de WhatsApp. La aplicación incluye un sistema completo de registro y login, y al ingresar, presenta una lista exhaustiva de todos los usuarios registrados. Lo distintivo de esta plataforma es su funcionalidad de chat completamente operativa: cada usuario mantiene una conversación privada y en tiempo real con cada uno de los demás usuarios listados. La funcionalidad de mensajería instantánea se logra mediante el uso de WebSockets, mientras que la arquitectura de la aplicación se basa en Riverpod para la gestión de estado, y cuenta con un backend con Express.js y MongoDB.',
 	},
@@ -44,7 +50,7 @@ export const projects: Project[] = [
 		title: 'Product',
 		type: 'App mobile',
 		url: 'https://github.com/Gian124a/products.git',
-		image: '/assets/mockups/product.png',
+		image: product,
 		description:
 			'Product es mi primera aplicación móvil funcional, desarrollada completamente con Flutter. La aplicación actúa como un sistema CRUD (Crear, Leer, Actualizar, Eliminar) para la gestión de productos, utilizando un backend proporcionado por un colega. Incluye un sistema de registro y login para autenticación de usuarios. Una vez dentro, se muestra una lista completa de artículos, permitiendo a los usuarios crear, editar o eliminar productos. Además, al seleccionar cualquier ítem de la lista, se visualiza la información detallada del producto. Para la gestión de estado y el manejo de datos se utilizó la arquitectura Riverpod.',
 	},

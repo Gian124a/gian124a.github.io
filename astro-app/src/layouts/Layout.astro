@@ -1,4 +1,5 @@
 ---
+import { Font } from 'astro:assets';
 import '../styles/global.css';
 import '../styles/styles.css';
 import Header from '../components/Header.astro';
@@ -7,9 +8,18 @@ import Footer from '../components/Footer.astro';
 
 interface Props {
 	title?: string;
+	description?: string;
+	image?: string;
 }
 
-const { title = 'Portfolio' } = Astro.props;
+const {
+	title = 'Portfolio',
+	description = 'Gianfranco Muñoz, TSU en Informática y desarrollador frontend especializado en aplicaciones móviles híbridas con Flutter y Dart. Conoce mis proyectos, experiencia y habilidades.',
+	image = '/og-image.png',
+} = Astro.props;
+
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
+const imageUrl = new URL(image, Astro.site);
 ---
 
 <!doctype html>
@@ -20,13 +30,34 @@ const { title = 'Portfolio' } = Astro.props;
 		<meta name="generator" content={Astro.generator} />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link
-			rel="stylesheet"
-			href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+		<Font
+			cssVariable="--font-poppins"
+			preload={[
+				{ weight: 400, style: 'normal' },
+				{ weight: 800, style: 'normal' },
+			]}
 		/>
 		<title>{title}</title>
+		<meta name="description" content={description} />
+		<meta name="theme-color" content="#0c0b0d" />
+		<link rel="canonical" href={canonicalUrl} />
+		<link rel="sitemap" href="/sitemap-index.xml" />
+
+		<meta property="og:type" content="website" />
+		<meta property="og:locale" content="es_ES" />
+		<meta property="og:site_name" content="Gianfranco Muñoz" />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonicalUrl} />
+		<meta property="og:image" content={imageUrl} />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta property="og:image:alt" content="Gianfranco Muñoz, desarrollador frontend" />
+
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={imageUrl} />
 	</head>
 	<body class="relative bg-secundary-900 font-sans min-h-screen overflow-x-hidden">
 		<!-- Pantalla de Carga -->
