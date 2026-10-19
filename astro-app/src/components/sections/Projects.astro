@@ -150,6 +150,7 @@ import { projects } from '../../data/projects';
 </section>
 
 <script>
+	import { setupSmartScroll } from "../../scripts/smart-scroll";
 	import { setupCarousel } from "../../scripts/carousel";
 	import { setupModal } from "../../scripts/modal";
 
@@ -193,4 +194,6 @@ import { projects } from '../../data/projects';
 			}
 		},
 	});
+
+	setupSmartScroll("projects-scroll-container");
 </script>

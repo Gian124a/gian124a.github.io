@@ -123,6 +123,7 @@ import { skills } from '../../data/skills';
 </section>
 
 <script>
+	import { setupSmartScroll } from "../../scripts/smart-scroll";
 	import { setupCarousel } from "../../scripts/carousel";
 	import { setupModal } from "../../scripts/modal";
 
@@ -148,4 +149,6 @@ import { skills } from '../../data/skills';
 			if (modalDescription) modalDescription.textContent = descriptionText || "Sin descripción.";
 		},
 	});
+
+	setupSmartScroll("skills-scroll-container");
 </script>
