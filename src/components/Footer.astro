@@ -5,17 +5,19 @@ import { navLinks, socialLinks } from '../data/navigation';
 <footer class="mt-25 bg-secundary-800 text-neutral-500 py-12 px-4 sm:px-8 lg:px-12 lg:mt-16">
 	<div class="max-w-6xl mx-auto flex flex-col items-center gap-y-8">
 		<!-- Logo -->
-		<p
-			class="font-extrabold text-[28px] bg-gradient-to-t from-primary-800 to-primary-500 bg-clip-text text-transparent sm:text-[36px]"
+		<a
+			href="#inicio"
+			aria-label="Portfolio de Gianfranco Muñoz, volver al inicio"
+			class="font-extrabold text-[28px] bg-gradient-to-t from-title-from to-title-to bg-clip-text text-transparent sm:text-[36px] rounded-control focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-fg"
 		>
 			PORTFOLIO
-		</p>
+		</a>
 
 		<!-- Enlaces de Navegación -->
 		<div class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-neutral-400">
 			{
 				navLinks.map((link) => (
-					<a href={link.href} class="hover:text-primary-500 transition-colors">
+					<a href={link.href} class="rounded-control hover:text-accent-fg transition-[color] duration-(--dur-fast) ease-smooth-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-fg">
 						{link.label}
 					</a>
 				))
@@ -28,9 +30,10 @@ import { navLinks, socialLinks } from '../data/navigation';
 				socialLinks.map((social) => (
 					<a
 						href={social.href}
-						class="w-10 h-10 bg-secundary-600 rounded-full flex justify-center items-center hover:bg-secundary-700 hover:scale-105 transition-transform"
+						aria-label={social.label}
+						class="size-(--social-size) bg-secundary-600 rounded-pill flex justify-center items-center hover:bg-secundary-700 hover:scale-105 transition-[background-color,transform] duration-(--dur-fast) ease-smooth-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-fg"
 					>
-						<img src={social.icon} alt={social.label} class="w-5 h-5" />
+						<img src={social.icon} alt="" class="size-1/2" />
 					</a>
 				))
 			}
@@ -38,7 +41,7 @@ import { navLinks, socialLinks } from '../data/navigation';
 
 		<!-- Copyright -->
 		<p class="text-xs text-center text-neutral-600 mt-4">
-			&copy; 2025 Gianfranco Muñoz. Todos los derechos reservados.
+			&copy; {new Date().getFullYear()} Gianfranco Muñoz. Todos los derechos reservados.
 		</p>
 	</div>
 </footer>

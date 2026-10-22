@@ -17,6 +17,22 @@
   transform-origin: top right;
 }
 
+/* Escritorio: la pill sube y se desvanece en secciones sin link visible (Contacto) */
+@media (min-width: 1024px) {
+  #menu-container.nav-hidden {
+    opacity: 0;
+    transform: translateY(calc(-100% - 16px));
+    pointer-events: none;
+  }
+
+  /* Si alguien llega con el teclado, vuelve a mostrarse */
+  #menu-container.nav-hidden:focus-within {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+}
+
 @media (max-width: 1023px) {
   #menu-container {
     opacity: 0;
@@ -37,7 +53,9 @@
    #menu-container a {
     opacity: 0;
     transform: translateY(10px);
-    transition: all 0.3s ease;
+    transition-property: opacity, transform, background-color;
+    transition-duration: 0.3s;
+    transition-timing-function: ease;
   }
 
   #menu-container.open a {
@@ -45,13 +63,10 @@
     transform: translateY(0);
   }
 
-  /* Añade un retardo progresivo para un efecto en cascada */
-   #menu-container.open a:nth-child(1) { transition-delay: 0.05s; }
-   #menu-container.open a:nth-child(2) { transition-delay: 0.1s; }
-   #menu-container.open a:nth-child(3) { transition-delay: 0.15s; }
-   #menu-container.open a:nth-child(4) { transition-delay: 0.2s; }
-   #menu-container.open a:nth-child(5) { transition-delay: 0.25s; }
-   #menu-container.open a:nth-child(6) { transition-delay: 0.3s; } 
+  /* Retardo progresivo en cascada: índice --i definido en cada enlace */
+  #menu-container.open a {
+    transition-delay: calc(var(--i, 0) * 50ms + 50ms);
+  }
  } 
 
  /* === LOADER SPINNER === */
@@ -90,9 +105,6 @@
 .skill-card {
   pointer-events: auto;
 }
-
-/* Clase auxiliar aplicada al hero image container para desactivarle eventos (fallback) */
-.hero-image-pointer-events-none { pointer-events: none; }
 
   /* En pantallas 'sm' o mayores, desactiva el snap en las tarjetas pares para que el scroll avance de dos en dos */
   @media (min-width: 640px) {

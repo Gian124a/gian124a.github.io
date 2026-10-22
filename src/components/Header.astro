@@ -1,21 +1,31 @@
 <header
-	class="z-[100] fixed w-full bg-secundary-900 sm:relative lg:bg-transparent lg:relative h-16 flex items-center justify-between px-[16px] sm:px-8 md:h-20 lg:h-[70px] lg:px-11 2xl:px-24"
+	class="fixed inset-x-0 top-0 z-(--z-header) flex h-(--header-h) items-center justify-between border-b border-white/5 bg-surface/85 px-4 backdrop-blur-md sm:px-8 lg:px-11 2xl:px-24"
 >
-	<p
-		class="font-extrabold text-[28px] bg-gradient-to-t from-primary-800 to-primary-500 bg-clip-text text-transparent sm:text-[28px] md:text-[30px]"
+	<a
+		id="brand-logo"
+		href="#inicio"
+		aria-label="Portfolio de Gianfranco Muñoz, ir al inicio"
+		class="rounded-md bg-gradient-to-t from-title-from to-title-to bg-clip-text text-[28px] font-extrabold text-transparent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-fg md:text-[30px]"
 	>
 		PORTFOLIO
-	</p>
+	</a>
 
-	<button type="button" aria-label="Abrir menú" aria-controls="menu-container">
-		<img id="button-menu" src="/assets/icons/bar.svg" class="ml-2 transform size-[25px]" alt="" />
+	<button
+		id="menu-button"
+		type="button"
+		aria-label="Abrir menú"
+		aria-expanded="false"
+		aria-controls="menu-container"
+		class="rounded-md p-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-fg lg:hidden"
+	>
+		<img id="button-menu" src="/assets/icons/bar.svg" class="size-[25px] transform" alt="" />
 	</button>
 
 	<a
 		href="#contacto"
-		class="hidden px-4 py-[9px] bg-primary-500 rounded-[100px] text-[14px] font-medium items-center text-neutral-500 duration-300 hover:transition-colors hover:bg-primary-700 hover:duration-300 lg:flex"
+		class="hidden items-center rounded-[100px] bg-primary-500 px-4 py-[9px] text-[14px] font-medium text-neutral-500 duration-300 hover:bg-primary-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-fg lg:flex"
 	>
 		Contacto
-		<img src="/assets/icons/card.svg" class="ml-2 text-neutral-500 size-[20px]" alt="" />
+		<img src="/assets/icons/card.svg" class="ml-2 size-[20px] text-neutral-500" alt="" />
 	</a>
 </header>
