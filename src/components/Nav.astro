@@ -9,6 +9,7 @@ const linkClass =
 <nav
 	class="fixed top-[calc(var(--header-h)+12px)] right-3 z-(--z-nav) w-fit lg:pointer-events-none lg:inset-x-0 lg:top-0 lg:mx-auto lg:flex lg:h-(--header-h) lg:w-full lg:items-center lg:justify-center"
 >
+	<!-- V4: rehacer animación de la pill (transform en vez de width/height) -->
 	<div
 		id="menu-container"
 		class="relative flex flex-col items-center p-[6px] overflow-hidden rounded-[12px] bg-gradient-to-b from-secundary-800 to-secundary-600 backdrop-blur-xl shadow-lg transition-all duration-500 ease-in-out lg:pointer-events-auto lg:flex-row lg:gap-2 lg:p-1 lg:rounded-full lg:border lg:border-neutral-700 lg:backdrop-blur-sm"
@@ -35,6 +36,8 @@ const linkClass =
 </nav>
 
 <script>
+	import { scrollToTarget } from '../scripts/motion/lenis';
+
 	// === MENÚ, FONDO ACTIVO, SCROLLSPY Y SCROLL SUAVE ===
 	const menu = document.getElementById('menu-container') as HTMLElement;
 	const activeBg = document.getElementById('active-bg') as HTMLElement;
@@ -79,11 +82,6 @@ const linkClass =
 		if (!hidden) moveBgTo(link);
 	}
 
-	// --- Scroll suave: el offset del header lo aporta scroll-padding-top (--header-h) ---
-	function scrollToSection(targetId: string) {
-		document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-	}
-
 	// --- Abre / cierra el menú móvil y sincroniza ARIA ---
 	function setMenu(open: boolean) {
 		menu.classList.toggle('open', open);
@@ -99,10 +97,16 @@ const linkClass =
 			// Desactiva temporalmente el scrollspy mientras dura el scroll suave
 			userClicked = true;
 			clearTimeout(clickTimeout);
-			clickTimeout = window.setTimeout(() => (userClicked = false), 1000);
+			const release = () => {
+				clearTimeout(clickTimeout);
+				userClicked = false;
+			};
+			clickTimeout = window.setTimeout(release, 2500); // respaldo si la Promise nunca resuelve
 
 			activateLink(link);
-			scrollToSection(link.getAttribute('href')!.substring(1));
+			const target = document.getElementById(link.getAttribute('href')!.substring(1));
+			if (target) scrollToTarget(target).then(release, release);
+			else release();
 
 			// Si está en móvil, cierra el menú al seleccionar
 			if (window.innerWidth < 1024) setMenu(false);

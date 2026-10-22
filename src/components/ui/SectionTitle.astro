@@ -14,6 +14,7 @@ const { as: Tag = 'h2', variant = 'title', id, class: className } = Astro.props;
 
 <Tag
 	id={id}
+	data-motion={variant === 'title' ? 'split' : 'reveal'}
 	class:list={[
 		variant === 'title' &&
 			'font-extrabold text-title bg-gradient-to-t from-title-from to-title-to bg-clip-text text-transparent',

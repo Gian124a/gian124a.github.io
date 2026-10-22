@@ -16,7 +16,7 @@ const { id, labelledby, class: className, closeClass = 'top-3 right-3' } = Astro
 ---
 
 <dialog id={id} aria-labelledby={labelledby} data-modal>
-	<div data-modal-panel class:list={['relative bg-surface-overlay', className]}>
+	<div data-modal-panel data-lenis-prevent class:list={['relative bg-surface-overlay', className]}>
 		<button
 			type="button"
 			data-modal-close
