@@ -132,8 +132,8 @@ plano de la película y termina *dentro* del sitio, sin corte.
 | 0.00 s | Fondo `secundary-900` con grano. Una línea fina en gradiente `primary-800 → primary-500` se dibuja desde el centro hacia los lados (el mismo lenguaje que `SectionDivider`) | `scaleX` 0→1, ease-out |
 | 0.25 s | Sobre la línea sube **"GIANFRANCO MUÑOZ"** letra a letra desde una máscara; bajo ella, en pequeño, "Desarrollador Frontend · Flutter" con fade | SplitText por chars, stagger 0.02 s |
 | 0.25–1.0 s | En la esquina, contador `00 → 100` en tipografía tabular, ligado a la **carga real** (fuente Poppins 800 + decode de la imagen del hero). Si todo carga rápido, igual recorre el mínimo para que la coreografía respire | Promesas `document.fonts.ready` + `img.decode()` |
-| 1.00 s | **Del nombre quedan solo la "G" y la "M"**: el resto de letras se desvanece/cae y la G y la M se deslizan hasta juntarse en el centro formando el monograma **GM** con el gradiente de marca | SplitText chars + FLIP de las dos letras |
-| 1.15 s | **"GM" vuela y se encoge hasta el logo del header** (shared element / FLIP, destino medido en runtime porque el header cambia por breakpoint); a la vez la intro se abre como **cortina** (`clip-path` de abajo hacia arriba) | FLIP con GSAP + `clip-path: inset()` |
+| 1.00 s | El nombre se desvanece hacia arriba mientras **"PORTFOLIO"** aparece grande en el centro con el gradiente de marca | Crossfade + text reveal |
+| 1.15 s | **"PORTFOLIO" vuela y se encoge hasta el logo del header** (`#brand-logo`, shared element / FLIP, destino medido en runtime); a la vez la intro se abre como **cortina** (`clip-path` de abajo hacia arriba) | FLIP con GSAP + `clip-path: inset()` |
 | 1.25 s | Con la cortina aún abriéndose, **arranca la entrada del Hero** (título por líneas, retrato con máscara, stats) → se solapan ~200 ms: un solo movimiento continuo | Timeline encadenada |
 
 **Reglas de la intro**
@@ -146,8 +146,8 @@ plano de la película y termina *dentro* del sitio, sin corte.
 - El nombre y el rol salen de los datos (`src/data/`), no escritos dentro de la animación.
 
 > **Se prototipan las dos versiones y se elige viéndolas**: la completa (≈ 1.5 s) y la corta
-> (≈ 0.9 s: "GM" aparece directo y vuela al header, sin el paso del nombre).
-> El logo pasa de "PORTFOLIO" a **"GM"** en header, footer e intro (decidido en V0).
+> (≈ 0.9 s: "PORTFOLIO" aparece directo y vuela al header, sin el paso del nombre).
+> Logo: se probó "GM" en V1 y se descartó; se mantiene **"PORTFOLIO"**.
 
 ### 5.2 Header y Nav 🔥
 - Header que **se oculta al bajar y reaparece al subir** (con Lenis, sin saltos).
@@ -317,4 +317,7 @@ al bajar solo en móvil, pill del nav con `transform` (no `width/height`).
 6. **Flujo**: todo sobre `dev`; implementación con Sonnet.
 7. **Contenido**: escalable desde `src/data/` sin tocar animaciones (§5.11).
 8. **V0 (2026-10-21)**: nueva fase V1 "Fundación UI" antes del motion; Experiencia sin pin
-   horizontal; recortes de §7; prototipar intro larga y corta; logo **"GM"**; corregir tildes.
+   horizontal; recortes de §7; prototipar intro larga y corta; corregir tildes.
+9. **V1 (2026-10-21)**: logo se queda en **"PORTFOLIO"** (GM descartado); títulos con el
+   **degradado original** `primary-800 → 500` (decisión estética del usuario, aun con contraste
+   bajo en la parte inferior); header fijo en todos los anchos con la pill siguiendo el scroll.

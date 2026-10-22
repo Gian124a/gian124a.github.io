@@ -23,8 +23,8 @@ export function setupCarousel(
 	const dotsToShow = Math.min(Math.ceil(totalCards / (window.innerWidth >= 640 ? 2 : 1)), maxDots); // Muestra 2 tarjetas en sm y superior
 	for (let i = 0; i < dotsToShow; i++) {
 		const dot = document.createElement('div');
-		dot.classList.add('w-4', 'h-4', 'rounded-full', 'transition-all', 'duration-300');
-		dot.classList.add(i === 0 ? 'bg-primary-500' : 'bg-secundary-500');
+		dot.classList.add('w-4', 'h-4', 'rounded-full', 'transition-[background-color,transform]', 'duration-300');
+		dot.classList.add(i === 0 ? 'bg-dot-active' : 'bg-dot');
 		dotsContainer.appendChild(dot);
 	}
 
@@ -52,13 +52,13 @@ export function setupCarousel(
 
 		// Resetear todos los puntos
 		dots.forEach((dot) => {
-			dot.classList.replace('bg-primary-500', 'bg-secundary-500');
+			dot.classList.replace('bg-dot-active', 'bg-dot');
 			dot.classList.remove('scale-75');
 		});
 
 		if (totalPages <= maxDots) {
 			if (dots[currentPage]) {
-				dots[currentPage].classList.replace('bg-secundary-500', 'bg-primary-500');
+				dots[currentPage].classList.replace('bg-dot', 'bg-dot-active');
 			}
 		} else {
 			const lastPageIndex = totalPages - 1;
@@ -74,7 +74,7 @@ export function setupCarousel(
 			}
 
 			if (dots[dotIndexToActivate]) {
-				dots[dotIndexToActivate].classList.replace('bg-secundary-500', 'bg-primary-500');
+				dots[dotIndexToActivate].classList.replace('bg-dot', 'bg-dot-active');
 			}
 
 			if (currentPage < lastPageIndex && dots[lastDotIndex]) {

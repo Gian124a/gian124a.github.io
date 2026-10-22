@@ -10,6 +10,7 @@ export interface FormField {
 	type: string;
 	placeholder: string;
 	inputmode?: string;
+	autocomplete?: string;
 }
 
 export const contactInfo: ContactInfo[] = [
@@ -18,8 +19,8 @@ export const contactInfo: ContactInfo[] = [
 ];
 
 export const formFields: FormField[] = [
-	{ label: 'Nombre completo', name: 'name', type: 'text', placeholder: 'Gianfranco Muñoz' },
-	{ label: 'Correo Electronico', name: 'email', type: 'email', placeholder: 'mgianfranco61@gmail.com' },
-	{ label: 'Telefono', name: 'phone', type: 'tel', inputmode: 'numeric', placeholder: '04241378464' },
-	{ label: 'Asunto', name: 'asunto', type: 'text', placeholder: 'Nuevo proyecto' },
+	{ label: 'Nombre completo', name: 'name', type: 'text', autocomplete: 'name', placeholder: 'Gianfranco Muñoz' },
+	{ label: 'Correo Electrónico', name: 'email', type: 'email', autocomplete: 'email', placeholder: 'mgianfranco61@gmail.com' },
+	{ label: 'Teléfono', name: 'phone', type: 'tel', autocomplete: 'tel', inputmode: 'numeric', placeholder: '04241378464' },
+	{ label: 'Asunto', name: 'asunto', type: 'text', autocomplete: 'off', placeholder: 'Nuevo proyecto' },
 ];

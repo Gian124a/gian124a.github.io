@@ -13,8 +13,8 @@ export interface SocialLink {
 
 export const navLinks: NavLink[] = [
 	{ label: 'Inicio', href: '#inicio' },
-	{ label: 'Sobre mi', href: '#sobre-mi' },
-	{ label: 'Experiencias', href: '#experiencias' },
+	{ label: 'Sobre mí', href: '#sobre-mi' },
+	{ label: 'Experiencia', href: '#experiencias' },
 	{ label: 'Proyectos', href: '#proyectos' },
 	{ label: 'Habilidades', href: '#habilidades' },
 	{ label: 'Contacto', href: '#contacto', mobileOnly: true },

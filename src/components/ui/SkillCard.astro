@@ -1,0 +1,44 @@
+---
+// Tarjeta de habilidad. Las clases .skill-card/.skill-icon/.skill-title/.skill-description
+// y el botón .open-skill-modal-btn los usan carousel.ts y modal.ts.
+import type { Skill } from '../../data/skills';
+
+interface Props {
+	skill: Skill;
+}
+
+const { skill } = Astro.props;
+---
+
+<div
+	class="skill-card relative flex-col gap-y-[24px] w-full sm:w-[calc(50%_-_8px)] lg:w-auto flex-none lg:flex-initial snap-center sm:snap-start flex items-center justify-center"
+>
+	<div
+		class="w-[295px] h-[310px] rounded-[30px] bg-secundary-800 flex flex-col justify-between items-center py-4 px-7 gap-y-2 lg:w-[280px] lg:h-auto"
+	>
+		<div class="flex min-w-0 max-w-full flex-col items-center gap-y-3">
+			<div class="size-[90px] xl:size-[70px] shrink-0 rounded-pill bg-secundary-600 flex justify-center items-center">
+				<!-- Contenedor de tamaño fijo + object-contain: cualquier proporción de icono queda equilibrada -->
+				<div class="size-[35px] xl:size-[30px]">
+					<img src={skill.icon} alt={skill.alt} class="skill-icon size-full object-contain" />
+				</div>
+			</div>
+			<p class="skill-title line-clamp-2 text-center text-subtitle xl:text-lead text-fg font-semibold">
+				{skill.title}
+			</p>
+		</div>
+		<div class="text-center">
+			<p class="skill-description text-body xl:text-small text-fg-subtle line-clamp-4">
+				{skill.description}
+			</p>
+		</div>
+		<button
+			type="button"
+			aria-label={`Leer más sobre ${skill.title}`}
+			class="open-skill-modal-btn flex items-center justify-center min-h-10 w-fit gap-x-1 py-[6px] px-4 rounded-pill cursor-pointer transition-[background-color] duration-(--dur-fast) ease-smooth-out hover:bg-secundary-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-fg"
+		>
+			<span class="text-fg text-body">Leer más</span>
+			<img src="/assets/icons/arrow-down.svg" class="size-[18px]" alt="" />
+		</button>
+	</div>
+</div>
