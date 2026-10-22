@@ -178,22 +178,73 @@
 
 html {
   scroll-padding-top: var(--header-h);
+  overflow-x: clip; /* no "hidden": rompe position: sticky y el pin de ScrollTrigger */
 }
 
-/* Accesibilidad: respeta la preferencia de menos movimiento */
+/* Lenis (CSS recomendado) */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Accesibilidad: reduced-motion = "más suave, no cero".
+   Variables para componentes/JS: multiplicar desplazamientos y escalas por ellas, p. ej.
+     translate: 0 calc(1rem * var(--motion-distance));
+     scale: calc(1 - 0.05 * var(--motion-scale));
+   En reduced valen 0 (sin desplazamiento ni zoom, el fundido de opacidad se mantiene). */
+:root {
+  --motion-distance: 1;
+  --motion-scale: 1;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-distance: 0;
+    --motion-scale: 0;
+  }
+  html {
+    scroll-behavior: auto !important;
+  }
+  /* Las transiciones no se anulan: se acortan a un fundido breve (--dur-fast) para que menú, pill del nav,
+     modal y hovers sigan teniendo feedback pero sin recorridos largos. Con !important porque los componentes
+     fijan duraciones propias. NO se toca animation-*: forzar duración/iteraciones rompería bucles
+     (spinner, futuros marquees), que se pausan por su cuenta vía JS/tier. */
   *,
   *::before,
   *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
+    transition-duration: min(var(--dur-fast), 180ms) !important;
+    transition-delay: 0s !important;
   }
+}
+
+/* data-motion: estados iniciales SOLO con JS activo (html.motion-ready); sin JS todo se ve.
+   src/scripts/motion/declarative.ts los pone en su estado final (+ red de seguridad a los 3 s). */
+.motion-ready [data-motion="reveal"],
+.motion-ready [data-motion="split"],
+.motion-ready [data-motion="stagger"] > * {
+  opacity: 0;
 }
 
 /* Foco visible global (fuente única; Button, Nav, cards y modal repiten los mismos valores) */
 @layer base {
+  a,
+  button,
+  [role='button'],
+  input,
+  textarea,
+  select,
+  summary {
+    -webkit-tap-highlight-color: transparent;
+  }
   :focus-visible {
     outline: 2px solid var(--color-accent-fg);
     outline-offset: 2px;

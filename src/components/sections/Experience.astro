@@ -12,7 +12,7 @@ import { timeline } from '../../data/experience';
 
 	<article
 		id="scroll-container"
-		class="relative flex overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth lg:flex-row lg:overflow-x-visible lg:snap-none lg:justify-center lg:items-start"
+		class="relative flex overflow-x-auto snap-x snap-mandatory no-scrollbar lg:flex-row lg:overflow-x-visible lg:snap-none lg:justify-center lg:items-start"
 	>
 		{
 			timeline.map((category, index) => (
@@ -61,7 +61,6 @@ import { timeline } from '../../data/experience';
 </section>
 
 <script>
-	import { setupSmartScroll } from '../../scripts/smart-scroll';
 	// === PUNTOS DE ESTADO: un punto por panel, enlazados por índice ===
 	const scrollContainer = document.getElementById('scroll-container');
 	const panels = Array.from(
@@ -91,6 +90,4 @@ import { timeline } from '../../data/experience';
 	} else {
 		console.error('Experience: paneles o puntos de estado no coinciden.');
 	}
-
-	setupSmartScroll('scroll-container');
 </script>

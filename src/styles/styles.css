@@ -1,11 +1,18 @@
-#menu-container a:hover {
-    background-color: #3e3e3e80; /* hover suave */
+@media (hover: hover) and (pointer: fine) {
+    #menu-container a:hover {
+        background-color: #3e3e3e80; /* hover suave */
+    }
+
+    /* Cuando está activo, no tiene hover */
+    #menu-container a.active:hover {
+        background-color: transparent !important;
+        cursor: default;
+    }
 }
 
-/* Cuando está activo, no tiene hover */
-#menu-container a.active:hover {
-    background-color: transparent !important;
-    cursor: default;
+/* Feedback táctil (sustituye al destello gris del navegador) */
+#menu-container a:active {
+    opacity: 0.7;
 }
 
 /* === MENÚ DESPLEGABLE MÓVIL (efecto elegante) === */
@@ -69,7 +76,17 @@
   }
  } 
 
- /* === LOADER SPINNER === */
+ /* === LOADER === */
+ /* Oculto por defecto: solo se muestra si el script del <head> añade .has-loader a <html> */
+ #loader {
+  display: none;
+  align-items: center;
+  justify-content: center;
+ }
+ html.has-loader #loader {
+  display: flex;
+ }
+
  .loader-spinner {
   border-top-color: transparent;
   animation: spin 1s linear infinite;
@@ -90,14 +107,13 @@
       scrollbar-width: none; /* Firefox */
   }
 
-/* Asegurar que los contenedores de carrusel acepten gestos táctiles y estén por encima de decoraciones */
+/* Carruseles: el navegador resuelve el gesto (horizontal -> carrusel, vertical -> página; pinch-zoom permitido) */
 #projects-scroll-container,
 #skills-scroll-container,
 #scroll-container {
-  -webkit-overflow-scrolling: touch; /* suaviza el scroll en iOS */
-  touch-action: pan-x; /* permite pan horizontal */
-  pointer-events: auto; /* asegurar que acepten interacciones */
-  z-index: 40; /* por encima de decoraciones que usan z-index bajo */
+  touch-action: pan-x pan-y pinch-zoom;
+  overscroll-behavior-x: contain; /* evita "volver atrás" al llegar al final */
+  z-index: var(--z-carousel);
 }
 
 /* Asegurar que las tarjetas no bloqueen el gesto por tener hijos con pointer-events */

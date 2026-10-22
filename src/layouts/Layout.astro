@@ -58,12 +58,18 @@ const imageUrl = new URL(image, Astro.site);
 		<meta name="twitter:title" content={title} />
 		<meta name="twitter:description" content={description} />
 		<meta name="twitter:image" content={imageUrl} />
+		<script is:inline>
+			// Único sitio que decide mostrar el loader (sin JS nunca se muestra: CSS lo oculta por defecto).
+			// V3: aquí se decidirá la intro de primera visita por sesión con sessionStorage.
+			document.documentElement.classList.add('has-loader');
+		</script>
 	</head>
-	<body class="relative bg-secundary-900 font-sans min-h-screen overflow-x-hidden">
+	<body class="relative bg-secundary-900 font-sans min-h-screen overflow-x-clip">
 		<!-- Pantalla de Carga -->
 		<div
 			id="loader"
-			class="fixed inset-0 z-[9999] flex items-center justify-center bg-secundary-900 transition-opacity duration-500 ease-in-out"
+			aria-hidden="true"
+			class="fixed inset-0 z-(--z-intro) bg-secundary-900 transition-opacity duration-(--dur-base) ease-smooth-out"
 		>
 			<div
 				class="loader-spinner h-16 w-16 rounded-full border-4 border-solid border-primary-500"
@@ -87,19 +93,46 @@ const imageUrl = new URL(image, Astro.site);
 		<Footer />
 
 		<script>
-			// === LÓGICA DE LA PANTALLA DE CARGA ===
-			window.addEventListener('load', () => {
-				const loader = document.getElementById('loader');
-				if (loader) {
-					// Ocultar el loader con una transición suave
-					loader.classList.add('opacity-0');
+			import { initMotion } from '../scripts/motion';
+			initMotion();
+		</script>
 
-					// Después de la transición, ocultarlo completamente para que no interfiera
-					setTimeout(() => {
-						loader.style.display = 'none';
-					}, 500); // Debe coincidir con la duración de la transición
-				}
-			});
+		<script>
+			// === LOADER: se oculta cuando fuente + imagen LCP están listas (tope 3 s), sin esperar a window.load ===
+			const root = document.documentElement;
+			const loader = document.getElementById('loader');
+			const main = document.querySelector('main');
+
+			if (!loader || !root.classList.contains('has-loader')) {
+				root.classList.remove('has-loader');
+			} else {
+				main?.setAttribute('aria-busy', 'true');
+
+				const lcp = document.querySelector<HTMLImageElement>('#inicio img[fetchpriority="high"]');
+				const ready = Promise.all([
+					document.fonts.ready.catch(() => {}),
+					lcp ? lcp.decode().catch(() => {}) : Promise.resolve(),
+				]);
+				const timeout = new Promise<void>((resolve) => setTimeout(resolve, 3000));
+
+				let done = false;
+				const finish = () => {
+					if (done) return;
+					done = true;
+					loader.style.display = 'none';
+					root.classList.remove('has-loader');
+					main?.removeAttribute('aria-busy');
+				};
+
+				Promise.race([ready, timeout]).then(() => {
+					loader.classList.add('opacity-0');
+					loader.addEventListener('transitionend', (e) => {
+						if (e.target === loader) finish();
+					});
+					// Respaldo si transitionend no llega (pestaña oculta, sin transición)
+					setTimeout(finish, 600);
+				});
+			}
 		</script>
 	</body>
 </html>

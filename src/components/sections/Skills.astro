@@ -32,7 +32,7 @@ import { skills } from '../../data/skills';
 
 	<article
 		id="skills-scroll-container"
-		class="relative flex overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth gap-x-4 lg:flex-row lg:flex-wrap lg:overflow-x-visible lg:gap-7 lg:justify-center"
+		class="relative flex overflow-x-auto snap-x snap-mandatory no-scrollbar gap-x-4 lg:flex-row lg:flex-wrap lg:overflow-x-visible lg:gap-7 lg:justify-center"
 	>
 		<Glow class="hidden rounded-full opacity-25 w-[70%] h-[90%] md:hidden lg:block lg:w-[85%] xl:w-[90%] 2xl:w-[70%]" />
 
@@ -67,7 +67,6 @@ import { skills } from '../../data/skills';
 </section>
 
 <script>
-	import { setupSmartScroll } from "../../scripts/smart-scroll";
 	import { setupCarousel } from "../../scripts/carousel";
 	import { setupModal } from "../../scripts/modal";
 
@@ -92,6 +91,4 @@ import { skills } from '../../data/skills';
 			if (modalDescription) modalDescription.textContent = descriptionText || "Sin descripción.";
 		},
 	});
-
-	setupSmartScroll("skills-scroll-container");
 </script>

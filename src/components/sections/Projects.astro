@@ -29,7 +29,7 @@ import { projects } from '../../data/projects';
 	</article>
 	<article
 		id="projects-scroll-container"
-		class="relative flex overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth gap-x-4 lg:flex-row lg:flex-wrap lg:overflow-x-visible lg:gap-7 lg:justify-center xl:px-32 2xl:px-64"
+		class="relative flex overflow-x-auto snap-x snap-mandatory no-scrollbar gap-x-4 lg:flex-row lg:flex-wrap lg:overflow-x-visible lg:gap-7 lg:justify-center xl:px-32 2xl:px-64"
 	>
 		<Glow class="hidden rounded-full opacity-25 w-[70%] h-[90%] md:hidden lg:block lg:w-[85%] lg:h-[60%] xl:w-[90%] 2xl:w-[50%] 2xl:h-full" />
 
@@ -95,7 +95,6 @@ import { projects } from '../../data/projects';
 </section>
 
 <script>
-	import { setupSmartScroll } from "../../scripts/smart-scroll";
 	import { setupCarousel } from "../../scripts/carousel";
 	import { setupModal } from "../../scripts/modal";
 
@@ -140,6 +139,4 @@ import { projects } from '../../data/projects';
 			}
 		},
 	});
-
-	setupSmartScroll("projects-scroll-container");
 </script>

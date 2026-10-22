@@ -1,4 +1,6 @@
 // === LÓGICA DE MODAL GENÉRICA sobre <dialog> nativo (ver ui/Modal.astro) ===
+import { startScroll, stopScroll } from './motion/lenis';
+
 interface ModalOptions {
 	modalId: string; // id del <dialog>
 	openSelector: string;
@@ -25,11 +27,11 @@ export function setupModal({ modalId, openSelector, cardSelector, label, fill }:
 
 	const lockScroll = () => {
 		document.documentElement.classList.add('modal-open');
-		// V2: lenis.stop()/start() aquí
+		stopScroll();
 	};
 	const unlockScroll = () => {
 		document.documentElement.classList.remove('modal-open');
-		// V2: lenis.stop()/start() aquí
+		startScroll();
 	};
 
 	// Anima la salida (rápida) y solo después cierra el dialog
