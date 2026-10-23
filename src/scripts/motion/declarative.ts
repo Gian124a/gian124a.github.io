@@ -21,7 +21,7 @@ const trigger = (el: Element, eager = false) => ({
 });
 const counterText = new Map<Element, string>(); // texto original de los contadores (red de seguridad)
 
-function distance(tier: string) {
+export function distance(tier: string) {
 	if (tier === 'reduced') return 0;
 	const css = num(getComputedStyle(document.documentElement).getPropertyValue('--motion-distance'), 1);
 	return (tier === 'lite' ? 12 : 24) * css;
@@ -30,10 +30,12 @@ function distance(tier: string) {
 // ---- counter: '+5' -> +0…+5, '3 años', '10+', '4.5' ----
 const NUM_RE = /(\d{1,3}(?:,\d{3})+|\d+)(\.\d+)?/;
 
-function setupCounter(el: HTMLElement, restore: Array<() => void>) {
+// Prepara el contador (deja el texto en 0) y devuelve el tween; null si no hay número. Termina en el texto exacto.
+// Reutilizable desde una timeline: vars puede traer duration, ease, scrollTrigger, onComplete...
+export function animateCounter(el: HTMLElement, vars: gsap.TweenVars = {}): gsap.core.Tween | null {
 	const original = el.textContent ?? '';
 	const m = NUM_RE.exec(original);
-	if (!m || el.children.length) return; // sin número (o con markup interno): no hace nada
+	if (!m || el.children.length) return null; // sin número (o con markup interno): no hace nada
 	const int = m[1];
 	const frac = m[2] ?? '';
 	const target = parseFloat(int.replace(/,/g, '') + frac);
@@ -48,18 +50,26 @@ function setupCounter(el: HTMLElement, restore: Array<() => void>) {
 	const state = { v: 0 };
 	counterText.set(el, original);
 	el.textContent = pre + fmt(0) + post;
-	restore.push(() => (el.textContent = original));
-	gsap.to(state, {
-		v: target,
+	return gsap.to(state, {
 		duration: 1.2,
 		ease: 'power3.out',
-		scrollTrigger: trigger(el, true), // en cuanto asoma
+		...vars,
+		v: target,
 		onUpdate: () => (el.textContent = pre + fmt(state.v) + post),
 		onComplete: () => {
 			el.textContent = original; // el texto final es exactamente el original
-			done.add(el);
+			vars.onComplete?.();
 		},
 	});
+}
+
+function setupCounter(el: HTMLElement, restore: Array<() => void>) {
+	const original = el.textContent ?? '';
+	const tw = animateCounter(el, {
+		scrollTrigger: trigger(el, true), // en cuanto asoma
+		onComplete: () => done.add(el),
+	});
+	if (tw) restore.push(() => (el.textContent = original));
 }
 
 const init: MotionInit = ({ tier }) => {

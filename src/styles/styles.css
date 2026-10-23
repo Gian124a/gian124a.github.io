@@ -76,26 +76,42 @@
   }
  } 
 
- /* === LOADER === */
- /* Oculto por defecto: solo se muestra si el script del <head> añade .has-loader a <html> */
- #loader {
+ /* === INTRO === */
+ /* Oculta por defecto: solo se muestra si el script del <head> añade .intro-pending a <html> */
+ #intro {
   display: none;
-  align-items: center;
-  justify-content: center;
  }
- html.has-loader #loader {
-  display: flex;
+ html.intro-pending #intro {
+  display: grid;
  }
-
- .loader-spinner {
-  border-top-color: transparent;
-  animation: spin 1s linear infinite;
+ /* Grano estático y sutil (sin animar). Uso: .grain en un elemento absolute/relative; --grain-o ajusta la opacidad */
+ .grain::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: var(--grain-o, 0.06);
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
  }
-
- @keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+ /* Nivel no-full (clase del <head>): sin grano desde el primer pintado (el feTurbulence es caro de rasterizar en móvil) */
+ html.hero-lite .grain::before,
+ .grain.no-grain::before {
+  display: none;
+ }
+ /* Estado inicial de la coreografía (solo mientras hay intro: sin JS no hay intro o la red de seguridad la quita) */
+ html.intro-pending #intro [data-intro='line'] {
+  transform: scaleX(0);
+ }
+ html.intro-pending #intro [data-intro='name'],
+ html.intro-pending #intro [data-intro='tagline'] {
+  opacity: 0;
+ }
+ /* El logo real espera oculto: la marca de la intro aterrizará sobre él (relevo sin parpadeo) */
+ html.intro-pending #brand-logo {
+  opacity: 0;
+ }
+ #intro [data-intro='counter'] {
+  font-variant-numeric: tabular-nums;
  }
  
  /* Oculta el scrollbar en móviles */
