@@ -1,3 +1,6 @@
+// Texto de la marca: lo usan el logo del header y la intro (que vuela hasta él)
+export const brand = 'PORTFOLIO';
+
 export interface NavLink {
 	label: string;
 	href: string;

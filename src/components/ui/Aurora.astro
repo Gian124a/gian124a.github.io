@@ -1,0 +1,82 @@
+---
+// Aurora decorativa del hero: 3 manchas con radial-gradient (el difuminado lo da el gradiente, sin filter: blur).
+// `class` posiciona la capa móvil (en el hero: la misma caja que el retrato); las manchas son % de esa caja.
+// Estática por defecto; los keyframes (solo transform) se activan con html[data-motion-tier="full"].
+// aurora.ts: seguimiento del cursor (full) y pausa fuera de pantalla (.is-paused).
+interface Props {
+	class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<div data-aurora="root" aria-hidden="true" class="aurora pointer-events-none absolute inset-0 z-10 overflow-hidden">
+	<div data-aurora="layer" class:list={['absolute', className]}>
+		<span class="blob blob-a"></span>
+		<span class="blob blob-b"></span>
+		<span class="blob blob-c"></span>
+	</div>
+</div>
+
+<style>
+	/* Desvanece los bordes del hero: llega a 0 antes del 80% de alto (la barra de stats empieza ~85%) y en los laterales (el recorte overflow dejaría un corte seco donde la mancha aún tiene color) */
+	.aurora {
+		mask-image: radial-gradient(ellipse 34% 40% at 66% 40%, #000 40%, transparent);
+	}
+	.blob {
+		position: absolute;
+		border-radius: 9999px;
+		opacity: 0.75;
+	}
+	.blob-a {
+		width: 120%;
+		height: 120%;
+		right: -35%;
+		top: -10%;
+		background: radial-gradient(closest-side, color-mix(in srgb, var(--color-primary-500) 60%, transparent), transparent);
+		--tx: -6%;
+		--ty: 5%;
+		--s: 1.12;
+		--r: 0deg;
+		animation-duration: 26s;
+	}
+	.blob-b {
+		width: 100%;
+		height: 100%;
+		left: -30%;
+		bottom: -15%;
+		background: radial-gradient(closest-side, color-mix(in srgb, var(--color-primary-800) 90%, transparent), transparent);
+		--tx: 8%;
+		--ty: -6%;
+		--s: 1.18;
+		--r: 20deg;
+		animation-duration: 21s;
+		animation-delay: -7s;
+	}
+	.blob-c {
+		width: 70%;
+		height: 70%;
+		left: 20%;
+		top: 25%;
+		background: radial-gradient(closest-side, color-mix(in srgb, var(--color-primary-500) 45%, transparent), transparent);
+		--tx: -10%;
+		--ty: 8%;
+		--s: 0.88;
+		--r: -25deg;
+		animation-duration: 29s;
+		animation-delay: -14s;
+	}
+	:global(html[data-motion-tier='full']) .blob {
+		animation-name: aurora-drift;
+		animation-timing-function: ease-in-out;
+		animation-direction: alternate;
+		animation-iteration-count: infinite;
+	}
+	:global(.aurora.is-paused) .blob {
+		animation-play-state: paused;
+	}
+	@keyframes aurora-drift {
+		to {
+			transform: translate(var(--tx), var(--ty)) scale(var(--s)) rotate(var(--r));
+		}
+	}
+</style>

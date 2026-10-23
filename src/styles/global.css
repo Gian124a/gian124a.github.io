@@ -234,6 +234,27 @@ html.lenis body {
   opacity: 0;
 }
 
+/* Entrada del hero: estados iniciales ANTES del primer pintado (el script del <head> pone html.hero-pending; sin JS no existe).
+   hero.ts los sustituye por fromTo y quita la clase al terminar (o la red de seguridad del <head> a los 4.5 s).
+   Solo opacity y clip-path: el retrato sigue "pintado" (clip, no opacity:0) para no retrasar el LCP.
+   html.hero-lite (nivel no-full, lo pone el <head>): el retrato no se recorta; pinta desde el primer frame (LCP) bajo la cortina. */
+html.hero-pending #inicio :is(
+  [data-hero='title-line'],
+  [data-hero='intro'],
+  [data-hero='cta'],
+  [data-hero='social'] > *,
+  [data-hero='rule'],
+  [data-hero='stat']
+) {
+  opacity: 0;
+}
+html.hero-pending #inicio [data-aurora='root'] {
+  opacity: 0;
+}
+html.hero-pending:not(.hero-lite) #inicio [data-hero='portrait'] {
+  clip-path: inset(100% 0 0 0);
+}
+
 /* Foco visible global (fuente única; Button, Nav, cards y modal repiten los mismos valores) */
 @layer base {
   a,

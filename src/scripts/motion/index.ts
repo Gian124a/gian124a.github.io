@@ -64,9 +64,55 @@ export function registerMotion(name: string, init: MotionInit) {
 	if (started) run(name, init);
 }
 
+// Ejecuta fn cuando el hilo principal está libre (con tope); setTimeout en navegadores sin requestIdleCallback.
+export function whenIdle(fn: () => void, timeout = 1500) {
+	if ('requestIdleCallback' in window) requestIdleCallback(fn, { timeout });
+	else setTimeout(fn, 200);
+}
+
+// declarative (títulos de secciones bajo el pliegue: SplitText + ScrollTriggers) no es crítico para el primer pintado:
+// se aplaza hasta que acabe la entrada del hero (html.hero-pending), con tope de 2,5 s, o hasta la primera interacción.
+// Mientras tanto lo que oculta .motion-ready está bajo el pliegue y/o tapado por la intro.
+const declarativeDeferred: MotionInit = (ctx) => {
+	const root = document.documentElement;
+	const evts = ['scroll', 'wheel', 'touchmove', 'keydown', 'pointerdown'] as const;
+	let cleanup: void | (() => void);
+	let started = false;
+	let cancelled = false;
+	let mo: MutationObserver | undefined;
+	let timer = 0;
+	const stop = () => {
+		mo?.disconnect();
+		clearTimeout(timer);
+		evts.forEach((e) => removeEventListener(e, go));
+	};
+	function go() {
+		if (started || cancelled) return;
+		started = true;
+		stop();
+		cleanup = declarativeMotion(ctx);
+	}
+	const idleGo = () => whenIdle(go, 800);
+	evts.forEach((e) => addEventListener(e, go, { passive: true, once: true }));
+	timer = window.setTimeout(go, 2500);
+	if (root.classList.contains('hero-pending')) {
+		mo = new MutationObserver(() => {
+			if (!root.classList.contains('hero-pending')) idleGo();
+		});
+		mo.observe(root, { attributes: true, attributeFilter: ['class'] });
+	} else idleGo();
+	return () => {
+		cancelled = true;
+		stop();
+		if (typeof cleanup === 'function') cleanup();
+	};
+};
+
 // Módulos base
 registerMotion('lenis', lenisMotion);
-registerMotion('declarative', declarativeMotion);
+registerMotion('declarative', declarativeDeferred);
+// magnetic (solo full + ratón) se carga aparte y en idle: en lite ni se descarga el trozo
+whenIdle(() => import('./magnetic').then((m) => registerMotion('magnetic', m.magneticMotion)), 2000);
 
 // Idempotente: segunda llamada no hace nada.
 export function initMotion() {

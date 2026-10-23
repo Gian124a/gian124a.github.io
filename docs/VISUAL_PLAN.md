@@ -1,6 +1,6 @@
 # Plan visual: UX/UI + animaciones
 
-> Estado: **decisiones tomadas (§8), pendiente aprobar para arrancar V0**. Nada implementado.
+> Estado: **V0–V3 hechas** (V3 pendiente de commit). Siguiente: V4. Notas por fase en `docs/visual/`.
 > Objetivo: que recorrer el portfolio sea una experiencia que se *disfrute*: movimiento fluido,
 > con intención, que responda al usuario, sin sacrificar rendimiento, accesibilidad ni control.
 >
@@ -279,9 +279,9 @@ la anterior. `main` no se toca hasta que decidas publicar.
 | Fase | Contenido | Skills principales | Riesgo |
 |---|---|---|---|
 | **V0. Diagnóstico** ✅ | Auditorías `impeccable` + `find-animation-opportunities` → `docs/visual/V0.md` | impeccable, find-animation-opportunities | — |
-| **V1. Fundación UI** | Tokens en `@theme` (tipografía fluida `clamp()`, color semántico con contraste AA, espaciado, radios, z-index, motion); componentes `SectionTitle`/`Button`/`Card`/`Glow`; Hero en grid; header/nav coherentes; modales y formulario accesibles; foco visible; headings/alts; quitar clases de paridad; `min-h-svh`; logo "GM"; tildes en datos | impeccable, emil-design-eng, frontend-design, break-ui | Medio (cambia la base visual) |
-| **V2. Fundación de motion** | GSAP + Lenis; `src/scripts/motion/`; `.motion-ready`; niveles full/lite/reduced; API `data-motion`; arreglar `touch-action` y retirar `smart-scroll`; Lenis ↔ carruseles/modales/nav; reduced-motion; loader desacoplado de `window.load`; quitar `transition-all` y hover sin gating | animate, animation-performance, mobile-native | Medio (base de todo) |
-| **V3. Intro + Hero** | §5.1 (prototipo de las dos intros) y §5.3 | animate, apple-design, prototype | Medio |
+| **V1. Fundación UI** ✅ | Tokens en `@theme` (tipografía fluida `clamp()`, color semántico con contraste AA, espaciado, radios, z-index, motion); componentes `SectionTitle`/`Button`/`Card`/`Glow`; Hero en grid; header/nav coherentes; modales y formulario accesibles; foco visible; headings/alts; quitar clases de paridad; `min-h-svh`; logo "GM"; tildes en datos | impeccable, emil-design-eng, frontend-design, break-ui | Medio (cambia la base visual) |
+| **V2. Fundación de motion** ✅ | GSAP + Lenis; `src/scripts/motion/`; `.motion-ready`; niveles full/lite/reduced; API `data-motion`; arreglar `touch-action` y retirar `smart-scroll`; Lenis ↔ carruseles/modales/nav; reduced-motion; loader desacoplado de `window.load`; quitar `transition-all` y hover sin gating | animate, animation-performance, mobile-native | Medio (base de todo) |
+| **V3. Intro + Hero** ✅ | §5.1 (prototipo de las dos intros) y §5.3 | animate, apple-design, prototype | Medio |
 | **V4. Nav + Sobre mí + divisores** | §5.2, §5.4, §5.9 (divisores) | animate, emil-design-eng | Bajo |
 | **V5. Experiencia** | §5.5 | animate, mobile-native | Bajo |
 | **V6. Proyectos** | §5.6 (scrollytelling + View Transitions) | prototype, animate, apple-design, break-ui | Alto (protagonista) |

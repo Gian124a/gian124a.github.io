@@ -1,0 +1,40 @@
+---
+import { hero } from '../data/hero';
+import { brand } from '../data/navigation';
+---
+
+<!-- Intro "Del nombre a la marca": oculta por defecto (CSS), visible solo con html.intro-pending. Coreografía en scripts/motion/intro.ts.
+     Capas: bg (fondo + grano, lleva el clip-path de la cortina) / stack (línea, nombre, tagline) / brand (vuela al header, sin recorte). -->
+<div id="intro" aria-hidden="true" class="fixed inset-0 z-(--z-intro) overflow-hidden px-6 place-items-center">
+	<div data-intro="bg" class="grain absolute inset-0 bg-secundary-900"></div>
+	<div
+		data-intro="stack"
+		class="relative col-start-1 row-start-1 flex w-full max-w-5xl flex-col items-center gap-4 text-center"
+	>
+		<div
+			data-intro="line"
+			class="h-px w-full max-w-md origin-center bg-linear-to-r from-primary-800 to-primary-500"
+		>
+		</div>
+		<p
+			data-intro="name"
+			class="max-w-full text-balance text-[clamp(1.5rem,7vw,4.5rem)] leading-tight font-extrabold tracking-wide text-white wrap-break-word uppercase"
+		>
+			{hero.name}
+		</p>
+		<p data-intro="tagline" class="text-balance text-xs tracking-widest text-white/70 uppercase sm:text-sm">
+			{hero.tagline}
+		</p>
+	</div>
+	<p
+		data-intro="brand"
+		style={`--brand-chars:${brand.length}`}
+		class="relative col-start-1 row-start-1 origin-top-left bg-gradient-to-t from-title-from to-title-to bg-clip-text text-center text-[length:min(clamp(2.25rem,12vw,8rem),calc((100vw_-_3rem)_/_(var(--brand-chars)_*_0.75)))] font-extrabold text-transparent opacity-0"
+	>
+		{brand}
+	</p>
+	<span
+		data-intro="counter"
+		class="absolute right-6 bottom-6 text-sm tracking-widest text-white/60 sm:text-base md:right-10 md:bottom-10"
+	>00</span>
+</div>

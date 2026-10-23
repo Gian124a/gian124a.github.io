@@ -1,5 +1,6 @@
 ---
 import Button from '../ui/Button.astro';
+import Aurora from '../ui/Aurora.astro';
 import { socialLinks } from '../../data/navigation';
 import { stats } from '../../data/stats';
 import { hero } from '../../data/hero';
@@ -26,12 +27,17 @@ const longest = Math.max(...hero.roleLines.map((l) => l.length));
 	style={`--hero-title-chars:${longest}`}
 	class="relative z-50 flex flex-col items-center pt-6 gap-y-4 md:gap-y-8 lg:min-h-[calc(100svh_-_var(--header-h))] lg:justify-end lg:gap-0 lg:pt-0 [--hero-copy:clamp(0.8125rem,0.75rem_+_0.2vw,0.9375rem)] [--hero-stat:calc(var(--hero-copy)*2.2)] sm:[--hero-stat:calc(var(--hero-copy)*2.5)] [--hero-img-w:calc(100vw_-_2rem)] [--hero-img-top:55px] sm:[--hero-img-w:60vw] sm:[--hero-img-top:85px] md:[--hero-img-w:55vw] md:[--hero-img-top:80px] lg:[--hero-copy:clamp(0.875rem,calc(var(--hero-img-w)*0.024),2rem)] lg:[--hero-stat:clamp(2.5rem,calc(var(--hero-img-w)*0.08),6.5rem)] [--hero-title-base:var(--text-display)] [--hero-title-avail:calc(100vw_-_2rem)] sm:[--hero-title-avail:calc(100vw_-_4rem)] [--hero-title-size:min(var(--hero-title-base),calc(var(--hero-title-avail)_/_(var(--hero-title-chars)_*_0.68)))] lg:[--hero-title:clamp(3.5rem,calc(var(--hero-img-w)*0.1),9rem)] lg:[--hero-title-base:var(--hero-title)] lg:[--hero-title-avail:calc(100vw_-_6rem_-_0.78*var(--hero-img-w)_-_1.5rem)] xl:[--hero-title-avail:calc(100vw_-_6rem_-_90px_-_0.78*var(--hero-img-w)_+_1rem)] lg:[--hero-img-w:min(75svh,_50vw,_calc((100svh_-_var(--header-h)_-_var(--hero-stats-h))_/_0.93))] xl:[--hero-img-w:min(84svh,_52vw,_calc((100svh_-_var(--header-h)_-_var(--hero-stats-h))_/_0.93))]"
 >
+	<!-- Aurora (z-10) y grano (z-20) detrás del retrato (z-30/40) y del texto (z-50). La capa móvil ocupa la caja del retrato -->
+	<Aurora class="top-(--hero-img-top) w-(--hero-img-w) aspect-[402/411] inset-x-0 mx-auto lg:left-auto lg:mx-0 lg:right-0 lg:top-auto lg:bottom-[calc(var(--hero-stats-h)_-_0.094*var(--hero-img-w)_-_1px)]" />
+	<div aria-hidden="true" class="grain pointer-events-none absolute inset-0 z-20 [--grain-o:0.05] [mask-image:radial-gradient(ellipse_50%_40%_at_50%_40%,#000_30%,transparent)]"></div>
+
 	<!--
 		Retrato. <lg: absolute bajo el título, centrado. lg+: absolute a la derecha, con el borde
 		inferior de la FIGURA (el SVG tiene ~9.2% de margen transparente abajo = 0.094 * ancho)
 		sobre la línea superior de la barra de stats. 1px de solape para evitar rendija.
 	-->
 	<article
+		data-hero="portrait"
 		class="pointer-events-none absolute top-(--hero-img-top) w-(--hero-img-w) z-30 flex lg:right-0 lg:top-auto lg:bottom-[calc(var(--hero-stats-h)_-_0.094*var(--hero-img-w)_-_1px)] lg:z-40"
 	>
 		<img
@@ -45,16 +51,38 @@ const longest = Math.max(...hero.roleLines.map((l) => l.length));
 	</article>
 
 	<article
+		data-hero-exit="copy"
 		class="relative w-full flex flex-col gap-y-11 lg:flex-1 lg:justify-center lg:gap-0 xl:px-[45px]"
 	>
 		<div
 			class="w-full flex flex-col items-center sm:px-[10%] md:px-[5%] lg:items-start lg:px-0 lg:h-fit lg:mb-[calc(var(--hero-img-w)*0.05)] lg:max-w-[calc(100%_-_0.9*var(--hero-img-w)_-_1.5rem)] xl:max-w-[calc(100%_-_0.9*var(--hero-img-w)_+_1rem)]"
 		>
-			<!-- Dos líneas fijas: así la altura del título es predecible (2 × 1.05 × text-display) -->
+			<!--
+				Dos líneas fijas: así la altura del título es predecible (2 × 1.05 × text-display).
+				Cada línea lleva una máscara (clip-path, sin tocar el layout: arriba deja 0.12em para acentos) y su propio trozo del
+				gradiente (background-size N×100% + posición por índice = el mismo gradiente continuo que antes sobre todo el h1),
+				porque background-clip:text no admite hijos con transform.
+			-->
 			<h1
-				class="relative z-50 font-extrabold text-[length:var(--hero-title-size)] leading-[1.05] text-center bg-gradient-to-t from-title-from to-title-to bg-clip-text text-transparent lg:text-start lg:mb-[calc(var(--hero-title-size)*0.3)]"
+				data-hero="title"
+				class="relative z-50 font-extrabold text-[length:var(--hero-title-size)] leading-[1.05] text-center text-transparent lg:text-start lg:mb-[calc(var(--hero-title-size)*0.3)]"
 			>
-				<span class="block whitespace-nowrap">{hero.roleLines[0]}</span>{" "}<span class="block whitespace-nowrap">{hero.roleLines[1]}</span>
+				{
+					hero.roleLines.map((line, i) => (
+						<>
+							{i > 0 && " "}
+							<span class="block [clip-path:inset(-0.12em_-1em_0_-1em)]">
+								<span
+									data-hero="title-line"
+									class="block whitespace-nowrap bg-gradient-to-t from-title-from to-title-to bg-clip-text"
+									style={`background-size:100% ${hero.roleLines.length * 100}%;background-position:0 ${(i / Math.max(1, hero.roleLines.length - 1)) * 100}%`}
+								>
+									{line}
+								</span>
+							</span>
+						</>
+					))
+				}
 			</h1>
 
 			<!--
@@ -62,6 +90,7 @@ const longest = Math.max(...hero.roleLines.map((l) => l.length));
 				desde su top, descontando el padding de la sección (1.5rem) y las 2 líneas del título.
 			-->
 			<div
+				data-hero="intro"
 				class="relative z-50 w-[94%] text-center mt-[calc(var(--hero-img-top)_+_0.85*var(--hero-img-w)_-_1.5rem_-_2.1*var(--hero-title-size))] md:w-[70%] lg:mt-0 lg:w-full lg:max-w-[calc(var(--text-copy)*30)] lg:text-start lg:mb-[calc(var(--hero-copy)*1.5)]"
 			>
 				<p class="text-copy text-fg">
@@ -70,9 +99,10 @@ const longest = Math.max(...hero.roleLines.map((l) => l.length));
 			</div>
 
 			<!-- Botón -->
-			<div class="relative z-50 mt-10 flex justify-center items-center lg:justify-start lg:mt-0">
+			<div data-hero="cta" class="relative z-50 mt-10 flex justify-center items-center lg:justify-start lg:mt-0">
 				<Button
 					href={hero.cta.href}
+					data-motion="magnetic"
 					size="none"
 					class="px-[18px] py-[12px] text-[14px] sm:text-[16px] sm:px-[22px] md:py-[13px] lg:px-[calc(var(--hero-copy)*1.2)] lg:py-[calc(var(--hero-copy)*0.75)] lg:text-[length:var(--hero-copy)]"
 				>
@@ -87,12 +117,14 @@ const longest = Math.max(...hero.roleLines.map((l) => l.length));
 		</div>
 
 		<div
+			data-hero="social"
 			class="relative z-50 flex justify-around items-center px-[5px] sm:px-[10%] sm:justify-center sm:gap-x-[25px] lg:w-fit lg:px-0 lg:gap-x-[calc(var(--hero-copy)*0.8)] lg:absolute lg:bottom-[max(1rem,calc(var(--hero-copy)*1.5))]"
 		>
 			{
 				socialLinks.map((social) => (
 					<a
 						href={social.href}
+							data-motion="magnetic"
 						class="bg-secundary-600 rounded-full flex shrink-0 justify-center items-center size-(--social-size) hover:bg-secundary-700 hover:scale-[1.07] transition-[background-color,transform] duration-300"
 					>
 						<img src={social.icon} alt={social.label} class="size-1/2" />
@@ -106,18 +138,31 @@ const longest = Math.max(...hero.roleLines.map((l) => l.length));
 	<article
 		class="bg-secundary-900 flex flex-col w-full gap-y-5 justify-between z-50 lg:h-(--hero-stats-h) lg:gap-y-0"
 	>
-		<div class="bg-[linear-gradient(to_right,#0C0B0D,#403B45,#403B45,#0C0B0D)] h-[2px] w-full"></div>
+		<div data-hero="rule" class="bg-[linear-gradient(to_right,#0C0B0D,#403B45,#403B45,#0C0B0D)] h-[2px] w-full"></div>
 
 		<div class="grid grid-cols-2 gap-y-4 sm:px-[5%] lg:grid-flow-col lg:auto-cols-fr lg:grid-cols-none lg:px-0">
 			{
 				stats.map((stat) => (
-					<div class="flex items-center justify-center gap-x-1 sm:gap-x-3 sm:px-1 lg:gap-x-2">
-						<p class="text-[length:var(--hero-stat)] leading-[1.1] font-bold text-fg">{stat.value}</p>
+					<div data-hero="stat" class="flex items-center justify-center gap-x-1 sm:gap-x-3 sm:px-1 lg:gap-x-2">
+						<p data-hero="stat-value" class="whitespace-nowrap text-[length:var(--hero-stat)] leading-[1.1] font-bold text-fg">{stat.value}</p>
 						<p class="text-[length:max(0.6875rem,calc(var(--text-copy)*0.8))] lg:text-[length:max(0.8125rem,calc(var(--text-copy)*0.9))] leading-snug text-fg text-balance max-w-[18ch] line-clamp-2" title={stat.label}>{stat.label}</p>
 					</div>
 				))
 			}
 		</div>
-		<div class="bg-[linear-gradient(to_right,#0C0B0D,#403B45,#403B45,#0C0B0D)] h-[2px] w-full"></div>
+		<div data-hero="rule" class="bg-[linear-gradient(to_right,#0C0B0D,#403B45,#403B45,#0C0B0D)] h-[2px] w-full"></div>
 	</article>
+
+	<!-- Velo de la salida con scroll (heroExit.ts): funde el hero con el fondo de la página al alejarse (mismo color: sin bordes de caja); opacity 0 sin JS -->
+	<div data-hero-exit="veil" aria-hidden="true" class="pointer-events-none absolute inset-0 z-[60] bg-secundary-900 opacity-0"></div>
 </section>
+
+<script>
+	import '../../scripts/motion/hero';
+	import { whenIdle } from '../../scripts/motion';
+	// Aurora y salida con scroll no hacen falta para el primer pintado: se cargan en idle (cada una registra su módulo)
+	whenIdle(() => {
+		import('../../scripts/motion/aurora');
+		import('../../scripts/motion/heroExit');
+	}, 2000);
+</script>
