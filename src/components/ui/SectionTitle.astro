@@ -1,0 +1,26 @@
+---
+// Título de sección: tamaño fluido (--text-title) y gradiente legible.
+// Alineación y márgenes de cada sección se pasan por `class` (sin tamaños de fuente).
+interface Props {
+	as?: 'h1' | 'h2' | 'h3';
+	// 'title': grande con gradiente; 'eyebrow': etiqueta pequeña sin gradiente
+	variant?: 'title' | 'eyebrow';
+	id?: string;
+	class?: string;
+}
+
+const { as: Tag = 'h2', variant = 'title', id, class: className } = Astro.props;
+---
+
+<Tag
+	id={id}
+	data-motion={variant === 'title' ? 'split' : 'reveal'}
+	class:list={[
+		variant === 'title' &&
+			'font-extrabold text-title bg-gradient-to-t from-title-from to-title-to bg-clip-text text-transparent',
+		variant === 'eyebrow' && 'font-semibold text-eyebrow text-fg',
+		className,
+	]}
+>
+	<slot />
+</Tag>

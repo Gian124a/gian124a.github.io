@@ -1,0 +1,20 @@
+---
+// Halo decorativo (radial-gradient + blur). Posición, tamaño, opacidad y
+// visibilidad por breakpoint se pasan por `class`. Sin animación.
+interface Props {
+	class?: string;
+	blur?: '3xl' | '100';
+}
+
+const { class: className, blur = '3xl' } = Astro.props;
+---
+
+<div
+	aria-hidden="true"
+	class:list={[
+		'pointer-events-none absolute z-[-1] inset-0 m-auto [background-image:radial-gradient(ellipse_at_center,_#4124AA_0%,_#2A1672_36%,_#21115B_63%,_#1B0E4A_85%,_#05030D_100%)]',
+		blur === '100' ? 'blur-[100px]' : 'blur-3xl',
+		className,
+	]}
+>
+</div>

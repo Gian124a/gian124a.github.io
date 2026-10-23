@@ -1,4 +1,8 @@
 ---
+import SectionTitle from '../ui/SectionTitle.astro';
+import Glow from '../ui/Glow.astro';
+import SkillCard from '../ui/SkillCard.astro';
+import Modal from '../ui/Modal.astro';
 import { skills } from '../../data/skills';
 ---
 
@@ -6,23 +10,16 @@ import { skills } from '../../data/skills';
 	id="habilidades"
 	class="relative mt-10 flex flex-col gap-y-7 md:gap-y-[48px] xl:px-[36px] 2xl:px-[32px] 2xl:h-[calc(100vh_-_70px)] 2xl:gap-y-10"
 >
-	<div
-		class="absolute z-[-1] w-full h-[100%] top-0 left-0 right-0 bottom-0 m-auto rounded-full [background-image:radial-gradient(ellipse_at_center,_#4124AA_0%,_#2A1672_36%,_#21115B_63%,_#1B0E4A_85%,_#05030D_100%)] blur-3xl opacity-25 sm:w-[80%] md:w-full lg:hidden lg:h-[80%] 2xl:w-[90%]"
-	>
-	</div>
+	<Glow class="w-full h-[100%] rounded-full opacity-25 sm:w-[80%] md:w-full lg:hidden lg:h-[80%] 2xl:w-[90%]" />
 
 	<article class="flex flex-col gap-y-[28px] items-center lg:gap-y-[42px]">
 		<div
 			class="flex flex-col gap-y-3 px-7 items-center lg:order-1 lg:gap-y-5 xl:p-0 xl:order-1 2xl:gap-y-3"
 		>
-			<h2
-				class="font-extrabold text-[9.5vw] leading-[9.5vw] text-center bg-gradient-to-t from-primary-800 to-primary-500 bg-clip-text text-transparent sm:text-[13vh] sm:leading-[13vh] md:text-[6vw] md:leading-[6vw] lg:text-start lg:text-[5.8vh] lg:leading-[5.8vh] xl:text-[6.5vh] xl:leading-[6.5vh] 2xl:text-[52px] 2xl:leading-[56px]"
-			>
-				HABILIDADES
-			</h2>
+			<SectionTitle class="text-center lg:text-start">HABILIDADES</SectionTitle>
 			<div class="relative lg:w-[80%] xl:w-[70%] 2xl:w-[60%]">
 				<p
-					class="text-neutral-500 text-center text-[3.8vw] sm:text-[5vh] md:text-[2.2vw] lg:text-[2vh] 2xl:text-[1.6vh]"
+					class="text-fg text-center text-copy"
 				>
 					Mi stack tecnológico se centra en la eficiencia y la portabilidad del desarrollo móvil,
 					complementado con sólidos conocimientos en el frontend web. A continuación, se detallan
@@ -35,47 +32,11 @@ import { skills } from '../../data/skills';
 
 	<article
 		id="skills-scroll-container"
-		class="relative flex overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth gap-x-4 lg:flex-row lg:flex-wrap lg:overflow-x-visible lg:gap-7 lg:justify-center"
+		class="relative flex overflow-x-auto snap-x snap-mandatory no-scrollbar gap-x-4 lg:flex-row lg:flex-wrap lg:overflow-x-visible lg:gap-7 lg:justify-center"
 	>
-		<div
-			class="hidden sm:absolute z-[-1] sm:w-[70%] sm:h-[90%] sm:top-0 sm:left-0 sm:right-0 sm:bottom-0 sm:m-auto sm:rounded-full sm:[background-image:radial-gradient(ellipse_at_center,_#4124AA_0%,_#2A1672_36%,_#21115B_63%,_#1B0E4A_85%,_#05030D_100%)] sm:blur-3xl sm:opacity-25 md:hidden lg:flex lg:w-[85%] xl:w-[90%] 2xl:w-[70%]"
-		>
-		</div>
+		<Glow class="hidden rounded-full opacity-25 w-[70%] h-[90%] md:hidden lg:block lg:w-[85%] xl:w-[90%] 2xl:w-[70%]" />
 
-		{
-			skills.map((skill) => (
-				<div class="skill-card relative flex-col gap-y-[24px] w-full sm:w-[calc(50%_-_8px)] lg:w-auto flex-none lg:flex-initial snap-center sm:snap-start flex items-center justify-center">
-					<div class="w-[295px] h-[310px] rounded-[30px] bg-secundary-800 flex flex-col justify-between items-center py-4 px-7 gap-y-2 lg:w-[280px] lg:h-auto">
-						<div class="flex flex-col items-center gap-y-3">
-							<div
-								class:list={[
-									'w-[90px] h-[90px] rounded-full bg-secundary-600 flex justify-center items-center',
-									skill.circleClass,
-								]}
-							>
-								<img
-									src={skill.icon}
-									alt={skill.alt}
-									class:list={['skill-icon', skill.iconClass]}
-								/>
-							</div>
-							<p class="skill-title text-neutral-500 text-[20px] font-semibold xl:text-[18px]">
-								{skill.title}
-							</p>
-						</div>
-						<div class="text-center">
-							<p class="skill-description text-neutral-800 text-[14px] line-clamp-4 xl:text-[12px]">
-								{skill.description}
-							</p>
-						</div>
-						<button class="open-skill-modal-btn flex items-center w-fit gap-x-1 py-[6px] px-4 rounded-full cursor-pointer">
-							<p class="text-neutral-500 text-[14px]">Leer más</p>
-							<img src="/assets/icons/arrow-down.svg" class="size-[18px]" alt="" />
-						</button>
-					</div>
-				</div>
-			))
-		}
+		{skills.map((skill) => <SkillCard skill={skill} />)}
 	</article>
 
 	<article
@@ -85,45 +46,27 @@ import { skills } from '../../data/skills';
 		<!-- Los puntos se generarán aquí con JavaScript (Fase 5) -->
 	</article>
 
-	<!-- Modal Genérico (Plantilla) -->
-	<div
+	<!-- Modal de Habilidades -->
+	<Modal
 		id="skill-modal-template"
-		class="fixed inset-0 bg-opacity-20 backdrop-blur-md z-[500] p-4 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 ease-in-out"
+		labelledby="modal-skill-title"
+		class="rounded-[30px] p-8 max-w-lg max-h-[80vh] w-full flex flex-col items-center gap-y-4"
+		closeClass="top-3 right-3"
 	>
-		<div
-			class="bg-secundary-800 rounded-[30px] p-8 max-w-lg max-h-[80vh] w-full relative flex flex-col items-center gap-y-4 transform scale-95 opacity-0 transition-all duration-300 ease-in-out"
-		>
-			<button
-				id="close-skill-modal-btn"
-				aria-label="Cerrar modal"
-				class="absolute top-4 right-4 p-1 flex items-center justify-center rounded-full cursor-pointer"
-			>
-				<img src="/assets/imgs/logo-close.svg" class="text-neutral-500 text-[28px]" alt="" />
-			</button>
-
-			<div class="flex flex-col items-center gap-y-3">
-				<div
-					class="w-[80px] h-[80px] rounded-full bg-secundary-600 flex justify-center items-center"
-				>
-					<img
-						id="modal-skill-icon"
-						src=""
-						alt="Logo de la habilidad"
-						class="size-[35px]"
-					/>
-				</div>
-				<p id="modal-skill-title" class="text-neutral-500 text-[20px] font-semibold"></p>
+		<div class="flex flex-col items-center gap-y-3">
+			<div class="w-[80px] h-[80px] rounded-full bg-secundary-600 flex justify-center items-center">
+				<img id="modal-skill-icon" src="" alt="" class="size-[35px]" />
 			</div>
-
-			<div class="text-center overflow-y-auto no-scrollbar">
-				<p id="modal-skill-description" class="text-neutral-700 text-[15px]"></p>
-			</div>
+			<h3 id="modal-skill-title" class="text-neutral-500 text-[20px] font-semibold"></h3>
 		</div>
-	</div>
+
+		<div class="text-center overflow-y-auto no-scrollbar">
+			<p id="modal-skill-description" class="text-neutral-700 text-[15px]"></p>
+		</div>
+	</Modal>
 </section>
 
 <script>
-	import { setupSmartScroll } from "../../scripts/smart-scroll";
 	import { setupCarousel } from "../../scripts/carousel";
 	import { setupModal } from "../../scripts/modal";
 
@@ -136,7 +79,6 @@ import { skills } from '../../data/skills';
 	setupModal({
 		modalId: "skill-modal-template",
 		openSelector: ".open-skill-modal-btn",
-		closeId: "close-skill-modal-btn",
 		cardSelector: ".skill-card",
 		label: "habilidades",
 		fill: (card) => {
@@ -149,6 +91,4 @@ import { skills } from '../../data/skills';
 			if (modalDescription) modalDescription.textContent = descriptionText || "Sin descripción.";
 		},
 	});
-
-	setupSmartScroll("skills-scroll-container");
 </script>

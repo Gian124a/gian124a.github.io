@@ -1,0 +1,58 @@
+---
+// Botón/enlace de acción. Con `href` renderiza <a>; si no, <button>.
+// Contenido por <slot /> (texto + icono opcional). Atributos extra vía ...rest.
+interface Props {
+	href?: string;
+	type?: 'button' | 'submit' | 'reset';
+	variant?: 'primary' | 'ghost';
+	// 'cta': padding/tamaño de texto responsive de los CTA; 'none': los pasa el llamador
+	size?: 'cta' | 'none';
+	// 'pill' para CTA; 'control' para controles de formulario/modal
+	shape?: 'pill' | 'control';
+	id?: string;
+	class?: string;
+	target?: string;
+	rel?: string;
+	download?: boolean | string;
+	[key: string]: unknown;
+}
+
+const {
+	href,
+	type = 'button',
+	variant = 'primary',
+	size = 'cta',
+	shape = 'pill',
+	class: className,
+	target,
+	rel,
+	download,
+	...rest
+} = Astro.props;
+
+const isLink = href !== undefined;
+const Tag = isLink ? 'a' : 'button';
+// target="_blank" sin rel explícito: evita window.opener
+const safeRel = rel ?? (target === '_blank' ? 'noopener noreferrer' : undefined);
+const linkProps = isLink ? { href, target, rel: safeRel, download } : { type };
+---
+
+<Tag
+	{...linkProps}
+	{...rest}
+	class:list={[
+		'inline-flex items-center justify-center font-medium text-fg cursor-pointer',
+		'transition-[background-color,transform] duration-(--dur-fast) ease-smooth-out',
+		'hover:scale-[1.03] active:scale-[0.97]',
+		'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-fg',
+		'disabled:bg-primary-800 disabled:cursor-not-allowed disabled:hover:scale-100',
+		shape === 'pill' ? 'rounded-pill' : 'rounded-control',
+		variant === 'primary' && 'bg-accent hover:bg-primary-600',
+		variant === 'ghost' && 'bg-transparent border border-neutral-700 hover:bg-secundary-700',
+		size === 'cta' &&
+			'px-[18px] py-[12px] text-[14px] sm:text-[16px] sm:px-[22px] md:py-[13px] lg:text-[14px] lg:py-[10px] lg:px-[14px] xl:text-[12px] 2xl:text-[14px] 2xl:py-[12px]',
+		className,
+	]}
+>
+	<slot />
+</Tag>

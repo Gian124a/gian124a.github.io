@@ -11,28 +11,20 @@ export interface Project {
 	url: string;
 	/** Sin imagen se muestra el placeholder "En proceso". */
 	image?: ImageMetadata;
-	/** Paridad con el legacy: Cinemapedia usa tamaños de texto propios en lg. */
-	titleClass?: string;
-	typeClass?: string;
 }
-
-const defaultTitleClass = 'lg:text-[15px]';
-const defaultTypeClass = 'lg:text-[11px]';
 
 export const projects: Project[] = [
 	{
 		title: 'Cinemapedia',
-		type: 'App mobile',
+		type: 'App móvil',
 		url: 'https://github.com/Gian124a/cinemapedia',
 		image: cinemapedia,
-		titleClass: 'lg:text-[16px] xl:text-[15px]',
-		typeClass: 'lg:text-[12px] xl:text-[11px]',
 		description:
 			'Cinemapedia es una aplicación móvil desarrollada con Flutter que funciona como una cartelera de cine completa, permitiendo a los usuarios consultar las películas en emisión, acceder a información detallada de cada título, y utilizar una potente funcionalidad de búsqueda para explorar la base de datos completa. La aplicación utiliza la API de The Movie Database (TMDB) como fuente de datos y sigue patrones de arquitectura limpia con Riverpod para una gestión de estado robusta. Además, los usuarios pueden añadir a favoritos las películas que más les interesen para un acceso rápido y personalizado.',
 	},
 	{
 		title: 'Echo',
-		type: 'App mobile',
+		type: 'App móvil',
 		url: 'https://github.com/Gian124a/weather_echo.git',
 		image: echo,
 		description:
@@ -40,7 +32,7 @@ export const projects: Project[] = [
 	},
 	{
 		title: 'Chat WhatsApp',
-		type: 'App mobile',
+		type: 'App móvil',
 		url: 'https://github.com/Gian124a/chat-flutter.git',
 		image: whatsapp,
 		description:
@@ -48,7 +40,7 @@ export const projects: Project[] = [
 	},
 	{
 		title: 'Product',
-		type: 'App mobile',
+		type: 'App móvil',
 		url: 'https://github.com/Gian124a/products.git',
 		image: product,
 		description:
@@ -56,13 +48,9 @@ export const projects: Project[] = [
 	},
 	{
 		title: 'Motivate',
-		type: 'App mobile',
+		type: 'App móvil',
 		url: '#',
 		description:
 			'Motivate es un proyecto de aplicación móvil en desarrollo, diseñado para fomentar la salud y el bienestar mental del usuario. La aplicación contará con un sistema completo de registro y login. En su pantalla principal, se mostrará una frase motivadora aleatoria al iniciar la sesión. La característica central es un avanzado sistema de notificaciones programadas con Firebase, donde el usuario podrá configurar la hora y el tipo específico de frase motivacional (ej., para el trabajo o el entrenamiento) que recibirá diariamente. Además de las frases preestablecidas, el usuario podrá crear sus propias frases para integrarlas en sus notificaciones diarias. Motivate también incluirá una sección dedicada a la práctica de meditaciones, cuyos datos quedarán registrados para que el usuario pueda monitorear su progreso y consistencia. Finalmente, el usuario tendrá una sección para gestionar su perfil y consultar información adicional sobre la aplicación.',
 	},
-].map((p: Project) => ({
-	...p,
-	titleClass: p.titleClass ?? defaultTitleClass,
-	typeClass: p.typeClass ?? defaultTypeClass,
-}));
+];

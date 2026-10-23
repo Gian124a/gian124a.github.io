@@ -1,23 +1,48 @@
 ---
+import Button from '../ui/Button.astro';
+import Aurora from '../ui/Aurora.astro';
 import { socialLinks } from '../../data/navigation';
 import { stats } from '../../data/stats';
+import { hero } from '../../data/hero';
 
-// Paridad con el legacy: el botón de LinkedIn es 0.2vw más grande que el resto
-const isLinkedin = (label: string) => label === 'LinkedIn';
+// Caracteres de la línea más larga del título: el tamaño del h1 se ajusta para que quepa sin partirse
+const longest = Math.max(...hero.roleLines.map((l) => l.length));
 ---
 
+<!--
+	Variables del retrato (las usan imagen, texto y márgenes):
+	--hero-img-w   ancho del retrato. <lg: fracción del ancho; lg+: escala con la altura de la
+	               ventana (75svh / 84svh) con topes por ancho (no invadir el texto) y por
+	               "encaje" (retrato + barra de stats caben bajo el header).
+	--hero-img-top separación superior del retrato en <lg.
+	--hero-copy    escala del botón y márgenes (lg+: escala con el retrato). El párrafo y las descripciones
+	               de stats usan --text-copy (global.css).
+	--hero-title-size  tamaño final del h1 = min(base, ancho disponible / (caracteres * 0.68)); lo usan el h1
+	               y el margen superior del párrafo en <lg.
+	--hero-stat    valor de la stat (2.5x copy en <lg). --hero-title: título en lg+ (K1=.095, K2=.024, K3=.062 sobre --hero-img-w).
+	--hero-stats-h altura de la barra de stats en lg+ (definida en global.css).
+-->
 <section
 	id="inicio"
-	class="relative flex flex-col items-center pt-6 gap-y-4 md:gap-y-8 lg:justify-end lg:h-[calc(100vh_-_70px)] lg:gap-0 z-50 xl:pt-0"
+	style={`--hero-title-chars:${longest}`}
+	class="relative z-50 flex flex-col items-center pt-6 gap-y-4 md:gap-y-8 lg:min-h-[calc(100svh_-_var(--header-h))] lg:justify-end lg:gap-0 lg:pt-0 [--hero-copy:clamp(0.8125rem,0.75rem_+_0.2vw,0.9375rem)] [--hero-stat:calc(var(--hero-copy)*2.2)] sm:[--hero-stat:calc(var(--hero-copy)*2.5)] [--hero-img-w:calc(100vw_-_2rem)] [--hero-img-top:55px] sm:[--hero-img-w:60vw] sm:[--hero-img-top:85px] md:[--hero-img-w:55vw] md:[--hero-img-top:80px] lg:[--hero-copy:clamp(0.875rem,calc(var(--hero-img-w)*0.024),2rem)] lg:[--hero-stat:clamp(2.5rem,calc(var(--hero-img-w)*0.08),6.5rem)] [--hero-title-base:var(--text-display)] [--hero-title-avail:calc(100vw_-_2rem)] sm:[--hero-title-avail:calc(100vw_-_4rem)] [--hero-title-size:min(var(--hero-title-base),calc(var(--hero-title-avail)_/_(var(--hero-title-chars)_*_0.68)))] lg:[--hero-title:clamp(3.5rem,calc(var(--hero-img-w)*0.1),9rem)] lg:[--hero-title-base:var(--hero-title)] lg:[--hero-title-avail:calc(100vw_-_6rem_-_0.78*var(--hero-img-w)_-_1.5rem)] xl:[--hero-title-avail:calc(100vw_-_6rem_-_90px_-_0.78*var(--hero-img-w)_+_1rem)] lg:[--hero-img-w:min(75svh,_50vw,_calc((100svh_-_var(--header-h)_-_var(--hero-stats-h))_/_0.93))] xl:[--hero-img-w:min(84svh,_52vw,_calc((100svh_-_var(--header-h)_-_var(--hero-stats-h))_/_0.93))]"
 >
-	<!-- Contenedor de imagen y texto -->
+	<!-- Aurora (z-10) y grano (z-20) detrás del retrato (z-30/40) y del texto (z-50). La capa móvil ocupa la caja del retrato -->
+	<Aurora class="top-(--hero-img-top) w-(--hero-img-w) aspect-[402/411] inset-x-0 mx-auto lg:left-auto lg:mx-0 lg:right-0 lg:top-auto lg:bottom-[calc(var(--hero-stats-h)_-_0.094*var(--hero-img-w)_-_1px)]" />
+	<div aria-hidden="true" class="grain pointer-events-none absolute inset-0 z-20 [--grain-o:0.05] [mask-image:radial-gradient(ellipse_50%_40%_at_50%_40%,#000_30%,transparent)]"></div>
+
+	<!--
+		Retrato. <lg: absolute bajo el título, centrado. lg+: absolute a la derecha, con el borde
+		inferior de la FIGURA (el SVG tiene ~9.2% de margen transparente abajo = 0.094 * ancho)
+		sobre la línea superior de la barra de stats. 1px de solape para evitar rendija.
+	-->
 	<article
-		style="pointer-events: none"
-		class="absolute top-[55px] h-fit w-full z-30 flex sm:w-[60vw] sm:top-[85px] md:w-[55vw] md:top-[80px] lg:right-0 lg:top-auto lg:bottom-[62px] lg:w-[75vh] xl:w-[84vh] xl:bottom-[25px] lg:z-40 2xl:bottom-[30px] hero-image-pointer-events-none"
+		data-hero="portrait"
+		class="pointer-events-none absolute top-(--hero-img-top) w-(--hero-img-w) z-30 flex lg:right-0 lg:top-auto lg:bottom-[calc(var(--hero-stats-h)_-_0.094*var(--hero-img-w)_-_1px)] lg:z-40"
 	>
 		<img
 			src="/assets/imgs/image-yo.svg"
-			alt="Yo"
+			alt="Retrato de Gianfranco Muñoz"
 			width="402"
 			height="411"
 			fetchpriority="high"
@@ -26,92 +51,118 @@ const isLinkedin = (label: string) => label === 'LinkedIn';
 	</article>
 
 	<article
-		class="relative h-full flex flex-col gap-y-11 lg:justify-center lg:w-fit xl:w-full xl:px-[45px] xl:gap-0 xl:h-full"
+		data-hero-exit="copy"
+		class="relative w-full flex flex-col gap-y-11 lg:flex-1 lg:justify-center lg:gap-0 xl:px-[45px]"
 	>
 		<div
-			class="w-full h-full flex flex-col items-center sm:px-[10%] md:px-[5%] lg:items-start lg:px-0 lg:gap-y-0 lg:h-fit lg:mb-10 xl:h-fit xl:mb-16"
+			class="w-full flex flex-col items-center sm:px-[10%] md:px-[5%] lg:items-start lg:px-0 lg:h-fit lg:mb-[calc(var(--hero-img-w)*0.05)] lg:max-w-[calc(100%_-_0.9*var(--hero-img-w)_-_1.5rem)] xl:max-w-[calc(100%_-_0.9*var(--hero-img-w)_+_1rem)]"
 		>
+			<!--
+				Dos líneas fijas: así la altura del título es predecible (2 × 1.05 × text-display).
+				Cada línea lleva una máscara (clip-path, sin tocar el layout: arriba deja 0.12em para acentos) y su propio trozo del
+				gradiente (background-size N×100% + posición por índice = el mismo gradiente continuo que antes sobre todo el h1),
+				porque background-clip:text no admite hijos con transform.
+			-->
 			<h1
-				class="z-10 font-extrabold text-[10.5vw] leading-[11.5vw] text-center bg-gradient-to-t from-primary-800 to-primary-500 bg-clip-text text-transparent sm:text-[8.5vw] sm:leading-[9.5vw] md:text-[7.6vw] md:leading-[8vw] lg:text-[10vh] lg:leading-[9.6vh] lg:font-bold lg:text-start lg:mb-6 lg:w-[80%] xl:mb-4 xl:text-[6.5vw] xl:leading-[6vw] 2xl:mb-5"
+				data-hero="title"
+				class="relative z-50 font-extrabold text-[length:var(--hero-title-size)] leading-[1.05] text-center text-transparent lg:text-start lg:mb-[calc(var(--hero-title-size)*0.3)]"
 			>
-				DESARROLLADOR FRONTEND
+				{
+					hero.roleLines.map((line, i) => (
+						<>
+							{i > 0 && " "}
+							<span class="block [clip-path:inset(-0.12em_-1em_0_-1em)]">
+								<span
+									data-hero="title-line"
+									class="block whitespace-nowrap bg-gradient-to-t from-title-from to-title-to bg-clip-text"
+									style={`background-size:100% ${hero.roleLines.length * 100}%;background-position:0 ${(i / Math.max(1, hero.roleLines.length - 1)) * 100}%`}
+								>
+									{line}
+								</span>
+							</span>
+						</>
+					))
+				}
 			</h1>
 
+			<!--
+				<lg: el párrafo empieza al ~85% del alto del retrato (0.85 = 0.83 * 411/402), medido
+				desde su top, descontando el padding de la sección (1.5rem) y las 2 líneas del título.
+			-->
 			<div
-				class="relative text-[4vw] z-50 mt-[calc(100%_-_105px)] w-[94%] text-center sm:mt-[calc(70%_-_80px)] sm:text-[4.7vh] md:text-[2.2vw] md:mt-[calc(60%_-_90px)] md:w-[70%] lg:mt-0 lg:text-[2vh] lg:text-start lg:w-[45%] lg:mb-7 xl:w-[35%] xl:mb-6 2xl:w-[30%] 2xl:text-[1.6vh] 2xl:mb-8"
+				data-hero="intro"
+				class="relative z-50 w-[94%] text-center mt-[calc(var(--hero-img-top)_+_0.85*var(--hero-img-w)_-_1.5rem_-_2.1*var(--hero-title-size))] md:w-[70%] lg:mt-0 lg:w-full lg:max-w-[calc(var(--text-copy)*30)] lg:text-start lg:mb-[calc(var(--hero-copy)*1.5)]"
 			>
-				<p class="text-neutral-500">
-					Mi nombre es Gianfranco Muñoz, TSU en Informática y desarrollador frontend con
-					especialización en el desarrollo de aplicaciones móviles híbridas utilizando Flutter y
-					Dart.
+				<p class="text-copy text-fg">
+					{hero.intro}
 				</p>
 			</div>
 
 			<!-- Botón -->
-			<div class="mt-10 flex justify-center items-center lg:justify-start lg:mt-0">
-				<a
-					href="#sobre-mi"
-					class="flex px-[18px] py-[12px] bg-primary-500 rounded-[100px] text-[14px] font-medium items-center text-neutral-500 duration-300 hover:bg-primary-600 transition-all hover:scale-[1.03] sm:text-[16px] sm:px-[22px] md:text-[16px] md:py-[13px] lg:text-[14px] lg:py-[10px] lg:px-[14px] xl:text-[12px] 2xl:text-[14px] 2xl:py-[12px]"
+			<div data-hero="cta" class="relative z-50 mt-10 flex justify-center items-center lg:justify-start lg:mt-0">
+				<Button
+					href={hero.cta.href}
+					data-motion="magnetic"
+					size="none"
+					class="px-[18px] py-[12px] text-[14px] sm:text-[16px] sm:px-[22px] md:py-[13px] lg:px-[calc(var(--hero-copy)*1.2)] lg:py-[calc(var(--hero-copy)*0.75)] lg:text-[length:var(--hero-copy)]"
 				>
-					Conóceme más
+					{hero.cta.label}
 					<img
 						src="/assets/icons/arrow-right.svg"
-						class="ml-2 size-[20px] md:size-[24px] lg:size-[20px] xl:size-[16px] 2xl:size-[18px]"
+						class="ml-2 size-[20px] md:size-[24px] lg:size-[calc(var(--hero-copy)*1.3)]"
 						alt=""
 					/>
-				</a>
+				</Button>
 			</div>
 		</div>
 
 		<div
-			class="flex justify-around items-center px-[5px] sm:px-[10%] sm:justify-center sm:gap-x-[25px] lg:w-fit lg:px-0 lg:gap-x-3 lg:absolute lg:bottom-0 xl:bottom-3"
+			data-hero="social"
+			class="relative z-50 flex justify-around items-center px-[5px] sm:px-[10%] sm:justify-center sm:gap-x-[25px] lg:w-fit lg:px-0 lg:gap-x-[calc(var(--hero-copy)*0.8)] lg:absolute lg:bottom-[max(1rem,calc(var(--hero-copy)*1.5))]"
 		>
 			{
 				socialLinks.map((social) => (
 					<a
 						href={social.href}
-						class:list={[
-							'bg-secundary-600 rounded-full flex justify-center items-center sm:w-[8vw] sm:h-[8vw] lg:w-[6.5vh] lg:h-[6.5vh] xl:w-[7vh] xl:h-[7vh] 2xl:w-[6vh] 2xl:h-[6vh] hover:bg-secundary-700 hover:transition-all hover:scale-[1.07] duration-300',
-							isLinkedin(social.label) ? 'w-[13.2vw] h-[13.2vw]' : 'w-[13vw] h-[13vw]',
-						]}
+							data-motion="magnetic"
+						class="bg-secundary-600 rounded-full flex shrink-0 justify-center items-center size-(--social-size) hover:bg-secundary-700 hover:scale-[1.07] transition-[background-color,transform] duration-300"
 					>
-						<img
-							src={social.icon}
-							alt={social.label}
-							class:list={[
-								'text-neutral-500 sm:size-[4vw] lg:size-[3.3vh] 2xl:size-[3vh]',
-								isLinkedin(social.label) ? 'size-[7vw]' : 'size-[6.8vw]',
-							]}
-						/>
+						<img src={social.icon} alt={social.label} class="size-1/2" />
 					</a>
 				))
 			}
 		</div>
 	</article>
 
+	<!-- Barra de stats: 2×2 en <lg, una sola fila en lg+ (auto-cols-fr: vale para 3, 4 o 5 stats) -->
 	<article
-		class="bg-secundary-900 flex flex-col gap-y-5 lg:gap-y-4 lg:mt-3 xl:w-full xl:gap-y-[10px] xl:mt-0 lg:h-[17vh] justify-between z-50 2xl:h-[14vh]"
+		class="bg-secundary-900 flex flex-col w-full gap-y-5 justify-between z-50 lg:h-(--hero-stats-h) lg:gap-y-0"
 	>
-		<div class="bg-[linear-gradient(to_right,#0C0B0D,#403B45,#403B45,#0C0B0D)] h-[2px] w-full"></div>
+		<div data-hero="rule" class="bg-[linear-gradient(to_right,#0C0B0D,#403B45,#403B45,#0C0B0D)] h-[2px] w-full"></div>
 
-		<div
-			class="flex justify-between flex-wrap gap-y-4 sm:px-[5%] sm:gap-x-2 lg:gap-x-0 lg:px-0 xl:justify-around"
-		>
+		<div class="grid grid-cols-2 gap-y-4 sm:px-[5%] lg:grid-flow-col lg:auto-cols-fr lg:grid-cols-none lg:px-0">
 			{
 				stats.map((stat) => (
-					<div class="relative flex justify-between items-center w-[50%] px-2 gap-x-[7px] sm:w-[45%] sm:justify-start sm:gap-x-[12px] lg:justify-center lg:w-[22%] lg:gap-x-[7px] xl:w-fit 2xl:gap-x-[10px]">
-						<h2 class="text-[8vw] font-bold text-neutral-500 sm:text-[7vw] lg:text-[6.6vh] 2xl:text-[6vh]">
-							{stat.value}
-						</h2>
-						<div class="sm:w-[70%] md:w-[60%] lg:w-fit xl:w-[55%]">
-							<p class="text-[3.3vw] text-neutral-500 sm:text-[2.4vw] md:text-[2vw] lg:text-[2vh] 2xl:text-[1.6vh]">
-								{stat.label}
-							</p>
-						</div>
+					<div data-hero="stat" class="flex items-center justify-center gap-x-1 sm:gap-x-3 sm:px-1 lg:gap-x-2">
+						<p data-hero="stat-value" class="whitespace-nowrap text-[length:var(--hero-stat)] leading-[1.1] font-bold text-fg">{stat.value}</p>
+						<p class="text-[length:max(0.6875rem,calc(var(--text-copy)*0.8))] lg:text-[length:max(0.8125rem,calc(var(--text-copy)*0.9))] leading-snug text-fg text-balance max-w-[18ch] line-clamp-2" title={stat.label}>{stat.label}</p>
 					</div>
 				))
 			}
 		</div>
-		<div class="bg-[linear-gradient(to_right,#0C0B0D,#403B45,#403B45,#0C0B0D)] h-[2px] w-full"></div>
+		<div data-hero="rule" class="bg-[linear-gradient(to_right,#0C0B0D,#403B45,#403B45,#0C0B0D)] h-[2px] w-full"></div>
 	</article>
+
+	<!-- Velo de la salida con scroll (heroExit.ts): funde el hero con el fondo de la página al alejarse (mismo color: sin bordes de caja); opacity 0 sin JS -->
+	<div data-hero-exit="veil" aria-hidden="true" class="pointer-events-none absolute inset-0 z-[60] bg-secundary-900 opacity-0"></div>
 </section>
+
+<script>
+	import '../../scripts/motion/hero';
+	import { whenIdle } from '../../scripts/motion';
+	// Aurora y salida con scroll no hacen falta para el primer pintado: se cargan en idle (cada una registra su módulo)
+	whenIdle(() => {
+		import('../../scripts/motion/aurora');
+		import('../../scripts/motion/heroExit');
+	}, 2000);
+</script>

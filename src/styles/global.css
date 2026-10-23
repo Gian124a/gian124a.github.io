@@ -52,16 +52,232 @@
   /* ============================== */
 
   --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+
+  /* ============================== */
+  /* TIPOGRAFÍA FLUIDA */
+  /* clamp(rem + vw): mín ≈ 375px, máx ≈ 1440px. Sin vh. */
+  /* ============================== */
+
+  --text-display: clamp(2.25rem, 1.4rem + 3.4vw, 4.5rem);
+  --text-display--line-height: 1.05;
+  --text-title: clamp(2rem, 1.72rem + 1.21vw, 3rem); /* 32px -> ~44px a 1366 -> 48px */
+  --text-title--line-height: 1.1;
+  --text-eyebrow: clamp(1.375rem, 1.2rem + 0.75vw, 1.875rem); /* 22px -> ~29px a 1366 -> 30px */
+  --text-eyebrow--line-height: 1.2;
+  --text-subtitle: clamp(1.25rem, 1.16rem + 0.38vw, 1.5rem);
+  --text-subtitle--line-height: 1.3;
+  --text-lead: clamp(0.89rem, 0.81rem + 0.35vw, 1.125rem);
+  --text-lead--line-height: 1.5;
+  --text-body: clamp(0.875rem, 0.83rem + 0.19vw, 1rem);
+  --text-body--line-height: 1.6;
+  --text-small: clamp(0.75rem, 0.71rem + 0.19vw, 0.875rem);
+  --text-small--line-height: 1.5;
+  --text-stat: clamp(1.75rem, 1.4rem + 1.2vw, 2.75rem);
+  --text-stat--line-height: 1.1;
+  /* Descripción principal de cada sección (fuente única). lg+: se redefine en :root (abajo). */
+  --text-copy: 0.875rem;
+  --text-copy--line-height: 1.6;
+
+  /* ============================== */
+  /* COLOR SEMÁNTICO */
+  /* (contraste WCAG sobre secundary-900 indicado) */
+  /* ============================== */
+
+  --color-fg: var(--color-neutral-500); /* 15.5:1 */
+  --color-fg-muted: var(--color-neutral-700); /* 7.0:1 */
+  --color-fg-subtle: #8a82a3; /* 5.4:1 */
+  --color-accent: var(--color-primary-500); /* relleno de marca; NO usar para texto */
+  --color-accent-fg: var(--color-primary-300); /* acento para texto: 5.0:1 */
+  --color-surface: var(--color-secundary-900);
+  --color-surface-raised: var(--color-secundary-700); /* tarjetas */
+  --color-surface-overlay: var(--color-secundary-800); /* modales y menús */
+  --color-border: var(--color-secundary-400); /* decorativo, 2.0:1 */
+  --color-danger: #f87171; /* 7.1:1 */
+  --color-success: #4ade80; /* 11.3:1 */
+  --color-dot: var(--color-secundary-300); /* punto inactivo: 3.5:1 */
+  --color-dot-active: var(--color-primary-300); /* punto activo: 5.0:1 */
+  /* Gradiente de títulos: el original de marca (decisión del usuario, V1).
+     Ojo: el extremo 800 da 1.30:1 sobre el fondo; no usar en textos pequeños. */
+  --color-title-from: var(--color-primary-800);
+  --color-title-to: var(--color-primary-500);
+
+  /* ============================== */
+  /* ESPACIADO */
+  /* ============================== */
+
+  --spacing-gutter: clamp(1rem, 0.29rem + 3vw, 3rem); /* px-4 -> sm:px-8 -> lg:px-12 */
+  --spacing-section: clamp(2.5rem, 1.5rem + 5vw, 6rem); /* separación vertical entre secciones */
+
+  /* ============================== */
+  /* RADIOS */
+  /* ============================== */
+
+  --radius-card: 1.25rem; /* 20px (también 15/30px actuales) */
+  --radius-control: 0.625rem; /* 10px (inputs, botones; 12px en miniaturas) */
+  --radius-pill: 9999px; /* rounded-full / rounded-[100px] */
+
+  /* ============================== */
+  /* SOMBRAS (fondo oscuro: sutiles y profundas) */
+  /* ============================== */
+
+  --shadow-raised: 0 1px 2px rgb(0 0 0 / 0.4), 0 4px 12px rgb(0 0 0 / 0.3);
+  --shadow-overlay: 0 8px 24px rgb(0 0 0 / 0.5), 0 24px 64px rgb(0 0 0 / 0.4);
+
+  /* ============================== */
+  /* MOTION: curvas (nombres propios; no pisan ease-out/in-out de Tailwind) */
+  /* ============================== */
+
+  --ease-smooth-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-smooth-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
 }
 
-/* Accesibilidad: respeta la preferencia de menos movimiento */
+/* ============================== */
+/* TOKENS SIN NAMESPACE (uso: z-(--z-header), duration-(--dur-base)) */
+/* ============================== */
+
+:root {
+  /* Ancho máximo de contenido */
+  --container-max: 80rem;
+
+  /* Altura del header fijo */
+  --header-h: 64px;
+
+  /* Altura de la barra de stats del Hero (lg+). El retrato se ancla a su línea superior. */
+  --hero-stats-h: clamp(6rem, 14svh, 8rem);
+
+  /* Botones de redes sociales (Hero, Contacto, Footer); icono al 50% */
+  --social-size: 2.75rem;
+
+  /* Z-index (orden actual) */
+  --z-base: 0;
+  --z-carousel: 40;
+  --z-header: 100;
+  --z-nav: 110;
+  --z-toast: 300;
+  --z-modal: 500;
+  --z-cursor: 9000;
+  --z-intro: 9999;
+
+  /* Duraciones */
+  --dur-instant: 100ms;
+  --dur-fast: 180ms;
+  --dur-base: 300ms;
+  --dur-slow: 600ms;
+  --dur-hero: 900ms;
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --header-h: 70px;
+    /* Único sitio para cambiar el tamaño de las descripciones en lg+ */
+    --text-copy: clamp(0.875rem, 2.2svh, 1.25rem);
+    --social-size: clamp(2.75rem, 2rem + 2svh, 3.5rem);
+  }
+}
+
+html {
+  scroll-padding-top: var(--header-h);
+  overflow-x: clip; /* no "hidden": rompe position: sticky y el pin de ScrollTrigger */
+}
+
+/* Lenis (CSS recomendado) */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Accesibilidad: reduced-motion = "más suave, no cero".
+   Variables para componentes/JS: multiplicar desplazamientos y escalas por ellas, p. ej.
+     translate: 0 calc(1rem * var(--motion-distance));
+     scale: calc(1 - 0.05 * var(--motion-scale));
+   En reduced valen 0 (sin desplazamiento ni zoom, el fundido de opacidad se mantiene). */
+:root {
+  --motion-distance: 1;
+  --motion-scale: 1;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-distance: 0;
+    --motion-scale: 0;
+  }
+  html {
+    scroll-behavior: auto !important;
+  }
+  /* Las transiciones no se anulan: se acortan a un fundido breve (--dur-fast) para que menú, pill del nav,
+     modal y hovers sigan teniendo feedback pero sin recorridos largos. Con !important porque los componentes
+     fijan duraciones propias. NO se toca animation-*: forzar duración/iteraciones rompería bucles
+     (spinner, futuros marquees), que se pausan por su cuenta vía JS/tier. */
   *,
   *::before,
   *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
+    transition-duration: min(var(--dur-fast), 180ms) !important;
+    transition-delay: 0s !important;
   }
+}
+
+/* data-motion: estados iniciales SOLO con JS activo (html.motion-ready); sin JS todo se ve.
+   src/scripts/motion/declarative.ts los pone en su estado final (+ red de seguridad a los 3 s). */
+.motion-ready [data-motion="reveal"],
+.motion-ready [data-motion="split"],
+.motion-ready [data-motion="stagger"] > * {
+  opacity: 0;
+}
+
+/* Entrada del hero: estados iniciales ANTES del primer pintado (el script del <head> pone html.hero-pending; sin JS no existe).
+   hero.ts los sustituye por fromTo y quita la clase al terminar (o la red de seguridad del <head> a los 4.5 s).
+   Solo opacity y clip-path: el retrato sigue "pintado" (clip, no opacity:0) para no retrasar el LCP.
+   html.hero-lite (nivel no-full, lo pone el <head>): el retrato no se recorta; pinta desde el primer frame (LCP) bajo la cortina. */
+html.hero-pending #inicio :is(
+  [data-hero='title-line'],
+  [data-hero='intro'],
+  [data-hero='cta'],
+  [data-hero='social'] > *,
+  [data-hero='rule'],
+  [data-hero='stat']
+) {
+  opacity: 0;
+}
+html.hero-pending #inicio [data-aurora='root'] {
+  opacity: 0;
+}
+html.hero-pending:not(.hero-lite) #inicio [data-hero='portrait'] {
+  clip-path: inset(100% 0 0 0);
+}
+
+/* Foco visible global (fuente única; Button, Nav, cards y modal repiten los mismos valores) */
+@layer base {
+  a,
+  button,
+  [role='button'],
+  input,
+  textarea,
+  select,
+  summary {
+    -webkit-tap-highlight-color: transparent;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-accent-fg);
+    outline-offset: 2px;
+  }
+}
+
+/* Toast: el script añade .success / .error; texto oscuro sobre el color semántico */
+#toast-notification.success {
+  background-color: var(--color-success); /* texto #0c0b0d: 11.3:1 */
+  color: var(--color-secundary-900);
+}
+#toast-notification.error {
+  background-color: var(--color-danger); /* texto #0c0b0d: 7.1:1 */
+  color: var(--color-secundary-900);
 }

@@ -1,0 +1,55 @@
+---
+// Tarjeta de proyecto. Las clases .project-card/.project-image/.project-title/
+// .project-description y el botón .open-project-modal-btn los usan carousel.ts y modal.ts.
+import { Image } from 'astro:assets';
+import type { Project } from '../../data/projects';
+
+interface Props {
+	project: Project;
+}
+
+const { project } = Astro.props;
+---
+
+<div
+	class="project-card relative flex-col gap-y-[24px] w-full sm:w-[calc(50%_-_8px)] lg:w-fit flex-none lg:flex-initial snap-center sm:snap-start flex items-center justify-center"
+	data-project-url={project.url}
+>
+	<div
+		class="relative bg-surface-raised w-[280px] h-[280px] rounded-card p-[14px] gap-y-[15px] flex flex-col md:w-[300px] md:h-[300px] lg:w-[270px] lg:h-[270px] xl:w-[250px] xl:h-[250px]"
+	>
+		{
+			project.image ? (
+				<div class="relative flex-1 min-h-0 rounded-[12px] overflow-hidden bg-secundary-800 flex justify-center items-center">
+					<Image
+						src={project.image}
+						alt={`Capturas de la app ${project.title}`}
+						widths={[280, 529]}
+						sizes="(min-width: 768px) 300px, 280px"
+						class="project-image absolute left-0 top-0 w-full h-full object-cover"
+					/>
+				</div>
+			) : (
+				<div class="project-image relative flex-1 min-h-0 rounded-[12px] overflow-hidden bg-secundary-800 flex justify-center items-center">
+					<p class="text-accent-fg font-semibold">En proceso</p>
+				</div>
+			)
+		}
+		<div class="flex justify-between items-center gap-x-2">
+			<div class="flex min-w-0 flex-col gap-y-1 lg:gap-0.5">
+				<p class="project-title line-clamp-2 text-lead lg:text-body text-fg font-semibold">
+					{project.title}
+				</p>
+				<p class="line-clamp-1 text-small text-fg-muted">{project.type}</p>
+				<p class="project-description hidden">{project.description}</p>
+			</div>
+			<button
+				type="button"
+				aria-label={`Ver detalles de ${project.title}`}
+				class="open-project-modal-btn shrink-0 cursor-pointer bg-accent hover:bg-primary-600 size-10 rounded-pill flex justify-center items-center transition-[background-color,transform] duration-(--dur-fast) ease-smooth-out hover:scale-105 active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-fg"
+			>
+				<img src="/assets/icons/arrow-right.svg" class="size-[22px]" alt="" />
+			</button>
+		</div>
+	</div>
+</div>
