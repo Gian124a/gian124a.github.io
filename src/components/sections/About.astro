@@ -2,12 +2,12 @@
 import SectionTitle from '../ui/SectionTitle.astro';
 import Glow from '../ui/Glow.astro';
 import Button from '../ui/Button.astro';
-import { aboutTags } from '../../data/about';
+import { about, aboutTags } from '../../data/about';
 ---
 
 <section
 	id="sobre-mi"
-	class="relative pt-10 px-6 flex flex-col gap-y-5 z-50 md:gap-y-7 lg:min-h-[calc(100svh_-_var(--header-h))] lg:grid lg:grid-cols-2 lg:grid-rows-[1fr_auto_auto_1fr] lg:gap-x-10 lg:gap-y-[15px] lg:pt-0 xl:gap-x-0 2xl:gap-y-[24px]"
+	class="relative py-10 px-6 flex flex-col gap-y-5 z-50 md:gap-y-7 lg:min-h-[calc(100svh_-_var(--header-h))] lg:grid lg:grid-cols-2 lg:grid-rows-[1fr_auto_auto_1fr] lg:gap-x-10 lg:gap-y-[15px] lg:py-10 xl:gap-x-0 2xl:gap-y-[24px]"
 >
 	<Glow class="w-full h-full rounded-full opacity-30 sm:w-[80%] md:w-full lg:h-[80%] 2xl:w-[90%]" />
 
@@ -34,7 +34,7 @@ import { aboutTags } from '../../data/about';
 			<h3
 				class="font-extrabold text-title text-center bg-gradient-to-t from-title-from to-title-to bg-clip-text text-transparent lg:text-start"
 			>
-				HOLA, MI NOMBRE ES GIANFRANCO MUÑOZ
+				{about.heading}
 			</h3>
 		</div>
 
@@ -42,11 +42,7 @@ import { aboutTags } from '../../data/about';
 			<p
 				class="text-fg text-center text-copy lg:text-justify xl:w-[80%] 2xl:w-[70%]"
 			>
-				Soy un Desarrollador Frontend que, a mis 21 años, ha forjado una especialización concreta
-				en el desarrollo móvil. Como TSU en Informática, egresado del Instituto Universitario
-				Jesús Obrero, he dedicado el último año a consolidar mis habilidades en esta área. Me
-				caracterizo por ser una persona altamente comprometida con mis proyectos, innovadora en mi
-				enfoque creativo y siempre responsable en la ejecución de mis tareas.
+				{about.bio}
 			</p>
 		</div>
 		<div
@@ -54,7 +50,7 @@ import { aboutTags } from '../../data/about';
 		>
 			{
 				aboutTags.map((tag) => (
-					<span class="bg-primary-800 flex items-center py-[6px] px-[14px] text-[length:max(0.75rem,calc(var(--text-copy)*0.85))] text-fg font-semibold rounded-control md:px-[18px] md:py-[8px] lg:px-[0.9em] lg:py-[0.3em] lg:leading-snug">
+					<span class="bg-primary-800 flex items-center py-[5px] px-[12px] text-[length:max(0.75rem,calc(var(--text-copy)*0.85))] text-fg font-semibold rounded-control md:px-[14px] md:py-[6px] lg:px-[0.9em] lg:py-[0.3em] lg:leading-snug">
 						{tag}
 					</span>
 				))
@@ -63,7 +59,7 @@ import { aboutTags } from '../../data/about';
 
 		<!-- Botón -->
 		<div class="flex justify-center items-center lg:justify-start lg:mt-0">
-			<Button href="/assets/imgs/CV.pdf">
+			<Button href="/assets/imgs/CV.pdf" target="_blank">
 				Visualizar CV
 				<img
 					src="/assets/icons/eyes.svg"
