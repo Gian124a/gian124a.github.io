@@ -15,9 +15,9 @@ export interface Hero {
 
 export const hero: Hero = {
 	name: 'Gianfranco Muñoz',
-	tagline: 'Desarrollador Frontend · Angular · Flutter',
+	tagline: 'Desarrollador Frontend · Angular',
 	roleLines: ['DESARROLLADOR', 'FRONTEND'],
 	intro:
-		'Mi nombre es Gianfranco Muñoz, TSU en Informática y desarrollador frontend especializado en Angular. Trabajo de forma end-to-end con workflows apoyados en agentes de IA (Claude) y también desarrollo aplicaciones móviles híbridas con Flutter y Dart.',
+		'Mi nombre es Gianfranco Muñoz, TSU en Informática y desarrollador frontend especializado en Angular. Trabajo de forma end-to-end con workflows apoyados en agentes de IA (Claude) y tengo experiencia con React, AWS y desarrollo móvil con Flutter.',
 	cta: { label: 'Conóceme más', href: '#sobre-mi' },
 };

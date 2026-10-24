@@ -48,7 +48,7 @@ export const skills: Skill[] = [
 		icon: '/assets/imgs/dart.svg',
 		alt: 'Logo de Dart',
 		description:
-			'Escribo código Dart limpio y fuertemente tipado, con Null Safety y manejo de asincronía con Future y Stream, en el que se apoya toda la lógica de mis apps Flutter y su consumo de APIs como TMDB y WeatherAPI.',
+			'Escribí código Dart limpio y fuertemente tipado, con Null Safety y manejo de asincronía con Future y Stream, en el que se apoyó toda la lógica de mis apps Flutter y su consumo de APIs como TMDB y WeatherAPI.',
 	},
 	{
 		title: 'SQL',
@@ -90,7 +90,7 @@ export const skills: Skill[] = [
 		icon: '/assets/imgs/flutter.svg',
 		alt: 'Logo de Flutter',
 		description:
-			'Desarrollo apps móviles para iOS y Android desde una sola base de código con Flutter desde finales de 2024. Manejo la gestión de estado con Riverpod, BLoC y Cubit, arquitectura DDD, GoRouter, consumo de APIs con Dio, JWT, sockets, bases de datos locales y notificaciones. Lo he aplicado en apps de películas, clima y un chat en tiempo real.',
+			'Desarrollé apps móviles para iOS y Android desde una sola base de código con Flutter, desde finales de 2024. Trabajé la gestión de estado con Riverpod, BLoC y Cubit, arquitectura DDD, GoRouter, consumo de APIs con Dio, JWT, sockets, bases de datos locales y notificaciones. Lo apliqué en apps de películas, clima y un chat en tiempo real.',
 	},
 	{
 		title: 'Git',
@@ -123,4 +123,4 @@ export const skills: Skill[] = [
 ];
 
 export const skillsIntro =
-	'Mi stack gira en torno al desarrollo frontend con Angular, complementado con React, Astro y Flutter para móvil, y con flujos de trabajo end-to-end apoyados en agentes de IA. Estas son las herramientas y tecnologías con las que convierto ideas en soluciones digitales funcionales.';
+	'Mi stack gira en torno al desarrollo frontend con Angular, complementado con React, Astro y experiencia previa en Flutter para móvil, y con flujos de trabajo end-to-end apoyados en agentes de IA. Estas son las herramientas y tecnologías con las que convierto ideas en soluciones digitales funcionales.';

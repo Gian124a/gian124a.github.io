@@ -3,7 +3,7 @@ import SectionTitle from '../ui/SectionTitle.astro';
 import Glow from '../ui/Glow.astro';
 import Button from '../ui/Button.astro';
 import { socialLinks } from '../../data/navigation';
-import { contactInfo, formFields } from '../../data/contact';
+import { contactInfo, contactIntro, formFields } from '../../data/contact';
 
 ---
 
@@ -22,9 +22,7 @@ import { contactInfo, formFields } from '../../data/contact';
 				<p
 					class="text-fg text-center text-copy xl:text-start"
 				>
-					Si tienes una idea para una aplicación móvil, contáctanos. Analizaremos tu concepto y lo
-					desarrollaremos. Puedes empezar llenando el formulario, enviando un correo, o por
-					WhatsApp.
+					{contactIntro}
 				</p>
 			</div>
 		</div>
