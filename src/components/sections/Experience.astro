@@ -1,6 +1,7 @@
 ---
 import SectionTitle from '../ui/SectionTitle.astro';
 import Glow from '../ui/Glow.astro';
+import Modal from '../ui/Modal.astro';
 import { timeline } from '../../data/experience';
 ---
 
@@ -34,11 +35,20 @@ import { timeline } from '../../data/experience';
 
 					<div class="relative flex flex-col items-center gap-y-[16px] w-[94%] max-w-[340px] sm:max-w-[420px] md:max-w-[490px] md:gap-y-[32px] lg:max-w-[calc(var(--exp-title)*24)] lg:gap-y-(--exp-pad) xl:max-w-[calc(var(--exp-title)*26)]">
 						{category.items.map((item) => (
-							<div class="relative w-full bg-surface-raised rounded-card py-[12px] pl-[16px] pr-[16px] flex flex-col items-start gap-y-[4px] sm:gap-y-[8px] md:gap-y-[6px] md:py-[23px] md:pl-[22px] lg:py-(--exp-pad) lg:gap-y-[calc(var(--exp-pad)*0.25)]">
+							<button
+								type="button"
+								aria-label={`Ver detalle: ${item.title}`}
+								data-year={item.year}
+								data-title={item.title}
+								data-place={item.place}
+								data-description={item.description}
+								class="timeline-card open-timeline-modal-btn relative w-full min-w-0 text-start cursor-pointer bg-surface-raised rounded-card py-[12px] pl-[16px] pr-[44px] flex flex-col items-start gap-y-[4px] transition-[background-color] duration-(--dur-fast) ease-smooth-out hover:bg-secundary-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-fg sm:gap-y-[8px] md:gap-y-[6px] md:py-[23px] md:pl-[22px] lg:py-(--exp-pad) lg:gap-y-[calc(var(--exp-pad)*0.25)]"
+							>
 								<p class="text-accent-fg text-small font-semibold lg:text-[length:var(--exp-meta)]">{item.year}</p>
-								<p class="text-lead font-bold text-fg lg:text-[length:var(--exp-title)]">{item.title}</p>
-								<p class="text-small text-fg-subtle font-semibold lg:text-[length:var(--exp-meta)]">{item.place}</p>
-							</div>
+								<p class="w-full truncate text-lead font-bold text-fg lg:text-[length:var(--exp-title)]">{item.title}</p>
+								<p class="w-full truncate text-small text-fg-subtle font-semibold lg:text-[length:var(--exp-meta)]">{item.place}</p>
+								<img src="/assets/icons/arrow-right.svg" alt="" class="absolute right-4 top-1/2 size-[18px] -translate-y-1/2 opacity-70" />
+							</button>
 						))}
 					</div>
 				</div>
@@ -58,9 +68,46 @@ import { timeline } from '../../data/experience';
 			))
 		}
 	</article>
+
+	<!-- Modal con el detalle de cada entrada -->
+	<Modal
+		id="timeline-modal"
+		labelledby="modal-timeline-title"
+		class="rounded-[30px] p-8 max-w-lg max-h-[80vh] w-full flex flex-col gap-y-3"
+		closeClass="top-3 right-3"
+	>
+		<div class="flex flex-col gap-y-1 pr-8">
+			<p id="modal-timeline-year" class="text-accent-fg text-small font-semibold"></p>
+			<h3 id="modal-timeline-title" class="text-fg text-subtitle font-bold"></h3>
+			<p id="modal-timeline-place" class="text-fg-subtle text-small font-semibold"></p>
+		</div>
+		<div class="overflow-y-auto no-scrollbar">
+			<p id="modal-timeline-description" class="text-fg text-body"></p>
+		</div>
+	</Modal>
 </section>
 
 <script>
+	import { setupModal } from '../../scripts/modal';
+
+	const field = (id: string) => document.getElementById(id);
+	setupModal({
+		modalId: 'timeline-modal',
+		openSelector: '.open-timeline-modal-btn',
+		cardSelector: '.timeline-card',
+		label: 'experiencia',
+		fill: (card) => {
+			const set = (id: string, text?: string) => {
+				const el = field(id);
+				if (el) el.textContent = text ?? '';
+			};
+			set('modal-timeline-year', card.dataset.year);
+			set('modal-timeline-title', card.dataset.title);
+			set('modal-timeline-place', card.dataset.place);
+			set('modal-timeline-description', card.dataset.description);
+		},
+	});
+
 	// === PUNTOS DE ESTADO: un punto por panel, enlazados por índice ===
 	const scrollContainer = document.getElementById('scroll-container');
 	const panels = Array.from(
