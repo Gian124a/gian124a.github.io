@@ -11,7 +11,9 @@ const init: MotionInit = ({ tier, gsap }) => {
 	const full = tier === 'full';
 	const $ = (s: string) => section.querySelector<HTMLElement>(s);
 	const portrait = $('[data-hero="portrait"]');
-	const copy = $('[data-hero-exit="copy"]');
+	// Se anima cada pieza del texto, no su contenedor: opacity/transform en el contenedor crearían un contexto de apilamiento
+	// y el título ya no podría quedar detrás del retrato mientras el párrafo queda delante.
+	const copy = [...section.querySelectorAll<HTMLElement>('[data-hero="title"], [data-hero="intro"], [data-hero="cta"], [data-hero="social"]')];
 	const veil = $('[data-hero-exit="veil"]');
 	let tl: gsap.core.Timeline | undefined;
 	let mo: MutationObserver | undefined;
@@ -25,7 +27,7 @@ const init: MotionInit = ({ tier, gsap }) => {
 				end: 'bottom top',
 				scrub: true,
 				onToggle: (st) => (section.style.willChange = st.isActive && full ? 'transform' : ''),
-				onLeaveBack: () => gsap.set([section, portrait, copy], { clearProps: 'transform,transformOrigin,opacity' }), // arriba del todo: sin transform residual
+				onLeaveBack: () => gsap.set([section, portrait, ...copy], { clearProps: 'transform,transformOrigin,opacity' }), // arriba del todo: sin transform residual
 			},
 		});
 		tl.to(portrait, { yPercent: full ? 18 : 9 }, 0).to(veil, { opacity: 0.35 }, 0);
@@ -46,7 +48,7 @@ const init: MotionInit = ({ tier, gsap }) => {
 		mo?.disconnect();
 		tl?.scrollTrigger?.kill();
 		tl?.kill();
-		gsap.set([section, portrait, copy, veil], { clearProps: 'transform,transformOrigin,opacity,willChange' });
+		gsap.set([section, portrait, ...copy, veil], { clearProps: 'transform,transformOrigin,opacity,willChange' });
 	};
 };
 

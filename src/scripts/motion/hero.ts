@@ -16,7 +16,6 @@ let played = false; // la entrada solo se reproduce una vez (un cambio de tier a
 function settle(section: HTMLElement) {
 	const all = section.querySelectorAll<HTMLElement>('[data-hero], [data-hero] > *, [data-hero="portrait"] img');
 	gsap.set(all, { clearProps: 'opacity,transform,transformOrigin,clipPath,filter,transition,willChange,width,flex,textAlign,display,justifyContent,whiteSpace' });
-	gsap.set(section.querySelector('[data-aurora="root"]'), { clearProps: 'opacity' });
 	root.classList.remove('hero-pending');
 }
 
@@ -76,9 +75,6 @@ const init: MotionInit = ({ tier }) => {
 				0.15,
 			);
 		} else tl.fromTo($('intro'), { opacity: 0, y: dy }, { opacity: 1, y: 0, duration: D, ease: E }, 0.1);
-
-		// Aurora: fundido junto al retrato (el movimiento es CSS/aurora.ts)
-		tl.fromTo(section.querySelector('[data-aurora="root"]'), { opacity: 0 }, { opacity: 1, duration: reduced ? D : dur.hero, ease: E }, 0.05);
 
 		// 3. Retrato: se destapa de abajo hacia arriba (como la cortina) + zoom. clip-path, no opacity:0: sigue pintado (LCP)
 		const portrait = $('portrait');

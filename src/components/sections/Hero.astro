@@ -1,6 +1,5 @@
 ---
 import Button from '../ui/Button.astro';
-import Aurora from '../ui/Aurora.astro';
 import { socialLinks } from '../../data/navigation';
 import { stats } from '../../data/stats';
 import { hero } from '../../data/hero';
@@ -14,7 +13,8 @@ const longest = Math.max(...hero.roleLines.map((l) => l.length));
 	--hero-img-w   ancho del retrato. <lg: fracción del ancho; lg+: escala con la altura de la
 	               ventana (75svh / 84svh) con topes por ancho (no invadir el texto) y por
 	               "encaje" (retrato + barra de stats caben bajo el header).
-	--hero-img-top separación superior del retrato en <lg.
+	--hero-img-top separación superior del retrato en <lg (el párrafo se mide desde aquí).
+		--hero-img-lift  cuánto se sube el retrato sin mover el párrafo: el borde inferior de la figura no cae sobre la 1.ª línea.
 	--hero-copy    escala del botón y márgenes (lg+: escala con el retrato). El párrafo y las descripciones
 	               de stats usan --text-copy (global.css).
 	--hero-title-size  tamaño final del h1 = min(base, ancho disponible / (caracteres * 0.68)); lo usan el h1
@@ -25,10 +25,9 @@ const longest = Math.max(...hero.roleLines.map((l) => l.length));
 <section
 	id="inicio"
 	style={`--hero-title-chars:${longest}`}
-	class="relative z-50 flex flex-col items-center pt-6 gap-y-4 md:gap-y-8 lg:min-h-[calc(100svh_-_var(--header-h))] lg:justify-end lg:gap-0 lg:pt-0 [--hero-copy:clamp(0.8125rem,0.75rem_+_0.2vw,0.9375rem)] [--hero-stat:calc(var(--hero-copy)*2.2)] sm:[--hero-stat:calc(var(--hero-copy)*2.5)] [--hero-img-w:calc(100vw_-_2rem)] [--hero-img-top:55px] sm:[--hero-img-w:60vw] sm:[--hero-img-top:85px] md:[--hero-img-w:55vw] md:[--hero-img-top:80px] lg:[--hero-copy:clamp(0.875rem,calc(var(--hero-img-w)*0.024),2rem)] lg:[--hero-stat:clamp(2.5rem,calc(var(--hero-img-w)*0.08),6.5rem)] [--hero-title-base:var(--text-display)] [--hero-title-avail:calc(100vw_-_2rem)] sm:[--hero-title-avail:calc(100vw_-_4rem)] [--hero-title-size:min(var(--hero-title-base),calc(var(--hero-title-avail)_/_(var(--hero-title-chars)_*_0.68)))] lg:[--hero-title:clamp(3.5rem,calc(var(--hero-img-w)*0.1),9rem)] lg:[--hero-title-base:var(--hero-title)] lg:[--hero-title-avail:calc(100vw_-_6rem_-_0.78*var(--hero-img-w)_-_1.5rem)] xl:[--hero-title-avail:calc(100vw_-_6rem_-_90px_-_0.78*var(--hero-img-w)_+_1rem)] lg:[--hero-img-w:min(75svh,_50vw,_calc((100svh_-_var(--header-h)_-_var(--hero-stats-h))_/_0.93))] xl:[--hero-img-w:min(84svh,_52vw,_calc((100svh_-_var(--header-h)_-_var(--hero-stats-h))_/_0.93))]"
+	class="relative z-50 flex flex-col items-center pt-6 gap-y-4 md:gap-y-8 lg:min-h-[max(calc(100svh_-_var(--header-h)),calc(var(--hero-img-w)*0.93_+_var(--hero-stats-h)))] lg:justify-end lg:gap-0 lg:pt-0 [--hero-copy:clamp(0.8125rem,0.75rem_+_0.2vw,0.9375rem)] [--hero-stat:calc(var(--hero-copy)*2.2)] sm:[--hero-stat:calc(var(--hero-copy)*2.5)] [--hero-img-w:calc(100vw_-_2rem)] [--hero-img-top:55px] [--hero-img-lift:12px] sm:[--hero-img-w:60vw] sm:[--hero-img-top:85px] md:[--hero-img-w:55vw] md:[--hero-img-top:80px] lg:[--hero-copy:clamp(0.875rem,calc(var(--hero-img-w)*0.024),2rem)] lg:[--hero-stat:clamp(2.5rem,calc(var(--hero-img-w)*0.08),6.5rem)] [--hero-title-base:var(--text-display)] [--hero-title-avail:calc(100vw_-_2rem)] sm:[--hero-title-avail:calc(100vw_-_4rem)] [--hero-title-size:min(var(--hero-title-base),calc(var(--hero-title-avail)_/_(var(--hero-title-chars)_*_0.68)))] lg:[--hero-title:clamp(3.5rem,calc(var(--hero-img-w)*0.1),9rem)] lg:[--hero-title-base:var(--hero-title)] lg:[--hero-title-avail:calc(100vw_-_6rem_-_0.78*var(--hero-img-w)_-_1.5rem)] xl:[--hero-title-avail:calc(100vw_-_6rem_-_90px_-_0.78*var(--hero-img-w)_+_1rem)] lg:[--hero-img-w:max(44vw,_min(75svh,_50vw,_calc((100svh_-_var(--header-h)_-_var(--hero-stats-h))_/_0.93)))] xl:[--hero-img-w:max(44vw,_min(84svh,_52vw,_calc((100svh_-_var(--header-h)_-_var(--hero-stats-h))_/_0.93)))]"
 >
-	<!-- Aurora (z-10) y grano (z-20) detrás del retrato (z-30/40) y del texto (z-50). La capa móvil ocupa la caja del retrato -->
-	<Aurora class="top-(--hero-img-top) w-(--hero-img-w) aspect-[402/411] inset-x-0 mx-auto lg:left-auto lg:mx-0 lg:right-0 lg:top-auto lg:bottom-[calc(var(--hero-stats-h)_-_0.094*var(--hero-img-w)_-_1px)]" />
+	<!-- Grano (z-20) detrás del retrato (z-30/40) y del texto (z-50) -->
 	<div aria-hidden="true" class="grain pointer-events-none absolute inset-0 z-20 [--grain-o:0.05] [mask-image:radial-gradient(ellipse_50%_40%_at_50%_40%,#000_30%,transparent)]"></div>
 
 	<!--
@@ -38,7 +37,7 @@ const longest = Math.max(...hero.roleLines.map((l) => l.length));
 	-->
 	<article
 		data-hero="portrait"
-		class="pointer-events-none absolute top-(--hero-img-top) w-(--hero-img-w) z-30 flex lg:right-0 lg:top-auto lg:bottom-[calc(var(--hero-stats-h)_-_0.094*var(--hero-img-w)_-_1px)] lg:z-40"
+		class="pointer-events-none absolute top-[calc(var(--hero-img-top)_-_var(--hero-img-lift))] w-(--hero-img-w) z-30 flex lg:right-0 lg:top-auto lg:bottom-[calc(var(--hero-stats-h)_-_0.094*var(--hero-img-w)_-_1px)] lg:z-40"
 	>
 		<img
 			src="/assets/imgs/image-yo.svg"
@@ -52,10 +51,10 @@ const longest = Math.max(...hero.roleLines.map((l) => l.length));
 
 	<article
 		data-hero-exit="copy"
-		class="relative w-full flex flex-col gap-y-11 lg:flex-1 lg:justify-center lg:gap-0 xl:px-[45px]"
+		class="relative w-full flex flex-col gap-y-11 lg:flex-1 lg:gap-0 lg:pt-4 xl:px-[45px]"
 	>
 		<div
-			class="w-full flex flex-col items-center sm:px-[10%] md:px-[5%] lg:items-start lg:px-0 lg:h-fit lg:mb-[calc(var(--hero-img-w)*0.05)] lg:max-w-[calc(100%_-_0.9*var(--hero-img-w)_-_1.5rem)] xl:max-w-[calc(100%_-_0.9*var(--hero-img-w)_+_1rem)]"
+			class="w-full flex flex-col items-center sm:px-[10%] md:px-[5%] lg:mt-auto lg:items-start lg:px-0 lg:h-fit lg:mb-[calc(var(--hero-img-w)*0.05)] lg:max-w-[calc(100%_-_0.9*var(--hero-img-w)_-_1.5rem)] xl:max-w-[calc(100%_-_0.9*var(--hero-img-w)_+_1rem)]"
 		>
 			<!--
 				Dos líneas fijas: así la altura del título es predecible (2 × 1.05 × text-display).
@@ -65,7 +64,7 @@ const longest = Math.max(...hero.roleLines.map((l) => l.length));
 			-->
 			<h1
 				data-hero="title"
-				class="relative z-50 font-extrabold text-[length:var(--hero-title-size)] leading-[1.05] text-center text-transparent lg:text-start lg:mb-[calc(var(--hero-title-size)*0.3)]"
+				class="relative z-[25] font-extrabold text-[length:var(--hero-title-size)] leading-[1.05] text-center text-transparent lg:text-start lg:mb-[calc(var(--hero-title-size)*0.3)]"
 			>
 				{
 					hero.roleLines.map((line, i) => (
@@ -91,7 +90,7 @@ const longest = Math.max(...hero.roleLines.map((l) => l.length));
 			-->
 			<div
 				data-hero="intro"
-				class="relative z-50 w-[94%] text-center mt-[calc(var(--hero-img-top)_+_0.85*var(--hero-img-w)_-_1.5rem_-_2.1*var(--hero-title-size))] md:w-[70%] lg:mt-0 lg:w-full lg:max-w-[calc(var(--text-copy)*30)] lg:text-start lg:mb-[calc(var(--hero-copy)*1.5)]"
+				class="relative z-50 w-[94%] text-center mt-[calc(var(--hero-img-top)_+_0.85*var(--hero-img-w)_-_1.5rem_-_2.1*var(--hero-title-size))] md:w-[70%] lg:mt-0 lg:w-full lg:max-w-[calc(var(--text-copy)*33)] lg:text-start lg:mb-[calc(var(--hero-copy)*1.5)]"
 			>
 				<p class="text-copy text-fg">
 					{hero.intro}
@@ -118,7 +117,7 @@ const longest = Math.max(...hero.roleLines.map((l) => l.length));
 
 		<div
 			data-hero="social"
-			class="relative z-50 flex justify-around items-center px-[5px] sm:px-[10%] sm:justify-center sm:gap-x-[25px] lg:w-fit lg:px-0 lg:gap-x-[calc(var(--hero-copy)*0.8)] lg:absolute lg:bottom-[max(1rem,calc(var(--hero-copy)*1.5))]"
+			class="relative z-50 flex justify-around items-center px-[5px] sm:px-[10%] sm:justify-center sm:gap-x-[25px] lg:w-fit lg:px-0 lg:gap-x-[calc(var(--hero-copy)*0.8)] lg:mt-auto lg:pt-[calc(var(--hero-copy)*1.5)] lg:pb-[max(1rem,calc(var(--hero-copy)*1.5))]"
 		>
 			{
 				socialLinks.map((social) => (
@@ -160,9 +159,8 @@ const longest = Math.max(...hero.roleLines.map((l) => l.length));
 <script>
 	import '../../scripts/motion/hero';
 	import { whenIdle } from '../../scripts/motion';
-	// Aurora y salida con scroll no hacen falta para el primer pintado: se cargan en idle (cada una registra su módulo)
+	// La salida con scroll no hace falta para el primer pintado: se carga en idle
 	whenIdle(() => {
-		import('../../scripts/motion/aurora');
 		import('../../scripts/motion/heroExit');
 	}, 2000);
 </script>

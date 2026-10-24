@@ -248,9 +248,6 @@ html.hero-pending #inicio :is(
 ) {
   opacity: 0;
 }
-html.hero-pending #inicio [data-aurora='root'] {
-  opacity: 0;
-}
 html.hero-pending:not(.hero-lite) #inicio [data-hero='portrait'] {
   clip-path: inset(100% 0 0 0);
 }
