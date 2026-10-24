@@ -14,6 +14,10 @@ const { project } = Astro.props;
 <div
 	class="project-card relative flex-col gap-y-[24px] w-full sm:w-[calc(50%_-_8px)] lg:w-fit flex-none lg:flex-initial snap-center sm:snap-start flex items-center justify-center"
 	data-project-url={project.url}
+	data-project-link-label={project.linkLabel}
+	data-project-link-icon={project.linkIcon}
+	data-project-placeholder={project.placeholder}
+	data-project-placeholder-icon={project.placeholderIcon}
 >
 	<div
 		class="relative bg-surface-raised w-[280px] h-[280px] rounded-card p-[14px] gap-y-[15px] flex flex-col md:w-[300px] md:h-[300px] lg:w-[270px] lg:h-[270px] xl:w-[250px] xl:h-[250px]"
@@ -30,8 +34,9 @@ const { project } = Astro.props;
 					/>
 				</div>
 			) : (
-				<div class="project-image relative flex-1 min-h-0 rounded-[12px] overflow-hidden bg-secundary-800 flex justify-center items-center">
-					<p class="text-accent-fg font-semibold">En proceso</p>
+				<div class="project-image relative flex-1 min-h-0 rounded-[12px] overflow-hidden bg-secundary-800 flex flex-col justify-center items-center gap-y-3 px-4 text-center">
+					{project.placeholderIcon && <img src={project.placeholderIcon} alt="" class="size-10" />}
+					<p class="text-accent-fg font-semibold text-small">{project.placeholder ?? 'En proceso'}</p>
 				</div>
 			)
 		}

@@ -4,7 +4,7 @@ import Glow from '../ui/Glow.astro';
 import Button from '../ui/Button.astro';
 import ProjectCard from '../ui/ProjectCard.astro';
 import Modal from '../ui/Modal.astro';
-import { projects } from '../../data/projects';
+import { projects, projectsIntro } from '../../data/projects';
 ---
 
 <section
@@ -19,11 +19,7 @@ import { projects } from '../../data/projects';
 			<p
 				class="text-fg text-center text-copy"
 			>
-				A continuación, presento una colección de aplicaciones móviles desarrolladas utilizando
-				Flutter y Dart. Estos proyectos demuestran mi capacidad para crear interfaces de usuario de
-				alto rendimiento, manejar la lógica de negocio en el lado del cliente y gestionar la
-				integración eficiente de APIs para consumir backends preexistentes. Cada proyecto es una
-				muestra de funcionalidad, diseño y código limpio.
+				{projectsIntro}
 			</p>
 		</div>
 	</article>
@@ -59,12 +55,10 @@ import { projects } from '../../data/projects';
 				alt="Imagen del proyecto"
 				class="w-full h-full object-cover hidden"
 			/>
-			<p
-				id="modal-project-placeholder"
-				class="hidden text-primary-500 font-semibold text-xl xl:text-[14px]"
-			>
-				En proceso
-			</p>
+			<div id="modal-project-placeholder" class="hidden px-6 text-center">
+				<img id="modal-project-placeholder-icon" src="" alt="" class="mx-auto mb-3 size-12 hidden" />
+				<p id="modal-project-placeholder-text" class="text-primary-500 font-semibold text-xl xl:text-[14px]">En proceso</p>
+			</div>
 		</div>
 
 		<div class="w-full flex flex-col items-center gap-y-3">
@@ -88,8 +82,8 @@ import { projects } from '../../data/projects';
 			shape="control"
 			class="w-full mt-2 px-4 py-3 text-sm md:text-base flex-shrink-0 xl:text-[14px] xl:py-2"
 		>
-			Ver en GitHub
-			<img src="/assets/imgs/github.svg" class="ml-2 size-[18px]" alt="" />
+			<span id="modal-project-link-label">Ver en GitHub</span>
+			<img id="modal-project-link-icon" src="/assets/imgs/github.svg" class="ml-2 size-[18px]" alt="" />
 		</Button>
 	</Modal>
 </section>
@@ -102,9 +96,13 @@ import { projects } from '../../data/projects';
 
 	const modalImage = document.getElementById("modal-project-image") as HTMLImageElement | null;
 	const modalPlaceholder = document.getElementById("modal-project-placeholder");
+	const modalPlaceholderIcon = document.getElementById("modal-project-placeholder-icon") as HTMLImageElement | null;
+	const modalPlaceholderText = document.getElementById("modal-project-placeholder-text");
 	const modalTitle = document.getElementById("modal-project-title");
 	const modalDescription = document.getElementById("modal-project-description");
 	const modalLink = document.getElementById("modal-project-link") as HTMLAnchorElement | null;
+	const modalLinkLabel = document.getElementById("modal-project-link-label");
+	const modalLinkIcon = document.getElementById("modal-project-link-icon") as HTMLImageElement | null;
 
 	setupModal({
 		modalId: "project-modal-template",
@@ -128,10 +126,18 @@ import { projects } from '../../data/projects';
 				// Si no hay imagen, ocultamos la imagen y mostramos el texto
 				modalImage.classList.add("hidden");
 				modalPlaceholder.classList.remove("hidden");
+				if (modalPlaceholderText) modalPlaceholderText.textContent = card.dataset.projectPlaceholder || "En proceso";
+				const placeholderIcon = card.dataset.projectPlaceholderIcon;
+				if (modalPlaceholderIcon) {
+					if (placeholderIcon) modalPlaceholderIcon.src = placeholderIcon;
+					modalPlaceholderIcon.classList.toggle("hidden", !placeholderIcon);
+				}
 			}
 
 			if (modalTitle) modalTitle.textContent = titleText || "Sin título";
 			if (modalDescription) modalDescription.textContent = descriptionText || "Sin descripción.";
+			if (modalLinkLabel) modalLinkLabel.textContent = card.dataset.projectLinkLabel || "Ver en GitHub";
+			if (modalLinkIcon) modalLinkIcon.src = card.dataset.projectLinkIcon || "/assets/imgs/github.svg";
 			if (modalLink) {
 				modalLink.href = projectUrl || "#";
 				// Ocultar el botón si no hay URL
