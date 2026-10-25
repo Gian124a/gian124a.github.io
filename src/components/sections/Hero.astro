@@ -50,11 +50,10 @@ const longest = Math.max(...hero.roleLines.map((l) => l.length));
 	</article>
 
 	<article
-		data-hero-exit="copy"
 		class="relative w-full flex flex-col gap-y-11 lg:flex-1 lg:gap-0 lg:pt-4 xl:px-[45px]"
 	>
 		<div
-			class="w-full flex flex-col items-center sm:px-[10%] md:px-[5%] lg:mt-auto lg:items-start lg:px-0 lg:h-fit lg:mb-[calc(var(--hero-img-w)*0.05)] lg:max-w-[calc(100%_-_0.9*var(--hero-img-w)_-_1.5rem)] xl:max-w-[calc(100%_-_0.9*var(--hero-img-w)_+_1rem)]"
+			class="w-full flex flex-col items-center sm:px-[10%] md:px-[5%] lg:mt-auto lg:items-start lg:px-0 lg:h-fit lg:max-w-[calc(100%_-_0.9*var(--hero-img-w)_-_1.5rem)] xl:max-w-[calc(100%_-_0.9*var(--hero-img-w)_+_1rem)]"
 		>
 			<!--
 				Dos líneas fijas: así la altura del título es predecible (2 × 1.05 × text-display).
@@ -101,7 +100,6 @@ const longest = Math.max(...hero.roleLines.map((l) => l.length));
 			<div data-hero="cta" class="relative z-50 mt-10 flex justify-center items-center lg:justify-start lg:mt-0">
 				<Button
 					href={hero.cta.href}
-					data-motion="magnetic"
 					size="none"
 					class="px-[18px] py-[12px] text-[14px] sm:text-[16px] sm:px-[22px] md:py-[13px] lg:px-[calc(var(--hero-copy)*1.2)] lg:py-[calc(var(--hero-copy)*0.75)] lg:text-[length:var(--hero-copy)]"
 				>
@@ -117,14 +115,13 @@ const longest = Math.max(...hero.roleLines.map((l) => l.length));
 
 		<div
 			data-hero="social"
-			class="relative z-50 flex justify-around items-center px-[5px] sm:px-[10%] sm:justify-center sm:gap-x-[25px] lg:w-fit lg:px-0 lg:gap-x-[calc(var(--hero-copy)*0.8)] lg:mt-auto lg:pt-[calc(var(--hero-copy)*1.5)] lg:pb-[max(1rem,calc(var(--hero-copy)*1.5))]"
+			class="relative z-50 flex justify-around items-center px-[5px] sm:px-[10%] sm:justify-center sm:gap-x-[25px] lg:w-fit lg:px-0 lg:gap-x-[calc(var(--hero-copy)*0.8)] lg:mb-auto lg:pt-[calc(var(--hero-copy)*2)] lg:pb-4"
 		>
 			{
 				socialLinks.map((social) => (
 					<a
 						href={social.href}
-							data-motion="magnetic"
-						class="bg-secundary-600 rounded-full flex shrink-0 justify-center items-center size-(--social-size) hover:bg-secundary-700 hover:scale-[1.07] transition-[background-color,transform] duration-300"
+						class="bg-secundary-600 rounded-full flex shrink-0 justify-center items-center size-(--social-size) hover:bg-secundary-700 hover:scale-[1.07] transition-[background-color,scale] duration-300"
 					>
 						<img src={social.icon} alt={social.label} class="size-1/2" />
 					</a>
@@ -152,8 +149,6 @@ const longest = Math.max(...hero.roleLines.map((l) => l.length));
 		<div data-hero="rule" class="bg-[linear-gradient(to_right,#0C0B0D,#403B45,#403B45,#0C0B0D)] h-[2px] w-full"></div>
 	</article>
 
-	<!-- Velo de la salida con scroll (heroExit.ts): funde el hero con el fondo de la página al alejarse (mismo color: sin bordes de caja); opacity 0 sin JS -->
-	<div data-hero-exit="veil" aria-hidden="true" class="pointer-events-none absolute inset-0 z-[60] bg-secundary-900 opacity-0"></div>
 </section>
 
 <script>

@@ -1,20 +1,15 @@
-// Salida del hero con scroll ("zoom-through"): retrato con parallax lento, texto que se apaga, sección que se aleja y oscurece.
-// Scrub sin pin, ligado al scroll (Lenis ya lo suaviza). Solo transform/opacity; el oscurecimiento es un overlay, no filter.
-// Se crea cuando termina la entrada (html.hero-pending) y actúa sobre contenedores que la entrada ya dejó limpios.
+// Salida del hero con scroll: el retrato baja más lento que la página (parallax). Scrub sin pin, ligado al scroll.
+// Solo el retrato y en su propia capa (will-change mientras el trigger está activo): fundir los textos, el velo o escalar
+// la sección obligaba a recalcular estilos y redibujar el retrato SVG en cada frame y el scroll se notaba "pegado".
+// Se crea cuando termina la entrada (html.hero-pending), sobre un contenedor que la entrada ya dejó limpio.
 import { registerMotion, type MotionInit } from './index';
 
 const root = document.documentElement;
 
 const init: MotionInit = ({ tier, gsap }) => {
 	const section = document.getElementById('inicio');
-	if (!section || tier === 'reduced') return;
-	const full = tier === 'full';
-	const $ = (s: string) => section.querySelector<HTMLElement>(s);
-	const portrait = $('[data-hero="portrait"]');
-	// Se anima cada pieza del texto, no su contenedor: opacity/transform en el contenedor crearían un contexto de apilamiento
-	// y el título ya no podría quedar detrás del retrato mientras el párrafo queda delante.
-	const copy = [...section.querySelectorAll<HTMLElement>('[data-hero="title"], [data-hero="intro"], [data-hero="cta"], [data-hero="social"]')];
-	const veil = $('[data-hero-exit="veil"]');
+	const portrait = section?.querySelector<HTMLElement>('[data-hero="portrait"]');
+	if (!section || !portrait || tier === 'reduced') return;
 	let tl: gsap.core.Timeline | undefined;
 	let mo: MutationObserver | undefined;
 
@@ -26,12 +21,11 @@ const init: MotionInit = ({ tier, gsap }) => {
 				start: 'top top',
 				end: 'bottom top',
 				scrub: true,
-				onToggle: (st) => (section.style.willChange = st.isActive && full ? 'transform' : ''),
-				onLeaveBack: () => gsap.set([section, portrait, ...copy], { clearProps: 'transform,transformOrigin,opacity' }), // arriba del todo: sin transform residual
+				onToggle: (st) => (portrait.style.willChange = st.isActive ? 'transform' : ''),
+				onLeaveBack: () => gsap.set(portrait, { clearProps: 'transform' }), // arriba del todo: sin transform residual
 			},
 		});
-		tl.to(portrait, { yPercent: full ? 18 : 9 }, 0).to(veil, { opacity: 0.35 }, 0);
-		if (full) tl.to(copy, { opacity: 0.3, y: -24 }, 0).to(section, { scale: 0.96, transformOrigin: '50% 0%' }, 0);
+		tl.to(portrait, { yPercent: tier === 'full' ? 18 : 9 }, 0);
 	};
 
 	if (root.classList.contains('hero-pending')) {
@@ -48,7 +42,7 @@ const init: MotionInit = ({ tier, gsap }) => {
 		mo?.disconnect();
 		tl?.scrollTrigger?.kill();
 		tl?.kill();
-		gsap.set([section, portrait, ...copy, veil], { clearProps: 'transform,transformOrigin,opacity,willChange' });
+		gsap.set(portrait, { clearProps: 'transform,willChange' });
 	};
 };
 
