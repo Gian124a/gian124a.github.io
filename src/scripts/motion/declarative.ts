@@ -1,8 +1,9 @@
 // === API DECLARATIVA data-motion ===
-// reveal | stagger | split | counter. Estados iniciales ocultos en global.css (solo bajo html.motion-ready).
+// reveal | stagger | split | counter (marcador digital) | type (máquina de escribir). Estados iniciales ocultos en global.css (solo bajo html.motion-ready).
 // Se registra en index.ts; init se re-ejecuta al cambiar el tier y su limpieza revierte todo.
 import { gsap, ScrollTrigger, SplitText } from './gsap';
 import { dur, ease } from './tokens';
+import { typeText, type Typed, type TypeUnit } from './typewriter';
 import type { MotionInit } from './index';
 
 const START = 'top 85%';
@@ -20,6 +21,7 @@ const trigger = (el: Element, eager = false) => ({
 	once: true,
 });
 const counterText = new Map<Element, string>(); // texto original de los contadores (red de seguridad)
+const typeStarted = new WeakSet<Element>(); // type: ya empezó a escribirse (red de seguridad)
 
 export function distance(tier: string) {
 	if (tier === 'reduced') return 0;
@@ -27,55 +29,74 @@ export function distance(tier: string) {
 	return (tier === 'lite' ? 12 : 24) * css;
 }
 
-// ---- counter: '+5' -> +0…+5, '3 años', '10+', '4.5' ----
+// ---- counter: marcador digital sobre '+5', '3 años', '10+', '4.5', '1,200' ----
 const NUM_RE = /(\d{1,3}(?:,\d{3})+|\d+)(\.\d+)?/;
 
-// Prepara el contador (deja el texto en 0) y devuelve el tween; null si no hay número. Termina en el texto exacto.
-// Reutilizable desde una timeline: vars puede traer duration, ease, scrollTrigger, onComplete...
-export function animateCounter(el: HTMLElement, vars: gsap.TweenVars = {}): gsap.core.Tween | null {
+// Marcador digital: baraja dígitos aleatorios (misma cantidad que el final; prefijo, sufijo y separadores intactos) a ~rate
+// cambios/s, con destellos de opacidad, y se fija en el texto EXACTO original (los dígitos se fijan de izquierda a derecha al final).
+// vars: duration (0.8), rate (18), lock (s que tarda en fijar los dígitos al final; por defecto el 30% de duration),
+// + cualquier opción de tween (scrollTrigger, onComplete...). null si no hay número.
+export function scrambleCounter(el: HTMLElement, vars: gsap.TweenVars & { rate?: number; lock?: number } = {}): gsap.core.Tween | null {
 	const original = el.textContent ?? '';
 	const m = NUM_RE.exec(original);
-	if (!m || el.children.length) return null; // sin número (o con markup interno): no hace nada
-	const int = m[1];
-	const frac = m[2] ?? '';
-	const target = parseFloat(int.replace(/,/g, '') + frac);
-	const decimals = frac ? frac.length - 1 : 0;
-	const thousands = int.includes(',');
+	if (!m || el.children.length) return null;
+	const { rate = 18, lock, ...tv } = vars;
 	const pre = original.slice(0, m.index);
 	const post = original.slice(m.index + m[0].length);
-	const fmt = (v: number) =>
-		thousands
-			? v.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals })
-			: v.toFixed(decimals);
-	const state = { v: 0 };
+	const digits = [...m[0]].filter((c) => c >= '0' && c <= '9').length;
+	const num = [...m[0]];
+	const build = (locked: number) => {
+		let k = 0;
+		return (
+			pre +
+			num.map((c) => (c < '0' || c > '9' ? c : k++ < locked ? c : String((Math.random() * 10) | 0))).join('') +
+			post
+		);
+	};
+	const state = { p: 0 };
+	let tick = -1;
 	counterText.set(el, original);
-	el.textContent = pre + fmt(0) + post;
+	el.textContent = build(0);
+	const duration = (tv.duration as number | undefined) ?? 0.8;
+	const lockFrom = lock === undefined ? 0.7 : Math.max(0, 1 - lock / duration); // progreso en que empiezan a fijarse
 	return gsap.to(state, {
-		duration: 1.2,
-		ease: 'power3.out',
-		...vars,
-		v: target,
-		onUpdate: () => (el.textContent = pre + fmt(state.v) + post),
+		...tv,
+		p: 1,
+		duration,
+		ease: 'none',
+		onUpdate: () => {
+			const t = Math.floor(state.p * duration * rate);
+			if (t === tick) return; // solo cambia a ~rate veces por segundo
+			tick = t;
+			el.textContent = build(Math.floor(Math.max(0, (state.p - lockFrom) / (1 - lockFrom || 1)) * digits));
+			el.style.opacity = Math.random() < 0.35 ? '0.35' : '1';
+		},
 		onComplete: () => {
 			el.textContent = original; // el texto final es exactamente el original
-			vars.onComplete?.();
+			el.style.opacity = '';
+			tv.onComplete?.();
 		},
 	});
 }
 
 function setupCounter(el: HTMLElement, restore: Array<() => void>) {
 	const original = el.textContent ?? '';
-	const tw = animateCounter(el, {
+	const tw = scrambleCounter(el, {
 		scrollTrigger: trigger(el, true), // en cuanto asoma
 		onComplete: () => done.add(el),
 	});
-	if (tw) restore.push(() => (el.textContent = original));
+	if (tw)
+		restore.push(() => {
+			el.textContent = original;
+			el.style.opacity = '';
+		});
 }
 
 const init: MotionInit = ({ tier }) => {
 	const reduced = tier === 'reduced';
 	const dy = distance(tier);
 	const splits: SplitText[] = [];
+	const typed: Typed[] = [];
 	const restore: Array<() => void> = [];
 	const q = (kind: string) => [...document.querySelectorAll<HTMLElement>(`[data-motion="${kind}"]`)];
 
@@ -162,17 +183,45 @@ const init: MotionInit = ({ tier }) => {
 			);
 		}
 
+		// type: se escribe al entrar en vista. data-type-duration (s totales), data-type-unit (char|word), data-type-caret="false".
+		for (const el of q('type')) {
+			if (done.has(el)) continue;
+			if (reduced) {
+				gsap.set(el, { clipPath: 'none' });
+				fade(el, el); // sin escritura ni cursor: fundido corto
+				continue;
+			}
+			const unit: TypeUnit = el.dataset.typeUnit === 'word' ? 'word' : 'char';
+			const d = num(el.dataset.typeDuration, 0);
+			ScrollTrigger.create({
+				...trigger(el),
+				onEnter: () => {
+					typeStarted.add(el);
+					typed.push(
+						typeText(el, {
+							unit,
+							duration: d > 0 ? d : undefined,
+							caret: el.dataset.typeCaret !== 'false',
+							onComplete: () => done.add(el),
+						}),
+					);
+				},
+			});
+		}
+
 		if (!reduced) for (const el of q('counter')) if (!done.has(el)) setupCounter(el, restore);
 	});
 
 	return () => {
 		splits.forEach((s) => s.revert());
+		typed.forEach((t) => t.finishNow());
 		ctx.revert();
 		restore.forEach((fn) => fn());
 		// lo ya animado no debe volver a quedar oculto por el CSS inicial
 		document.querySelectorAll<HTMLElement>('[data-motion]').forEach((el) => {
 			if (!done.has(el)) return;
 			el.style.opacity = '1';
+			if (el.dataset.motion === 'type') el.style.clipPath = 'none';
 			if (el.dataset.motion === 'stagger') Array.from(el.children).forEach((c) => ((c as HTMLElement).style.opacity = '1'));
 		});
 	};
@@ -184,6 +233,11 @@ function safetyNet() {
 		document.querySelectorAll<HTMLElement>('[data-motion]').forEach((el) => {
 			const kind = el.dataset.motion;
 			if (el.getBoundingClientRect().top > innerHeight) return;
+			if (kind === 'type') {
+				// visible y sin empezar a escribirse (trigger caído): mostrar el texto
+				if (!typeStarted.has(el) && !done.has(el)) el.style.clipPath = 'none';
+				return;
+			}
 			if (kind === 'counter') {
 				const orig = counterText.get(el);
 				if (orig !== undefined && !done.has(el) && el.textContent !== orig) {

@@ -233,20 +233,47 @@ html.lenis body {
 .motion-ready [data-motion="stagger"] > * {
   opacity: 0;
 }
+/* type (máquina de escribir): oculto por recorte, el texto sigue en el DOM. typewriter.ts lo destapa al escribir */
+.motion-ready [data-motion="type"] {
+  clip-path: inset(0 100% 0 0);
+}
+
+/* Cursor de la máquina de escribir (lo crea typewriter.ts; aria-hidden). Posición/tamaño por JS (transform, width, height).
+   Parpadea solo mientras espera (.is-waiting); al teclear queda sólido. */
+.tw-caret {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 55;
+  pointer-events: none;
+  border-radius: 1px;
+  background: var(--color-primary-300);
+  will-change: transform;
+}
+.tw-caret.is-waiting {
+  animation: tw-blink 0.5s steps(1, end) infinite;
+}
+@keyframes tw-blink {
+  50% {
+    opacity: 0;
+  }
+}
 
 /* Entrada del hero: estados iniciales ANTES del primer pintado (el script del <head> pone html.hero-pending; sin JS no existe).
    hero.ts los sustituye por fromTo y quita la clase al terminar (o la red de seguridad del <head> a los 4.5 s).
    Solo opacity y clip-path: el retrato sigue "pintado" (clip, no opacity:0) para no retrasar el LCP.
    html.hero-lite (nivel no-full, lo pone el <head>): el retrato no se recorta; pinta desde el primer frame (LCP) bajo la cortina. */
 html.hero-pending #inicio :is(
-  [data-hero='title-line'],
-  [data-hero='intro'],
   [data-hero='cta'],
   [data-hero='social'] > *,
   [data-hero='rule'],
   [data-hero='stat']
 ) {
   opacity: 0;
+}
+/* Título y descripción: ocultos por recorte (no opacity:0); hero.ts los escribe con typewriter.ts (o en lite/reduced los funde) */
+html.hero-pending #inicio :is([data-hero='title-line'], [data-hero='intro'] p) {
+  clip-path: inset(0 100% 0 0);
 }
 html.hero-pending:not(.hero-lite) #inicio [data-hero='portrait'] {
   clip-path: inset(100% 0 0 0);
@@ -277,4 +304,13 @@ html.hero-pending:not(.hero-lite) #inicio [data-hero='portrait'] {
 #toast-notification.error {
   background-color: var(--color-danger); /* texto #0c0b0d: 7.1:1 */
   color: var(--color-secundary-900);
+}
+
+/* Hero en pantallas anchas pero bajas (portátiles con la ventana sin maximizar): el mínimo de 44vw del retrato
+   (Hero.astro) haría el hero más alto que la ventana y dejaría redes y stats fuera de vista. Aquí manda la altura.
+   #inicio gana en especificidad a las variables lg:/xl: de Hero.astro. */
+@media (min-width: 64rem) and (max-height: 47.5rem) {
+  #inicio {
+    --hero-img-w: min(75svh, 50vw, calc((100svh - var(--header-h) - var(--hero-stats-h)) / 0.93));
+  }
 }
