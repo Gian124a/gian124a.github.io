@@ -3,6 +3,7 @@ import { brand } from '../data/navigation';
 ---
 
 <header
+	data-site-header
 	class="fixed inset-x-0 top-0 z-(--z-header) flex h-(--header-h) items-center justify-between border-b border-white/5 bg-surface/85 px-4 backdrop-blur-md sm:px-8 lg:px-11 2xl:px-24"
 >
 	<a
@@ -33,3 +34,43 @@ import { brand } from '../data/navigation';
 		<img src="/assets/icons/card.svg" class="ml-2 size-[20px] text-neutral-500" alt="" />
 	</a>
 </header>
+
+<script>
+	// === HEADER QUE SE OCULTA AL BAJAR (solo < lg; el movimiento y la media query viven en styles.css) ===
+	// Solo alterna data-hidden. Escucha scroll (nativo o Lenis, que también mueve window) con rAF; sin JS el header siempre se ve.
+	const header = document.querySelector<HTMLElement>('[data-site-header]')!;
+	const menuButton = document.getElementById('menu-button');
+	const THRESHOLD = 8; // px de movimiento acumulado para cambiar de estado (evita parpadeo por micro-scroll)
+	let last = Math.max(0, window.scrollY);
+	let ticking = false;
+
+	function update() {
+		ticking = false;
+		const y = Math.max(0, window.scrollY); // rebote elástico de iOS da valores negativos
+		const atBottom = y + window.innerHeight >= document.documentElement.scrollHeight - 2;
+		const menuOpen = menuButton?.getAttribute('aria-expanded') === 'true';
+
+		const anchorScroll = 'anchorScroll' in document.documentElement.dataset; // scroll por ancla (lenis.ts)
+
+		if (menuOpen || atBottom || anchorScroll || y < header.offsetHeight * 2) {
+			header.removeAttribute('data-hidden');
+			last = y;
+			return;
+		}
+		const dy = y - last;
+		if (Math.abs(dy) < THRESHOLD) return;
+		header.toggleAttribute('data-hidden', dy > 0);
+		last = y;
+	}
+
+	window.addEventListener(
+		'scroll',
+		() => {
+			if (!ticking) {
+				ticking = true;
+				requestAnimationFrame(update);
+			}
+		},
+		{ passive: true },
+	);
+</script>

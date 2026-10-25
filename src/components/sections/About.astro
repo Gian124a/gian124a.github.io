@@ -20,11 +20,19 @@ import { about, aboutTags } from '../../data/about';
 	</SectionTitle>
 
 	<article class="flex justify-center lg:col-start-1 lg:row-start-1 lg:row-span-4 lg:self-center">
-		<img
-			class="w-[65vw] sm:w-[45vw] md:w-[40vw] md:max-w-[450px] lg:max-w-none lg:w-[min(60svh,34vw,calc(100svh_-_var(--header-h)_-_2rem))] 2xl:w-[68%] 2xl:max-w-[520px]"
-			src="/assets/imgs/image-yo-section2.svg"
-			alt="Sobre mí"
-		/>
+		<!-- Marco = misma caja que antes (las clases de ancho pasaron de la img al marco). Fundido: about.ts; parallax de la img: .about-* en styles.css -->
+		<div
+			data-about="image"
+			class="about-frame w-[65vw] sm:w-[45vw] md:w-[40vw] md:max-w-[450px] lg:max-w-none lg:w-[min(60svh,34vw,calc(100svh_-_var(--header-h)_-_2rem))] 2xl:w-[68%] 2xl:max-w-[520px]"
+		>
+			<img
+				class="about-img block w-full h-auto"
+				src="/assets/imgs/image-yo-section2.svg"
+				alt="Sobre mí"
+				width="323"
+				height="393"
+			/>
+		</div>
 	</article>
 
 	<article
@@ -32,6 +40,7 @@ import { about, aboutTags } from '../../data/about';
 	>
 		<div class="sm:w-[80%] lg:w-full xl:w-[90%] 2xl:w-[90%]">
 			<h3
+				data-about="title"
 				class="font-extrabold text-title text-center bg-gradient-to-t from-title-from to-title-to bg-clip-text text-transparent lg:text-start"
 			>
 				{about.heading}
@@ -40,6 +49,7 @@ import { about, aboutTags } from '../../data/about';
 
 		<div class="sm:w-[80%] lg:w-[90%] xl:w-[95%] 2xl:w-[90%]">
 			<p
+				data-about="intro"
 				class="text-fg text-center text-copy lg:text-justify xl:w-[80%] 2xl:w-[70%]"
 			>
 				{about.bio}
@@ -50,7 +60,7 @@ import { about, aboutTags } from '../../data/about';
 		>
 			{
 				aboutTags.map((tag) => (
-					<span class="bg-primary-800 flex items-center py-[5px] px-[12px] text-[length:max(0.75rem,calc(var(--text-copy)*0.85))] text-fg font-semibold rounded-control md:px-[14px] md:py-[6px] lg:px-[0.9em] lg:py-[0.3em] lg:leading-snug">
+					<span data-about="tag" class="bg-primary-800 flex items-center py-[5px] px-[12px] text-[length:max(0.75rem,calc(var(--text-copy)*0.85))] text-fg font-semibold rounded-control md:px-[14px] md:py-[6px] lg:px-[0.9em] lg:py-[0.3em] lg:leading-snug">
 						{tag}
 					</span>
 				))
@@ -58,15 +68,40 @@ import { about, aboutTags } from '../../data/about';
 		</div>
 
 		<!-- Botón -->
-		<div class="flex justify-center items-center lg:justify-start lg:mt-0">
+		<div data-about="cta" class="flex justify-center items-center lg:justify-start lg:mt-0">
 			<Button href="/assets/imgs/CV.pdf" target="_blank">
 				Visualizar CV
 				<img
 					src="/assets/icons/eyes.svg"
-					class="ml-2 size-[20px] md:size-[24px] lg:size-[20px] xl:size-[16px] 2xl:size-[18px]"
+					class="cv-eyes ml-2 size-[20px] md:size-[24px] lg:size-[20px] xl:size-[16px] 2xl:size-[18px]"
 					alt=""
 				/>
 			</Button>
 		</div>
 	</article>
 </section>
+
+<script>
+	import { whenIdle } from '../../scripts/motion';
+	// La entrada de la sección (bajo el pliegue) no es crítica: módulo aparte, en idle. Si no carga, no debe quedar nada oculto.
+	whenIdle(() => {
+		import('../../scripts/motion/about').catch(() => {
+			document.querySelectorAll<HTMLElement>('[data-about]').forEach((el) => {
+				el.style.opacity = '1';
+				el.style.clipPath = 'none';
+			});
+		});
+	}, 2000);
+</script>
+
+<style>
+	/* Icono del CV: en dispositivos con hover real se desplaza 3 px a la derecha (solo transform, curva de tokens) */
+	@media (hover: hover) and (pointer: fine) {
+		.cv-eyes {
+			transition: transform var(--dur-fast) var(--ease-smooth-out);
+		}
+		:global(a:hover) .cv-eyes {
+			transform: translateX(3px);
+		}
+	}
+</style>

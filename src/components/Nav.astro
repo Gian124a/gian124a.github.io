@@ -9,15 +9,14 @@ const linkClass =
 <nav
 	class="fixed top-[calc(var(--header-h)+12px)] right-3 z-(--z-nav) w-fit lg:pointer-events-none lg:inset-x-0 lg:top-0 lg:mx-auto lg:flex lg:h-(--header-h) lg:w-full lg:items-center lg:justify-center"
 >
-	<!-- V4: rehacer animación de la pill (transform en vez de width/height) -->
 	<div
 		id="menu-container"
-		class="relative flex flex-col items-center p-[6px] overflow-hidden rounded-[12px] bg-gradient-to-b from-secundary-800 to-secundary-600 backdrop-blur-xl shadow-lg transition-all duration-500 ease-in-out lg:pointer-events-auto lg:flex-row lg:gap-2 lg:p-1 lg:rounded-full lg:border lg:border-neutral-700 lg:backdrop-blur-sm"
+		class="relative flex flex-col items-center p-[6px] overflow-hidden rounded-[12px] bg-gradient-to-b from-secundary-800 to-secundary-600 backdrop-blur-xl shadow-lg lg:pointer-events-auto lg:flex-row lg:gap-2 lg:p-1 lg:rounded-full lg:border lg:border-neutral-700 lg:backdrop-blur-sm"
 	>
-		<!-- Fondo animado -->
+		<!-- Fondo animado: ocupa todo el contenedor y se recorta con clip-path (lo fija el script; sin JS queda oculto) -->
 		<span
 			id="active-bg"
-			class="absolute z-[1] top-0 left-0 right-0 mx-auto rounded-[10px] bg-secundary-500/70 backdrop-blur-md border border-neutral-600/30 shadow-[inset_0_0_4px_rgba(106,102,167,0.5)] transition-all duration-500 ease-in-out lg:top-0 lg:bottom-0 lg:left-0 lg:right-auto lg:m-auto lg:h-[calc(100%-8px)] lg:w-[80px] lg:rounded-[100px] lg:bg-secundary-600 lg:border-neutral-700 lg:shadow-[inset_0_0_6px_rgba(106,102,167,0.7)]"
+			class="pointer-events-none absolute inset-0 z-[1] bg-secundary-500/70 backdrop-blur-md [clip-path:inset(50%)] lg:bg-secundary-600"
 		></span>
 
 		<!-- Botones -->
@@ -37,6 +36,9 @@ const linkClass =
 
 <script>
 	import { scrollToTarget } from '../scripts/motion/lenis';
+	import { gsap } from '../scripts/motion/gsap';
+	import { getTier } from '../scripts/motion/tiers';
+	import { dur } from '../scripts/motion/tokens';
 
 	// === MENÚ, FONDO ACTIVO, SCROLLSPY Y SCROLL SUAVE ===
 	const menu = document.getElementById('menu-container') as HTMLElement;
@@ -47,23 +49,38 @@ const linkClass =
 	let clickTimeout: number;
 
 	// --- Controla el movimiento del fondo activo ---
-	function moveBgTo(link: HTMLAnchorElement) {
-		// Determina si el menú es vertical (móvil) u horizontal (escritorio/móvil horizontal)
-		// basándose en el estilo computado, que es más fiable que el ancho de la ventana.
+	// El fondo mide siempre lo mismo que el contenedor; solo cambia el recorte (sin layout).
+	const pill = { t: 0, r: 0, b: 0, l: 0 };
+	function paintPill(radius: number) {
+		activeBg.style.clipPath = `inset(${pill.t}px ${pill.r}px ${pill.b}px ${pill.l}px round ${radius}px)`;
+	}
+
+	// animate=false: posición directa (primera colocación y resize); true: spring según el nivel
+	function moveBgTo(link: HTMLAnchorElement, animate = false) {
+		// Vertical (móvil) u horizontal, según el estilo computado (más fiable que el ancho de ventana)
 		const isMobile = window.getComputedStyle(menu).flexDirection === 'column';
+		const inset = 4; // margen visual contra el borde del contenedor
+		const radius = isMobile ? 10 : 100;
+		const W = menu.clientWidth;
+		const H = menu.clientHeight;
+		const to = isMobile
+			? { t: link.offsetTop, r: inset, b: H - link.offsetTop - link.offsetHeight, l: inset }
+			: { t: inset, r: W - link.offsetLeft - link.offsetWidth, b: inset, l: link.offsetLeft };
 
-		const offset = isMobile ? link.offsetTop : link.offsetLeft;
-		const size = isMobile ? link.offsetHeight : link.offsetWidth;
-
-		activeBg.style.transform = isMobile ? `translateY(${offset}px)` : `translateX(${offset}px)`;
-
-		if (isMobile) {
-			activeBg.style.height = `${size}px`;
-			activeBg.style.width = `calc(100% - 8px)`; // margen visual lateral
-		} else {
-			activeBg.style.width = `${size}px`;
-			activeBg.style.height = `calc(100% - 8px)`;
+		const tier = getTier();
+		gsap.killTweensOf(pill);
+		if (!animate || tier === 'reduced') {
+			Object.assign(pill, to);
+			paintPill(radius);
+			return;
 		}
+		gsap.to(pill, {
+			...to,
+			duration: tier === 'full' ? 0.45 : dur.base,
+			ease: tier === 'full' ? 'back.out(1.4)' : 'power3.out',
+			overwrite: 'auto',
+			onUpdate: () => paintPill(radius),
+		});
 	}
 
 	// --- Marca un link como activo ---
@@ -79,7 +96,7 @@ const linkClass =
 		// su botón en el header), la pill sube y se oculta; vuelve al llegar a otra sección.
 		const hidden = link.offsetParent === null;
 		menu.classList.toggle('nav-hidden', hidden);
-		if (!hidden) moveBgTo(link);
+		if (!hidden) moveBgTo(link, true);
 	}
 
 	// --- Abre / cierra el menú móvil y sincroniza ARIA ---
@@ -144,18 +161,20 @@ const linkClass =
 
 	// --- Arranca el scrollspy en cuanto el DOM está listo (no espera a imágenes con window.load) ---
 	activateLink(links[0]);
+	moveBgTo(links[0]); // primera colocación directa (activateLink anima)
 	updateActiveLinkOnScroll();
+	// Recoloca el fondo sin animar (si el link activo está oculto en este ancho, no hay nada que medir)
+	function placeActive() {
+		const activeLink = document.querySelector<HTMLAnchorElement>('a.active') || links[0];
+		if (activeLink.offsetParent !== null) moveBgTo(activeLink);
+	}
 	// Recoloca el fondo cuando ya cargó la fuente (cambia el ancho de los links)
 	document.fonts.ready.then(() => {
-		const activeLink = document.querySelector<HTMLAnchorElement>('a.active') || links[0];
-		moveBgTo(activeLink);
+		placeActive();
 	});
 
 	// --- Reajusta la posición al redimensionar ---
-	window.addEventListener('resize', () => {
-		const activeLink = document.querySelector<HTMLAnchorElement>('a.active') || links[0];
-		moveBgTo(activeLink);
-	});
+	window.addEventListener('resize', placeActive);
 
 	// --- Abre / Cierra menú en móviles ---
 	menuButton.addEventListener('click', () => {

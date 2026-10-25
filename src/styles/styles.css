@@ -142,3 +142,111 @@
   @media (min-width: 640px) {
     /* Se eliminó la regla para project-card:last-child y skill-card:last-child para permitir snap-center */
   }
+
+/* Header que se oculta al bajar (solo < lg). Header.astro alterna data-hidden; sin JS nunca se pone y siempre se ve.
+   Solo transform; will-change únicamente mientras está oculto/en movimiento (no permanente). */
+@media (max-width: 1023.98px) {
+  header[data-site-header] {
+    transition: transform var(--dur-base) var(--ease-smooth-out);
+  }
+  header[data-site-header][data-hidden] {
+    transform: translateY(-100%);
+    will-change: transform;
+  }
+  /* Siempre visible con el menú abierto o con foco de teclado dentro del header */
+  header[data-site-header][data-hidden]:has(#menu-button[aria-expanded='true']),
+  header[data-site-header][data-hidden]:has(:focus-visible) {
+    transform: none;
+  }
+}
+/* Reduced-motion: cambio instantáneo, sin desplazamiento animado (gana a la regla global por especificidad) */
+@media (prefers-reduced-motion: reduce) {
+  header[data-site-header] {
+    transition: none !important;
+  }
+}
+
+/* Barra de progreso de lectura (2 px, CSS puro con scroll-timeline). Sin soporte: no se muestra. Se mantiene en reduced-motion (es informativa). */
+.scroll-progress {
+  display: none;
+}
+@supports (animation-timeline: scroll()) {
+  .scroll-progress {
+    display: block;
+    position: fixed;
+    inset: 0 0 auto 0;
+    height: 2px;
+    z-index: var(--z-progress);
+    background: linear-gradient(to right, var(--color-primary-800), var(--color-primary-500));
+    transform-origin: left;
+    transform: scaleX(0);
+    pointer-events: none;
+    /* Longhands a propósito: el minificador fusiona el shorthand con animation-timeline y Chrome descarta la regla */
+    animation-name: scroll-progress;
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+    animation-timeline: scroll(root block);
+  }
+  @keyframes scroll-progress {
+    to {
+      transform: scaleX(1);
+    }
+  }
+}
+
+/* Divisor de sección: degradado fijo; con soporte se dibuja desde el centro al entrar en vista (scrubbed, solo transform).
+   Sin soporte o en reduced-motion no hay estado inicial: la línea se ve completa y estática. */
+.section-divider {
+  background: linear-gradient(to right, #0C0B0D, #403B45, #403B45, #0C0B0D);
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .section-divider {
+      transform-origin: center;
+      /* Longhands a propósito (ver NOTA de la barra de progreso): el shorthand junto a animation-timeline rompe en Chrome */
+      animation-name: section-divider-draw;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 60%;
+    }
+    @keyframes section-divider-draw {
+      from {
+        transform: scaleX(0);
+      }
+      to {
+        transform: scaleX(1);
+      }
+    }
+  }
+}
+
+/* Imagen de Sobre mí: parallax sutil, CSS puro y solo transform. El fundido de entrada lo hace about.ts (opacity del marco).
+   .about-frame es la caja de layout (define --about-img); la img se mueve dentro de ella sin cambiar su tamaño (sin recorte:
+   el SVG es transparente y ±4 % no choca con nada). Sin soporte o con reduced-motion la imagen queda estática. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) and (pointer: fine) {
+    .about-frame {
+      view-timeline-name: --about-img;
+      view-timeline-axis: block;
+    }
+    /* Longhands a propósito (ver NOTA de la barra de progreso) */
+    .about-img {
+      will-change: transform;
+      animation-name: about-parallax;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: --about-img;
+      animation-range: cover 0% cover 100%;
+    }
+    /* Respecto al marco baja de -4 % a 4 % de su alto mientras la sección cruza el viewport */
+    @keyframes about-parallax {
+      from {
+        transform: translateY(-4%);
+      }
+      to {
+        transform: translateY(4%);
+      }
+    }
+  }
+}

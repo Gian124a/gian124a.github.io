@@ -154,6 +154,7 @@
   --z-carousel: 40;
   --z-header: 100;
   --z-nav: 110;
+  --z-progress: 120; /* barra de progreso de lectura: sobre header y nav */
   --z-toast: 300;
   --z-modal: 500;
   --z-cursor: 9000;
@@ -277,6 +278,15 @@ html.hero-pending #inicio :is([data-hero='title-line'], [data-hero='intro'] p) {
 }
 html.hero-pending:not(.hero-lite) #inicio [data-hero='portrait'] {
   clip-path: inset(100% 0 0 0);
+}
+
+/* Entrada de Sobre mí (about.ts): estados iniciales SOLO con JS (html.motion-ready) y hasta que la sección se marca con
+   data-about-done (estado final; sin estilos inline). Título y descripción: recorte (se escriben); el resto, opacity. */
+.motion-ready #sobre-mi:not([data-about-done]) :is([data-about='title'], [data-about='intro']) {
+  clip-path: inset(0 100% 0 0);
+}
+.motion-ready #sobre-mi:not([data-about-done]) :is([data-about='image'], [data-about='tag'], [data-about='cta']) {
+  opacity: 0;
 }
 
 /* Foco visible global (fuente única; Button, Nav, cards y modal repiten los mismos valores) */
