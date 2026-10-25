@@ -70,11 +70,15 @@ export function scrollToTarget(target: string | HTMLElement, opts: ScrollToOptio
 	const el = typeof target === 'string' ? (document.querySelector(target) as HTMLElement | null) : target;
 	if (!el) return Promise.resolve();
 
+	// Durante el scroll por ancla el header móvil se queda visible (lo lee Header.astro): evita el hueco sobre el título
+	document.documentElement.dataset.anchorScroll = '';
+
 	return new Promise<void>((resolve) => {
 		let done = false;
 		const finish = () => {
 			if (done) return;
 			done = true;
+			delete document.documentElement.dataset.anchorScroll;
 			opts.onComplete?.();
 			resolve();
 		};
