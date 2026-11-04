@@ -89,8 +89,55 @@ export interface TimelineCategory {
 	items: TimelineItem[];
 }
 
-// Cada categoría genera un panel y un punto de estado en Experience.astro.
+// Cada categoría aporta sus ítems a la línea de tiempo de Experience.astro (una categoría nueva se añade solo aquí).
 export const timeline: TimelineCategory[] = [
 	{ id: 'educacion', heading: 'EDUCACIÓN', items: education },
 	{ id: 'experiencia', heading: 'EXPERIENCIA', items: experience },
 ];
+
+const MONTHS: Record<string, number> = {
+	ene: 1, feb: 2, mar: 3, abr: 4, may: 5, jun: 6, jul: 7, ago: 8, sep: 9, sept: 9, oct: 10, nov: 11, dic: 12,
+};
+
+/**
+ * Inicio del `year` como número ordenable (año * 12 + mes - 1). Lee "Sep 2022 - Mar 2025", "May 2026" o "2024"
+ * (solo año = enero). Devuelve null si no se entiende.
+ */
+export function parseStart(year: string): number | null {
+	const m = year.trim().match(/^(?:([A-Za-zÁÉÍÓÚáéíóú]+)\.?\s+)?(\d{4})(?!\d)/);
+	if (!m) return null;
+	let month = 1;
+	if (m[1]) {
+		const found = MONTHS[m[1].toLowerCase()];
+		if (!found) return null;
+		month = found;
+	}
+	return Number(m[2]) * 12 + month - 1;
+}
+
+export interface TimelineEvent extends TimelineItem {
+	categoryId: string;
+	categoryHeading: string;
+	categoryIndex: number;
+}
+
+/** Todos los ítems de `timeline` en una lista cronológica (más antiguo primero). Empate: categoría, luego orden original. */
+export const timelineEvents: TimelineEvent[] = timeline
+	.flatMap((category, categoryIndex) =>
+		category.items.map((item) => ({
+			...item,
+			categoryId: category.id,
+			categoryHeading: category.heading,
+			categoryIndex,
+		})),
+	)
+	.map((event, order) => {
+		const start = parseStart(event.year);
+		if (start === null) console.warn(`[experience] No se pudo leer la fecha "${event.year}" de "${event.title}"; va al final.`);
+		return { event, order, start };
+	})
+	.sort((a, b) => {
+		if (a.start === null || b.start === null) return a.start === b.start ? a.order - b.order : a.start === null ? 1 : -1;
+		return a.start - b.start || a.event.categoryIndex - b.event.categoryIndex || a.order - b.order;
+	})
+	.map(({ event }) => event);

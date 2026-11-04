@@ -152,6 +152,7 @@
   /* Z-index (orden actual) */
   --z-base: 0;
   --z-carousel: 40;
+  --z-timeline-node: 2; /* nodos de la línea de tiempo sobre el carril */
   --z-header: 100;
   --z-nav: 110;
   --z-progress: 120; /* barra de progreso de lectura: sobre header y nav */
@@ -287,6 +288,52 @@ html.hero-pending:not(.hero-lite) #inicio [data-hero='portrait'] {
 }
 .motion-ready #sobre-mi:not([data-about-done]) :is([data-about='image'], [data-about='tag'], [data-about='cta']) {
   opacity: 0;
+}
+
+/* Línea de tiempo de Experiencia (timeline.ts): estados iniciales SOLO con JS (html.motion-ready). Hitos: hasta data-tl-done.
+   Fill: scaleY(0) solo hasta que el módulo carga (data-tl-ready); luego manda el inline de GSAP y, al terminar, queda lleno. */
+.motion-ready #experiencias:not([data-tl-ready]) [data-tl='fill'] {
+  transform: scaleY(0);
+  transform-origin: top;
+}
+.motion-ready #experiencias:not([data-tl-done]) :is([data-tl='card'], [data-tl='date'], [data-tl='chip']) {
+  opacity: 0;
+}
+.motion-ready #experiencias:not([data-tl-done]) [data-tl='node'] {
+  opacity: 0;
+  transform: scale(0.4);
+}
+
+/* Halo de encendido del nodo (timeline.ts pone data-lit al terminar el pop). Solo longhands; sin reduced no hay pseudo visible */
+[data-tl='node'] {
+  position: relative;
+}
+[data-tl='node']::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 9999px;
+  background: inherit;
+  opacity: 0;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  [data-tl='node'][data-lit]::after {
+    animation-name: tl-node-halo;
+    animation-duration: 0.9s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+  }
+}
+@keyframes tl-node-halo {
+  from {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  to {
+    transform: scale(2.4);
+    opacity: 0;
+  }
 }
 
 /* Foco visible global (fuente única; Button, Nav, cards y modal repiten los mismos valores) */
