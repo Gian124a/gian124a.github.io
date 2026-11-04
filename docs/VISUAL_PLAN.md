@@ -1,6 +1,6 @@
 # Plan visual: UX/UI + animaciones
 
-> Estado: **V0–V3b mergeadas a `dev`; V4 hecha en `visual/v4-nav-sobre-mi` (pendiente de commit/merge)**. Siguiente: V5. Notas por fase en `docs/visual/`.
+> Estado: **V0–V4 mergeadas a `dev`; V5 hecha en `visual/v5-experiencia` (pendiente de commit/merge; cierre T4 sin verificar, ver `docs/visual/V5.md`)**. Siguiente: V6. Notas por fase en `docs/visual/`.
 > **Antes de cada fase leer §8.10 (lecciones de V3b)**: cambian qué técnicas siguen vigentes.
 > Objetivo: que recorrer el portfolio sea una experiencia que se *disfrute*: movimiento fluido,
 > con intención, que responda al usuario, sin sacrificar rendimiento, accesibilidad ni control.
@@ -284,7 +284,7 @@ la anterior. `main` no se toca hasta que decidas publicar.
 | **V2. Fundación de motion** ✅ | GSAP + Lenis; `src/scripts/motion/`; `.motion-ready`; niveles full/lite/reduced; API `data-motion`; arreglar `touch-action` y retirar `smart-scroll`; Lenis ↔ carruseles/modales/nav; reduced-motion; loader desacoplado de `window.load`; quitar `transition-all` y hover sin gating | animate, animation-performance, mobile-native | Medio (base de todo) |
 | **V3. Intro + Hero** ✅ | §5.1 (prototipo de las dos intros) y §5.3 | animate, apple-design, prototype | Medio |
 | **V4. Nav + Sobre mí + divisores** ✅ | §5.2, §5.4, §5.9 (divisores) | animate, emil-design-eng | Bajo |
-| **V5. Experiencia** | §5.5 | animate, mobile-native | Bajo |
+| **V5. Experiencia** ✅ (línea de tiempo central, no carrusel) | §5.5 | animate, mobile-native | Bajo |
 | **V6. Proyectos** | §5.6 (scrollytelling + View Transitions) | prototype, animate, apple-design, break-ui | Alto (protagonista) |
 | **V7. Habilidades** | §5.7 | animate, frontend-design | Bajo |
 | **V8. Contacto + Footer** | §5.8, §5.9 (footer) | animate, emil-design-eng | Bajo |

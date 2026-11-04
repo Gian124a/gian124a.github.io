@@ -2,72 +2,112 @@
 import SectionTitle from '../ui/SectionTitle.astro';
 import Glow from '../ui/Glow.astro';
 import Modal from '../ui/Modal.astro';
-import { timeline } from '../../data/experience';
+import { timeline, timelineEvents } from '../../data/experience';
+
+// h2 único («EDUCACIÓN Y EXPERIENCIA»): visible en móvil; en lg+ lo reemplazan los encabezados de columna.
+const headings = timeline.map((c) => c.heading);
+const sectionTitle =
+	headings.length > 1 ? `${headings.slice(0, -1).join(', ')} Y ${headings[headings.length - 1]}` : (headings[0] ?? '');
+
+// Color por índice de categoría (se repite si hay más categorías que entradas)
+const nodeTone = ['bg-accent-fg', 'bg-accent'];
+const chipTone = ['bg-primary-800', 'bg-primary-800'];
+const tone = (list: string[], i: number) => list[i % list.length];
+const headingClass =
+	'font-extrabold text-title bg-gradient-to-t from-title-from to-title-to bg-clip-text text-transparent';
+const sides = [0, 1].map((side) => timeline.filter((_, i) => i % 2 === side));
 ---
 
 <section
 	id="experiencias"
-	class="relative py-10 flex flex-col gap-y-8 lg:py-10 lg:px-12 xl:px-24 lg:min-h-[calc(100svh_-_var(--header-h))] lg:justify-center [--exp-title:clamp(0.875rem,2.5svh,1.25rem)] [--exp-meta:clamp(0.6875rem,1.8svh,1rem)] [--exp-pad:clamp(0.5rem,1.6svh,1rem)]"
+	class="relative py-10 px-6 flex flex-col gap-y-8 [--tl-axis:4rem] lg:py-10 lg:px-12 xl:px-24"
 >
-	<Glow blur="100" class="w-[80%] h-[80%] rounded-full opacity-20 sm:hidden md:block lg:hidden" />
+	<Glow blur="100" class="w-[80%] h-[80%] rounded-full opacity-20" />
 
-	<article
-		id="scroll-container"
-		class="relative flex overflow-x-auto snap-x snap-mandatory no-scrollbar lg:flex-row lg:overflow-x-visible lg:snap-none lg:justify-center lg:items-start"
-	>
+	<SectionTitle as="h2" class="text-center lg:sr-only">{sectionTitle}</SectionTitle>
+
+	<!-- Encabezados de columna (lg+): cada categoría sobre el lado que le toca (índice par: izquierda, impar: derecha) -->
+	<div aria-hidden="true" class="hidden lg:grid lg:grid-cols-[1fr_var(--tl-axis)_1fr]">
+		<div class="col-start-1 flex flex-wrap justify-end gap-x-6 text-end">
+			{sides[0].map((c) => <p class={headingClass}>{c.heading}</p>)}
+		</div>
+		<div class="col-start-3 flex flex-wrap justify-start gap-x-6">
+			{sides[1].map((c) => <p class={headingClass}>{c.heading}</p>)}
+		</div>
+	</div>
+
+	<ol data-tl="list" class="relative mx-auto flex w-full max-w-md flex-col gap-y-8 lg:max-w-none lg:gap-y-10">
+		<span
+			data-tl="track"
+			aria-hidden="true"
+			class="absolute inset-y-0 left-3 w-0.5 -translate-x-1/2 rounded-full bg-dot/40 lg:left-1/2"
+		></span>
+		<span
+			data-tl="fill"
+			aria-hidden="true"
+			class="absolute inset-y-0 left-3 w-0.5 -translate-x-1/2 origin-top rounded-full bg-gradient-to-b from-primary-800 to-primary-500 lg:left-1/2"
+		></span>
+
 		{
-			timeline.map((category, index) => (
-				<div
-					id={`section-${category.id}`}
-					data-timeline-panel
-					class="relative flex-col gap-y-[24px] w-full flex-none snap-start flex items-center md:gap-y-[32px] lg:gap-y-4 lg:flex-1 lg:basis-0 lg:min-w-0 lg:w-auto"
-				>
-					<Glow
-						class:list={[
-							'hidden sm:block w-[70%] h-[90%] rounded-full md:hidden lg:block lg:w-[85%] xl:w-[90%] 2xl:w-[70%]',
-							index % 2 === 0 ? 'sm:opacity-30' : 'sm:opacity-20',
-						]}
-					/>
-
-					<SectionTitle as="h2" class="text-center lg:text-start">
-						{category.heading}
-					</SectionTitle>
-
-					<div class="relative flex flex-col items-center gap-y-[16px] w-[94%] max-w-[340px] sm:max-w-[420px] md:max-w-[490px] md:gap-y-[32px] lg:max-w-[calc(var(--exp-title)*24)] lg:gap-y-(--exp-pad) xl:max-w-[calc(var(--exp-title)*26)]">
-						{category.items.map((item) => (
-							<button
-								type="button"
-								aria-label={`Ver detalle: ${item.title}`}
-								data-year={item.year}
-								data-title={item.title}
-								data-place={item.place}
-								data-description={item.description}
-								class="timeline-card open-timeline-modal-btn relative w-full min-w-0 text-start cursor-pointer bg-surface-raised rounded-card py-[12px] pl-[16px] pr-[44px] flex flex-col items-start gap-y-[4px] transition-[background-color] duration-(--dur-fast) ease-smooth-out hover:bg-secundary-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-fg sm:gap-y-[8px] md:gap-y-[6px] md:py-[23px] md:pl-[22px] lg:py-(--exp-pad) lg:gap-y-[calc(var(--exp-pad)*0.25)]"
-							>
-								<p class="text-accent-fg text-small font-semibold lg:text-[length:var(--exp-meta)]">{item.year}</p>
-								<p class="w-full truncate text-lead font-bold text-fg lg:text-[length:var(--exp-title)]">{item.title}</p>
-								<p class="w-full truncate text-small text-fg-subtle font-semibold lg:text-[length:var(--exp-meta)]">{item.place}</p>
-								<img src="/assets/icons/arrow-right.svg" alt="" class="absolute right-4 top-1/2 size-[18px] -translate-y-1/2 opacity-70" />
-							</button>
-						))}
-					</div>
-				</div>
-			))
+			timelineEvents.map((item) => {
+				const right = item.categoryIndex % 2 === 1;
+				return (
+					<li
+						data-tl="item"
+						data-side={right ? 'right' : 'left'}
+						data-category={item.categoryId}
+						class="grid grid-cols-[1.5rem_auto_1fr] items-center gap-y-2 lg:grid-cols-[1fr_var(--tl-axis)_1fr] lg:gap-y-0"
+					>
+						<time
+							data-tl="date"
+							class:list={[
+								'col-start-2 row-start-1 text-accent-fg text-small font-semibold tabular-nums',
+								'lg:row-start-1',
+								right ? 'lg:col-start-1 lg:justify-self-end lg:text-end' : 'lg:col-start-3 lg:justify-self-start lg:text-start',
+							]}
+						>
+							{item.year}
+						</time>
+						<span
+							data-tl="chip"
+							class:list={[
+								'col-start-3 row-start-1 ml-3 justify-self-end rounded-card px-3 py-1 text-small font-semibold text-fg lg:hidden',
+								tone(chipTone, item.categoryIndex),
+							]}
+						>
+							{item.categoryHeading}
+						</span>
+						<span
+							data-tl="node"
+							aria-hidden="true"
+							class:list={[
+								'z-(--z-timeline-node) col-start-1 row-start-2 size-3.5 justify-self-center rounded-full ring-4 ring-surface lg:col-start-2 lg:row-start-1 lg:size-4',
+								tone(nodeTone, item.categoryIndex),
+							]}
+						></span>
+						<button
+							type="button"
+							data-tl="card"
+							aria-label={`Ver detalle: ${item.title}`}
+							data-year={item.year}
+							data-title={item.title}
+							data-place={item.place}
+							data-description={item.description}
+							class:list={[
+								'timeline-card open-timeline-modal-btn relative col-span-2 col-start-2 row-start-2 w-full min-w-0 text-start cursor-pointer bg-surface-raised rounded-card py-3 pl-4 pr-11 flex flex-col items-start gap-y-1 transition-[background-color] duration-(--dur-fast) ease-smooth-out hover:bg-secundary-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-fg',
+								'lg:col-span-1 lg:row-start-1 lg:max-w-[32rem] lg:py-4 lg:pl-5',
+								right ? 'lg:col-start-3 lg:justify-self-start' : 'lg:col-start-1 lg:justify-self-end',
+							]}
+						>
+							<p class="w-full truncate text-lead font-bold text-fg">{item.title}</p>
+							<p class="w-full truncate text-small text-fg-subtle font-semibold">{item.place}</p>
+							<img src="/assets/icons/arrow-right.svg" alt="" class="absolute right-4 top-1/2 size-[18px] -translate-y-1/2 opacity-70" />
+						</button>
+					</li>
+				);
+			})
 		}
-	</article>
-	<article class="flex justify-center items-center gap-x-2 lg:hidden">
-		{
-			timeline.map((_, index) => (
-				<div
-					data-timeline-dot
-					class:list={[
-						'w-4 h-4 rounded-full transition-[background-color,transform] duration-(--dur-fast) ease-smooth-out',
-						index === 0 ? 'bg-dot-active' : 'bg-dot',
-					]}
-				/>
-			))
-		}
-	</article>
+	</ol>
 
 	<!-- Modal con el detalle de cada entrada -->
 	<Modal
@@ -108,33 +148,13 @@ import { timeline } from '../../data/experience';
 		},
 	});
 
-	// === PUNTOS DE ESTADO: un punto por panel, enlazados por índice ===
-	const scrollContainer = document.getElementById('scroll-container');
-	const panels = Array.from(
-		document.querySelectorAll<HTMLElement>('#scroll-container [data-timeline-panel]'),
-	);
-	const dots = Array.from(document.querySelectorAll<HTMLElement>('[data-timeline-dot]'));
-
-	if (scrollContainer && panels.length && panels.length === dots.length) {
-		const setActiveDot = (activeIndex: number) => {
-			dots.forEach((dot, i) => {
-				dot.classList.toggle('bg-dot-active', i === activeIndex);
-				dot.classList.toggle('bg-dot', i !== activeIndex);
-			});
-		};
-
-		// 0.9 asegura que el snap ya terminó
-		const observer = new IntersectionObserver(
-			(entries) => {
-				entries.forEach((entry) => {
-					if (entry.isIntersecting) setActiveDot(panels.indexOf(entry.target as HTMLElement));
-				});
-			},
-			{ root: scrollContainer, rootMargin: '0px', threshold: 0.9 },
-		);
-
-		panels.forEach((panel) => observer.observe(panel));
-	} else {
-		console.error('Experience: paneles o puntos de estado no coinciden.');
-	}
+	import { whenIdle } from '../../scripts/motion';
+	// La animación de la línea no es crítica: módulo aparte, en idle. Si no carga, no debe quedar nada oculto.
+	whenIdle(() => {
+		import('../../scripts/motion/timeline').catch(() => {
+			const s = document.getElementById('experiencias');
+			s?.setAttribute('data-tl-ready', '');
+			s?.setAttribute('data-tl-done', '');
+		});
+	}, 2000);
 </script>

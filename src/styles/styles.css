@@ -125,8 +125,7 @@
 
 /* Carruseles: el navegador resuelve el gesto (horizontal -> carrusel, vertical -> página; pinch-zoom permitido) */
 #projects-scroll-container,
-#skills-scroll-container,
-#scroll-container {
+#skills-scroll-container {
   touch-action: pan-x pan-y pinch-zoom;
   overscroll-behavior-x: contain; /* evita "volver atrás" al llegar al final */
   z-index: var(--z-carousel);
