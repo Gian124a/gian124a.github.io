@@ -111,8 +111,6 @@ const declarativeDeferred: MotionInit = (ctx) => {
 // Módulos base
 registerMotion('lenis', lenisMotion);
 registerMotion('declarative', declarativeDeferred);
-// magnetic (solo full + ratón) se carga aparte y en idle: en lite ni se descarga el trozo
-whenIdle(() => import('./magnetic').then((m) => registerMotion('magnetic', m.magneticMotion)), 2000);
 
 // Idempotente: segunda llamada no hace nada.
 export function initMotion() {

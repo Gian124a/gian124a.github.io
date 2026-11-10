@@ -4,8 +4,8 @@ export interface Stat {
 }
 
 export const stats: Stat[] = [
-	{ value: '+1', label: 'Año desarrollando apps móviles' },
-	{ value: '+1', label: 'Año de experiencia UX/UI' },
-	{ value: '+5', label: 'Proyectos desarrollados' },
-	{ value: '+4', label: 'Certificaciones completadas' },
+	{ value: '1.5', label: 'Años en desarrollo web y móvil' },
+	{ value: '+6', label: 'Meses trabajando con Claude' },
+	{ value: '+8', label: 'Proyectos desarrollados' },
+	{ value: '+6', label: 'Cursos y certificaciones' },
 ];

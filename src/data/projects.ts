@@ -3,6 +3,7 @@ import cinemapedia from '../assets/mockups/cinemapedia.png';
 import echo from '../assets/mockups/echo.png';
 import whatsapp from '../assets/mockups/whatsapp.png';
 import product from '../assets/mockups/product.png';
+import safelife from '../assets/mockups/safelife.png';
 
 export interface Project {
 	title: string;
@@ -11,9 +12,61 @@ export interface Project {
 	url: string;
 	/** Sin imagen se muestra el placeholder "En proceso". */
 	image?: ImageMetadata;
+	/** Texto del botón del modal (por defecto "Ver en GitHub"). */
+	linkLabel?: string;
+	/** Icono del botón del modal (por defecto el de GitHub). */
+	linkIcon?: string;
+	/** Sin imagen: texto del panel (por defecto "En proceso"), p. ej. por confidencialidad. */
+	placeholder?: string;
+	/** Sin imagen: icono del panel. */
+	placeholderIcon?: string;
 }
 
+export const projectsIntro =
+	'Una selección de proyectos web y móviles que muestran cómo planteo un producto de principio a fin: interfaz, lógica de negocio, integración con APIs y bases de datos, y despliegue. Cada proyecto es una muestra de funcionalidad, diseño y código limpio.';
+
 export const projects: Project[] = [
+	{
+		title: 'SafeLife Band',
+		type: 'Aplicación web',
+		url: 'https://safelife-band-lake.vercel.app',
+		image: safelife,
+		linkLabel: 'Ver sitio en vivo',
+		linkIcon: '/assets/icons/arrow-right.svg',
+		description:
+			'SafeLife Band es una plataforma de pulseras con código QR para identificación médica de emergencia, pensada para situaciones en las que una persona no puede hablar. Al escanear la pulsera se muestra su ficha médica y queda marcada como localizada, y se avisa por correo a su contacto de emergencia. Cuenta con tres roles (dueño de pulsera, ayudante y administrador) con acceso por rol aplicado en la base de datos, y búsqueda de personas desaparecidas por teléfono o nombre. Desarrollada con Next.js, React, TypeScript, Supabase (Postgres, Auth y RLS), Tailwind CSS y Resend, y desplegada en Vercel.',
+	},
+	{
+		title: 'Quenova Landing',
+		type: 'Aplicación web',
+		url: 'https://quenova.com/',
+		linkLabel: 'Ver sitio en vivo',
+		linkIcon: '/assets/icons/arrow-right.svg',
+		placeholder: 'Capturas no disponibles por confidencialidad',
+		placeholderIcon: '/assets/icons/icon-globe.svg',
+		description:
+			'Landing page oficial de Quenova, desarrollada desde cero con Angular, como carta de presentación de la marca y de su modelo de comercio electrónico por franquicias.',
+	},
+	{
+		title: 'Quenova Tienda',
+		type: 'Aplicación web',
+		url: 'https://micro.quenova.com/',
+		linkLabel: 'Ver sitio en vivo',
+		linkIcon: '/assets/icons/arrow-right.svg',
+		placeholder: 'Capturas no disponibles por confidencialidad',
+		placeholderIcon: '/assets/icons/icon-bag.svg',
+		description:
+			'Plataforma principal de comercio electrónico de Quenova, bajo un modelo descentralizado de franquicias por zonas. Desarrollada con Angular, en equipo, desde cero.',
+	},
+	{
+		title: 'Quenova Backoffice',
+		type: 'Aplicación web',
+		url: '#',
+		placeholder: 'Capturas no disponibles por confidencialidad',
+		placeholderIcon: '/assets/icons/icon-gear.svg',
+		description:
+			'Sistema administrativo interno de Quenova para gestionar la operación del ecosistema. Acceso restringido.',
+	},
 	{
 		title: 'Cinemapedia',
 		type: 'App móvil',
@@ -45,12 +98,5 @@ export const projects: Project[] = [
 		image: product,
 		description:
 			'Product es mi primera aplicación móvil funcional, desarrollada completamente con Flutter. La aplicación actúa como un sistema CRUD (Crear, Leer, Actualizar, Eliminar) para la gestión de productos, utilizando un backend proporcionado por un colega. Incluye un sistema de registro y login para autenticación de usuarios. Una vez dentro, se muestra una lista completa de artículos, permitiendo a los usuarios crear, editar o eliminar productos. Además, al seleccionar cualquier ítem de la lista, se visualiza la información detallada del producto. Para la gestión de estado y el manejo de datos se utilizó la arquitectura Riverpod.',
-	},
-	{
-		title: 'Motivate',
-		type: 'App móvil',
-		url: '#',
-		description:
-			'Motivate es un proyecto de aplicación móvil en desarrollo, diseñado para fomentar la salud y el bienestar mental del usuario. La aplicación contará con un sistema completo de registro y login. En su pantalla principal, se mostrará una frase motivadora aleatoria al iniciar la sesión. La característica central es un avanzado sistema de notificaciones programadas con Firebase, donde el usuario podrá configurar la hora y el tipo específico de frase motivacional (ej., para el trabajo o el entrenamiento) que recibirá diariamente. Además de las frases preestablecidas, el usuario podrá crear sus propias frases para integrarlas en sus notificaciones diarias. Motivate también incluirá una sección dedicada a la práctica de meditaciones, cuyos datos quedarán registrados para que el usuario pueda monitorear su progreso y consistencia. Finalmente, el usuario tendrá una sección para gestionar su perfil y consultar información adicional sobre la aplicación.',
 	},
 ];

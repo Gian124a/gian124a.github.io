@@ -1,6 +1,7 @@
 # Plan visual: UX/UI + animaciones
 
-> Estado: **V0–V3 hechas** (V3 pendiente de commit). Siguiente: V4. Notas por fase en `docs/visual/`.
+> Estado: **V0–V4 mergeadas a `dev`; V5 hecha en `visual/v5-experiencia` (pendiente de commit/merge; cierre T4 sin verificar, ver `docs/visual/V5.md`)**. Siguiente: V6. Notas por fase en `docs/visual/`.
+> **Antes de cada fase leer §8.10 (lecciones de V3b)**: cambian qué técnicas siguen vigentes.
 > Objetivo: que recorrer el portfolio sea una experiencia que se *disfrute*: movimiento fluido,
 > con intención, que responda al usuario, sin sacrificar rendimiento, accesibilidad ni control.
 >
@@ -99,19 +100,19 @@ Las técnicas que más se repiten en sitios premiados (Awwwards, Apple, Linear, 
 | 6 | **Stacking cards** (tarjetas sticky que se apilan y escalan) | Landings SaaS | ⚪ Alternativa en Proyectos |
 | 7 | **Parallax por capas** | Clásico | ✅ Sutil en Hero/About |
 | 8 | **Clip-path / mask reveal de imágenes** | Editoriales, moda | ✅ Fotos |
-| 9 | **Botones magnéticos** | Portfolios de devs creativos | ✅ CTAs y redes |
+| 9 | **Botones magnéticos** | Portfolios de devs creativos | ❌ Descartado en V3b (no gustó; `magnetic.ts` borrado) |
 | 10 | **Cursor personalizado / follower** | Awwwards | ⚪ Opcional, solo desktop |
 | 11 | **Marquee infinito reactivo a la velocidad** | Logos de clientes/tecnologías | ✅ Habilidades |
 | 12 | **Spotlight/glow que sigue al mouse en tarjetas** (bento) | Linear, Vercel | ✅ Proyectos/Habilidades |
 | 13 | **Tilt 3D en tarjetas** | Tarjetas de producto | ⚪ Muy sutil o no |
-| 14 | **Contadores animados** | Stats | ✅ Hero |
+| 14 | **Contadores animados** | Stats | ✅ Hero, pero como *scramble* de dígitos (`scrambleCounter`), no conteo |
 | 15 | **Texto que se ilumina palabra a palabra al hacer scroll** | Apple (keynote pages) | ✅ About |
 | 16 | **Text scramble / decrypt** | Sitios "tech" | ⚪ Una sola vez, p. ej. en el rol |
 | 17 | **Preloader con contador + cortina** | Estudios creativos | ✅ Intro breve |
 | 18 | **Shared element / FLIP (tarjeta → detalle)** | Apps nativas, iOS | ✅ Modales |
 | 19 | **SVG line drawing con el scroll** | Timelines | ✅ Experiencia |
 | 20 | **Fondo aurora / gradient mesh + grano** | Stripe, Linear | ✅ Hero, muy controlado |
-| 21 | **Zoom-through ("entrar" en la escena)** — el "dive" de scroll-world, hecho con CSS/GSAP | Apple, Emons | ✅ Transición Hero → About |
+| 21 | **Zoom-through ("entrar" en la escena)** — el "dive" de scroll-world, hecho con CSS/GSAP | Apple, Emons | ⚠️ Reducido en V3b a parallax del retrato; sin escalar/velar la sección (pegaba el scroll) |
 | 22 | **Shaders WebGL / distorsión de imágenes** | Awwwards top | ❌ Coste alto en móvil; fuera de alcance |
 
 ---
@@ -161,7 +162,7 @@ plano de la película y termina *dentro* del sitio, sin corte.
 - **Retrato**: reveal con `clip-path` (círculo o rectángulo que se abre) + leve escala 1.1→1.
 - **Aurora** detrás del retrato con los morados de la paleta (`primary-500/800`), moviéndose
   muy lento y desplazándose levemente hacia el cursor. Capa de **grano** encima para textura.
-- **CTA y redes magnéticos** (se "pegan" al cursor dentro de un radio), con spring al soltar.
+- ~~CTA y redes magnéticos~~ **descartado en V3b**.
 - **Stats**: contadores animados al entrar en vista (`+5`, `+4`…), con las líneas separadoras
   que se "dibujan" desde el centro.
 - **Salida con scroll (zoom-through)**: al bajar, el retrato hace parallax más lento que el
@@ -173,7 +174,7 @@ plano de la película y termina *dentro* del sitio, sin corte.
   efecto Apple). Es la idea estrella de la sección: se lee *al ritmo* del usuario.
 - Imagen con **mask reveal** + parallax sutil.
 - Tags que aparecen en **cascada con spring** (pop-in pequeño).
-- Botón de CV: magnético + icono que se desplaza en hover.
+- Botón de CV: icono que se desplaza en hover (sin magnetismo).
 
 ### 5.5 Experiencia 🔥🔥
 - ~~Pin con scroll horizontal~~ **descartado en V0**: son 2 paneles y consumiría el único efecto
@@ -233,7 +234,7 @@ sin tocar animaciones. Cómo se garantiza:
 | Regla | Ejemplo concreto |
 |---|---|
 | **Las animaciones se generan desde los arrays de datos**, nunca con cantidades fijas | El teléfono de Proyectos crea un "paso" por cada elemento de `projects`; la longitud del pin = nº de proyectos × alto de paso. 4 o 12 proyectos funcionan igual |
-| **API declarativa por atributos** (`data-motion="reveal"`, `"split"`, `"stagger"`, `"counter"`, `"magnetic"`, `data-cursor`) | Un componente nuevo o un ítem nuevo hereda la animación sin escribir JS |
+| **API declarativa por atributos** (`data-motion="reveal"`, `"split"`, `"stagger"`, `"counter"`, `"type"`, `data-cursor`) | Un componente nuevo o un ítem nuevo hereda la animación sin escribir JS |
 | **Nada de `nth-child` ni delays escritos a mano** | El stagger se calcula por índice (hoy el menú móvil tiene 6 `nth-child` fijos → se reemplaza) |
 | **Textos de cualquier largo** | SplitText re-divide en resize; nada de alturas fijas en títulos; tipografía fluida con `clamp()` |
 | **Eliminar las clases "de paridad" por ítem** (`titleClass`, `typeClass`, `circleClass`, `iconClass`) | Un estilo único y fluido para todas las tarjetas: un ítem nuevo no necesita retoques de CSS |
@@ -282,8 +283,8 @@ la anterior. `main` no se toca hasta que decidas publicar.
 | **V1. Fundación UI** ✅ | Tokens en `@theme` (tipografía fluida `clamp()`, color semántico con contraste AA, espaciado, radios, z-index, motion); componentes `SectionTitle`/`Button`/`Card`/`Glow`; Hero en grid; header/nav coherentes; modales y formulario accesibles; foco visible; headings/alts; quitar clases de paridad; `min-h-svh`; logo "GM"; tildes en datos | impeccable, emil-design-eng, frontend-design, break-ui | Medio (cambia la base visual) |
 | **V2. Fundación de motion** ✅ | GSAP + Lenis; `src/scripts/motion/`; `.motion-ready`; niveles full/lite/reduced; API `data-motion`; arreglar `touch-action` y retirar `smart-scroll`; Lenis ↔ carruseles/modales/nav; reduced-motion; loader desacoplado de `window.load`; quitar `transition-all` y hover sin gating | animate, animation-performance, mobile-native | Medio (base de todo) |
 | **V3. Intro + Hero** ✅ | §5.1 (prototipo de las dos intros) y §5.3 | animate, apple-design, prototype | Medio |
-| **V4. Nav + Sobre mí + divisores** | §5.2, §5.4, §5.9 (divisores) | animate, emil-design-eng | Bajo |
-| **V5. Experiencia** | §5.5 | animate, mobile-native | Bajo |
+| **V4. Nav + Sobre mí + divisores** ✅ | §5.2, §5.4, §5.9 (divisores) | animate, emil-design-eng | Bajo |
+| **V5. Experiencia** ✅ (línea de tiempo central, no carrusel) | §5.5 | animate, mobile-native | Bajo |
 | **V6. Proyectos** | §5.6 (scrollytelling + View Transitions) | prototype, animate, apple-design, break-ui | Alto (protagonista) |
 | **V7. Habilidades** | §5.7 | animate, frontend-design | Bajo |
 | **V8. Contacto + Footer** | §5.8, §5.9 (footer) | animate, emil-design-eng | Bajo |
@@ -291,7 +292,7 @@ la anterior. `main` no se toca hasta que decidas publicar.
 
 **Recortes acordados en V0** (rendimiento sin perder espectáculo): sin iconos flotando en
 bucle, sin bordes de gradiente animados permanentes, aurora solo moviendo `transform` y solo
-en nivel *full* (nunca animar blur), magnetismo solo en CTAs principales, header que se oculta
+en nivel *full* (nunca animar blur), sin magnetismo (descartado en V3b), header que se oculta
 al bajar solo en móvil, pill del nav con `transform` (no `width/height`).
 
 ### Criterios de aceptación de cada fase
@@ -308,6 +309,7 @@ al bajar solo en móvil, pill del nav con `transform` (no `width/height`).
 
 ## 8. Decisiones tomadas
 
+
 1. **Stack**: GSAP (ScrollTrigger + SplitText) + Lenis, con CSS nativo donde baste.
 2. **Intro**: sí → "Del nombre a la marca" (§5.1), primera visita de la sesión, saltable.
 3. **Cursor personalizado**: sí, solo desktop con puntero fino (§5.10).
@@ -321,3 +323,28 @@ al bajar solo en móvil, pill del nav con `transform` (no `width/height`).
 9. **V1 (2026-10-21)**: logo se queda en **"PORTFOLIO"** (GM descartado); títulos con el
    **degradado original** `primary-800 → 500` (decisión estética del usuario, aun con contraste
    bajo en la parte inferior); header fijo en todos los anchos con la pill siguiendo el scroll.
+10. **V3b (2026-10-24) · lecciones que aplican a V4–V9**:
+    - **Lenguaje de entrada = "escritura"**: título y descripción del Hero se escriben con cursor
+      (`typewriter.ts`, API `data-motion="type"`, recorte por `clip-path` medido con `Range`, sin
+      dividir el texto). Reutilizarlo en títulos/párrafos de secciones (Sobre mí, Contacto) antes
+      de crear otra técnica de texto; en lite entra en bloque, en reduced fundido.
+    - **Fuera SplitText/blur en párrafos y fuera magnetismo**. Los `text reveal` por líneas/letras
+      de §5.4/§5.8/§5.9 deben evaluarse contra `type` o masks CSS; SplitText sigue en el chunk
+      (intro + títulos) y quitarlo está pendiente para bajar JS.
+    - **No escalar, fundir ni velar secciones grandes con scroll**: hacía que el scroll se "pegara"
+      (estilos 167 → 25 ms, raster 162 → 9 ms al quitarlo). Para transiciones entre secciones, solo
+      `transform` en capas pequeñas (parallax); sin `scale`/velo sobre la sección entera.
+    - **Contadores = scramble** de dígitos que se fija al final (`scrambleCounter`), no conteo.
+      Aplica al "año scramble" de la timeline de Experiencia (§5.5).
+    - **Orden y ritmo**: entradas secuenciales claras (título → texto → botón → redes una por una).
+    - **Rendimiento móvil mandatorio**: Lighthouse móvil 84 (<90), JS ~66 KB gzip (sobre el
+      presupuesto de 60). Cada fase: módulos con `import()` en idle, `will-change` solo mientras
+      anima, lite sin SplitText ni efectos decorativos, `declarative` diferido. Medir con CPU ×4.
+    - **LCP**: nunca `opacity:0` en elementos LCP; imágenes pesadas → WebP/AVIF (retrato 207 KB).
+    - **Contenido ya cambiado** (perfil Angular + IA, Flutter a segundo plano, Proyectos: SafeLife
+      Band y Quenova, Experiencia en cards de una línea con modal): los textos de ejemplo de este
+      plan (Flutter, Cinemapedia/Echo/WhatsApp/Product, Dart) están desfasados; leer `src/data/*.ts`
+      antes de especificar. Las animaciones siguen saliendo de los datos (§5.11).
+    - **Pendientes heredados de V3** (`docs/visual/V3.md`): decidir intro definitiva (larga/corta) y
+      borrar la otra; reduced-motion cubre ~1,5–2 s en primera visita; `/review-animations` y
+      prueba en móvil real; resolver en V9 si no antes.

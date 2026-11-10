@@ -3,7 +3,7 @@ import SectionTitle from '../ui/SectionTitle.astro';
 import Glow from '../ui/Glow.astro';
 import SkillCard from '../ui/SkillCard.astro';
 import Modal from '../ui/Modal.astro';
-import { skills } from '../../data/skills';
+import { skills, skillsIntro } from '../../data/skills';
 ---
 
 <section
@@ -21,10 +21,7 @@ import { skills } from '../../data/skills';
 				<p
 					class="text-fg text-center text-copy"
 				>
-					Mi stack tecnológico se centra en la eficiencia y la portabilidad del desarrollo móvil,
-					complementado con sólidos conocimientos en el frontend web. A continuación, se detallan
-					las herramientas y tecnologías que domino para convertir ideas en soluciones digitales
-					funcionales.
+					{skillsIntro}
 				</p>
 			</div>
 		</div>

@@ -42,7 +42,7 @@ const linkProps = isLink ? { href, target, rel: safeRel, download } : { type };
 	{...rest}
 	class:list={[
 		'inline-flex items-center justify-center font-medium text-fg cursor-pointer',
-		'transition-[background-color,transform] duration-(--dur-fast) ease-smooth-out',
+		'transition-[background-color,scale] duration-(--dur-fast) ease-smooth-out',
 		'hover:scale-[1.03] active:scale-[0.97]',
 		'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-fg',
 		'disabled:bg-primary-800 disabled:cursor-not-allowed disabled:hover:scale-100',

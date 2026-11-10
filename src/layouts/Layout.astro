@@ -15,7 +15,7 @@ interface Props {
 
 const {
 	title = 'Portfolio',
-	description = 'Gianfranco Muñoz, TSU en Informática y desarrollador frontend especializado en aplicaciones móviles híbridas con Flutter y Dart. Conoce mis proyectos, experiencia y habilidades.',
+	description = 'Gianfranco Muñoz, desarrollador frontend especializado en Angular y workflows end-to-end con IA. Conoce mis proyectos, experiencia y habilidades.',
 	image = '/og-image.png',
 } = Astro.props;
 
@@ -70,8 +70,8 @@ const imageUrl = new URL(image, Astro.site);
 				if (mm('(prefers-reduced-motion: reduce)') || mm('(pointer: coarse)') || (nv.deviceMemory !== undefined && nv.deviceMemory <= 2) || (nv.hardwareConcurrency !== undefined && nv.hardwareConcurrency <= 2) || (nv.connection && nv.connection.saveData === true)) root.classList.add('hero-lite');
 			} catch (e) {}
 			// Red de seguridad: si el módulo JS no carga, nadie quita las clases y la página quedaría oculta/tapada.
-			// intro.ts / hero.ts las quitan antes (tope duro 3 s + salida + entrada); esto solo actúa como último recurso.
-			setTimeout(function () {
+			// intro.ts / hero.ts las quitan antes; hero.ts la cancela al arrancar su entrada (que dura más de 4.5 s con intro).
+			window.__motionNet = setTimeout(function () {
 				root.classList.remove('intro-pending', 'hero-pending');
 			}, 4500);
 			try {
@@ -96,6 +96,7 @@ const imageUrl = new URL(image, Astro.site);
 		>
 		</div>
 
+		<div class="scroll-progress" aria-hidden="true"></div>
 		<Header />
 		<Nav />
 		<slot />
