@@ -8,6 +8,8 @@ import safelife from '../assets/mockups/safelife.png';
 export interface Project {
 	title: string;
 	type: string;
+	/** Resumen de 1–2 líneas (≈140 caracteres) para el recorrido de la sección; sin él se recorta la descripción. */
+	summary?: string;
 	description: string;
 	url: string;
 	/** Sin imagen se muestra el placeholder "En proceso". */
@@ -33,6 +35,7 @@ export const projects: Project[] = [
 		image: safelife,
 		linkLabel: 'Ver sitio en vivo',
 		linkIcon: '/assets/icons/arrow-right.svg',
+		summary: 'Pulseras con código QR para identificación médica de emergencia: al escanearla se muestra la ficha y se avisa al contacto.',
 		description:
 			'SafeLife Band es una plataforma de pulseras con código QR para identificación médica de emergencia, pensada para situaciones en las que una persona no puede hablar. Al escanear la pulsera se muestra su ficha médica y queda marcada como localizada, y se avisa por correo a su contacto de emergencia. Cuenta con tres roles (dueño de pulsera, ayudante y administrador) con acceso por rol aplicado en la base de datos, y búsqueda de personas desaparecidas por teléfono o nombre. Desarrollada con Next.js, React, TypeScript, Supabase (Postgres, Auth y RLS), Tailwind CSS y Resend, y desplegada en Vercel.',
 	},
@@ -44,6 +47,7 @@ export const projects: Project[] = [
 		linkIcon: '/assets/icons/arrow-right.svg',
 		placeholder: 'Capturas no disponibles por confidencialidad',
 		placeholderIcon: '/assets/icons/icon-globe.svg',
+		summary: 'Landing oficial de Quenova en Angular: la carta de presentación de la marca y de su comercio por franquicias.',
 		description:
 			'Landing page oficial de Quenova, desarrollada desde cero con Angular, como carta de presentación de la marca y de su modelo de comercio electrónico por franquicias.',
 	},
@@ -55,6 +59,7 @@ export const projects: Project[] = [
 		linkIcon: '/assets/icons/arrow-right.svg',
 		placeholder: 'Capturas no disponibles por confidencialidad',
 		placeholderIcon: '/assets/icons/icon-bag.svg',
+		summary: 'Plataforma de comercio electrónico de Quenova con franquicias por zonas, desarrollada en equipo con Angular.',
 		description:
 			'Plataforma principal de comercio electrónico de Quenova, bajo un modelo descentralizado de franquicias por zonas. Desarrollada con Angular, en equipo, desde cero.',
 	},
@@ -64,6 +69,7 @@ export const projects: Project[] = [
 		url: '#',
 		placeholder: 'Capturas no disponibles por confidencialidad',
 		placeholderIcon: '/assets/icons/icon-gear.svg',
+		summary: 'Sistema administrativo interno para gestionar la operación del ecosistema Quenova. Acceso restringido.',
 		description:
 			'Sistema administrativo interno de Quenova para gestionar la operación del ecosistema. Acceso restringido.',
 	},
@@ -72,6 +78,7 @@ export const projects: Project[] = [
 		type: 'App móvil',
 		url: 'https://github.com/Gian124a/cinemapedia',
 		image: cinemapedia,
+		summary: 'Cartelera de cine en Flutter con búsqueda, detalle de cada película y favoritos, sobre la API de TMDB.',
 		description:
 			'Cinemapedia es una aplicación móvil desarrollada con Flutter que funciona como una cartelera de cine completa, permitiendo a los usuarios consultar las películas en emisión, acceder a información detallada de cada título, y utilizar una potente funcionalidad de búsqueda para explorar la base de datos completa. La aplicación utiliza la API de The Movie Database (TMDB) como fuente de datos y sigue patrones de arquitectura limpia con Riverpod para una gestión de estado robusta. Además, los usuarios pueden añadir a favoritos las películas que más les interesen para un acceso rápido y personalizado.',
 	},
@@ -80,6 +87,7 @@ export const projects: Project[] = [
 		type: 'App móvil',
 		url: 'https://github.com/Gian124a/weather_echo.git',
 		image: echo,
+		summary: 'App del clima en Flutter: pronóstico a siete días, búsqueda global y favoritos guardados en base de datos local.',
 		description:
 			'Echo es una aplicación del clima móvil desarrollada con Flutter que ofrece pronósticos globales precisos, permitiendo a los usuarios ver el clima en tiempo real y las previsiones detalladas para los próximos siete días en cualquier ciudad o región del mundo, utilizando la API de WeatherAPI. La aplicación ofrece funcionalidad de búsqueda global y permite a los usuarios añadir a favoritos sus ubicaciones deseadas, las cuales se almacenan en una base de datos local para persistencia. Desarrollada con Riverpod para una gestión de estado eficiente, Echo solicita permisos de ubicación al inicio para proporcionar inmediatamente el clima de la ubicación actual del usuario.',
 	},
@@ -88,6 +96,7 @@ export const projects: Project[] = [
 		type: 'App móvil',
 		url: 'https://github.com/Gian124a/chat-flutter.git',
 		image: whatsapp,
+		summary: 'Mensajería en tiempo real con Flutter y WebSockets: registro, login y chats privados, con backend en Express y MongoDB.',
 		description:
 			'Desarrollada en Flutter, esta es una aplicación de mensajería en tiempo real cuya interfaz de usuario imita el diseño familiar y limpio de WhatsApp. La aplicación incluye un sistema completo de registro y login, y al ingresar, presenta una lista exhaustiva de todos los usuarios registrados. Lo distintivo de esta plataforma es su funcionalidad de chat completamente operativa: cada usuario mantiene una conversación privada y en tiempo real con cada uno de los demás usuarios listados. La funcionalidad de mensajería instantánea se logra mediante el uso de WebSockets, mientras que la arquitectura de la aplicación se basa en Riverpod para la gestión de estado, y cuenta con un backend con Express.js y MongoDB.',
 	},
@@ -96,6 +105,7 @@ export const projects: Project[] = [
 		type: 'App móvil',
 		url: 'https://github.com/Gian124a/products.git',
 		image: product,
+		summary: 'Mi primera app Flutter: CRUD de productos con autenticación y gestión de estado con Riverpod.',
 		description:
 			'Product es mi primera aplicación móvil funcional, desarrollada completamente con Flutter. La aplicación actúa como un sistema CRUD (Crear, Leer, Actualizar, Eliminar) para la gestión de productos, utilizando un backend proporcionado por un colega. Incluye un sistema de registro y login para autenticación de usuarios. Una vez dentro, se muestra una lista completa de artículos, permitiendo a los usuarios crear, editar o eliminar productos. Además, al seleccionar cualquier ítem de la lista, se visualiza la información detallada del producto. Para la gestión de estado y el manejo de datos se utilizó la arquitectura Riverpod.',
 	},

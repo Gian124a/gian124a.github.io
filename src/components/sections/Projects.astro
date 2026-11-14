@@ -1,16 +1,47 @@
 ---
+import { Image, getImage } from 'astro:assets';
 import SectionTitle from '../ui/SectionTitle.astro';
 import Glow from '../ui/Glow.astro';
 import Button from '../ui/Button.astro';
-import ProjectCard from '../ui/ProjectCard.astro';
 import Modal from '../ui/Modal.astro';
 import { projects, projectsIntro } from '../../data/projects';
+
+// Coverflow: estado inicial server-side (T2 solo cambia --o/--a/--s/data-a/data-active). Todo deriva de projects.length.
+const total = projects.length;
+const active = Math.floor(total / 2);
+const pad = (n: number) => String(n).padStart(2, '0');
+
+// Resumen: el campo summary o la descripción recortada (~140 car., en palabra) con «…»
+const summarize = (text: string, max = 140) => {
+	if (text.length <= max) return text;
+	const cut = text.slice(0, max);
+	const lastSpace = cut.lastIndexOf(' ');
+	return `${(lastSpace > 60 ? cut.slice(0, lastSpace) : cut).replace(/[\s.,;:]+$/, '')}…`;
+};
+
+const items = await Promise.all(
+	projects.map(async (project, i) => {
+		const o = i - active;
+		const modalImage = project.image ? (await getImage({ src: project.image, width: 985 })).src : undefined;
+		return {
+			project,
+			i,
+			o,
+			a: Math.abs(o),
+			s: Math.sign(o),
+			modalImage,
+			summary: project.summary ?? summarize(project.description),
+		};
+	}),
+);
 ---
 
 <section
 	id="proyectos"
+	data-pc-ready
 	class="mt-10 relative flex flex-col gap-y-10 2xl:min-h-[calc(100svh_-_var(--header-h))] justify-start"
 >
+	<!-- data-pc-ready va en el marcado (sin salto de layout al cargar el módulo); si el módulo falla, el .catch del script lo quita -->
 	<Glow class="w-full h-[90%] rounded-full opacity-25 sm:w-[80%] md:w-full lg:hidden lg:h-[80%] 2xl:w-[90%]" />
 
 	<article class="flex flex-col gap-y-3 px-7 items-center lg:gap-y-5">
@@ -23,21 +54,100 @@ import { projects, projectsIntro } from '../../data/projects';
 			</p>
 		</div>
 	</article>
-	<article
-		id="projects-scroll-container"
-		class="relative flex overflow-x-auto snap-x snap-mandatory no-scrollbar gap-x-4 lg:flex-row lg:flex-wrap lg:overflow-x-visible lg:gap-7 lg:justify-center xl:px-32 2xl:px-64"
-	>
-		<Glow class="hidden rounded-full opacity-25 w-[70%] h-[90%] md:hidden lg:block lg:w-[85%] lg:h-[60%] xl:w-[90%] 2xl:w-[50%] 2xl:h-full" />
 
-		{projects.map((project) => <ProjectCard project={project} />)}
-	</article>
-
-	<article
-		id="project-dots-container"
-		class="flex justify-center items-center gap-x-2 lg:hidden z-10"
+	<div
+		data-pc="root"
+		data-count={total}
+		role="group"
+		aria-roledescription="carrusel"
+		aria-label="Proyectos"
 	>
-		<!-- Los puntos se generarán aquí con JavaScript (Fase 5) -->
-	</article>
+		<p class="sr-only" role="status" aria-live="polite" data-pc="status"></p>
+		<button type="button" data-pc="prev" aria-label="Proyecto anterior">
+			<img src="/assets/icons/arrow-right.svg" class="size-5 -scale-x-100" alt="" />
+		</button>
+		<ul data-pc="stage" role="presentation">
+			{
+				items.map(({ project, i, o, a, s, modalImage, summary }) => (
+					<li
+						data-pc="item"
+						role="group"
+						aria-roledescription="diapositiva"
+						aria-label={`${i + 1} de ${total}`}
+						aria-hidden={a >= 4 ? 'true' : undefined}
+						inert={a >= 4}
+						class="project-card"
+						data-index={i}
+						data-a={Math.min(a, 4)}
+						data-active={a === 0 ? '' : undefined}
+						style={`--o:${o}; --a:${a}; --s:${s}`}
+						data-project-url={project.url}
+						data-project-link-label={project.linkLabel}
+						data-project-link-icon={project.linkIcon}
+						data-project-placeholder={project.placeholder}
+						data-project-placeholder-icon={project.placeholderIcon}
+						data-project-image={modalImage}
+					>
+						<div data-pc="card">
+							{project.image ? (
+								<Image
+									src={project.image}
+									alt={`Capturas de la app/proyecto ${project.title}`}
+									widths={[529, 985]}
+									sizes="(min-width: 1024px) 500px, 72vw"
+									loading="lazy"
+									decoding="async"
+									class="absolute inset-0 size-full object-cover"
+								/>
+							) : (
+								<div class="absolute inset-0 flex flex-col items-center justify-center gap-y-3 bg-secundary-800 px-6 text-center">
+									{project.placeholderIcon && <img src={project.placeholderIcon} alt="" class="size-10" />}
+									<p class="text-accent-fg font-semibold text-small">{project.placeholder ?? 'En proceso'}</p>
+								</div>
+							)}
+							<div data-pc="label">
+								<span class="block truncate text-small font-semibold text-fg">{project.title}</span>
+							</div>
+						</div>
+						<div data-pc="info">
+							<p data-pc="chip" class="text-small text-fg">
+								{pad(i + 1)} · {project.type}
+							</p>
+							<h3 class="project-title text-subtitle font-extrabold text-fg" data-pc="title">
+								{project.title}
+							</h3>
+							<p data-pc="summary" class="text-body text-fg-subtle">{summary}</p>
+							<p class="project-description hidden">{project.description}</p>
+							<button
+								type="button"
+								data-pc="cta"
+								aria-label={`Ver detalles de ${project.title}`}
+								class="open-project-modal-btn"
+							>
+								Ver detalle
+								<img src="/assets/icons/arrow-right.svg" class="size-[14px]" alt="" />
+							</button>
+						</div>
+					</li>
+				))
+			}
+		</ul>
+		<button type="button" data-pc="next" aria-label="Proyecto siguiente">
+			<img src="/assets/icons/arrow-right.svg" class="size-5" alt="" />
+		</button>
+	</div>
+
+	<!-- Sin JS: vuelve el fallback de lista vertical (mismas reglas que el CSS base sin data-pc-ready) -->
+	<noscript>
+		<style is:inline>
+			#proyectos [data-pc='stage'] { display: flex !important; flex-direction: column; align-items: center; gap: 3rem; height: auto !important; padding: 0 1.75rem !important; transform: none !important; }
+			#proyectos [data-pc='item'] { position: relative !important; left: auto !important; top: auto !important; width: 100% !important; max-width: 36rem !important; aspect-ratio: auto !important; opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; transform: none !important; }
+			#proyectos [data-pc='card'] { position: relative !important; inset: auto !important; width: 100% !important; border: 1px solid rgb(255 255 255 / 0.1) !important; box-shadow: none !important; cursor: default !important; }
+			#proyectos [data-pc='label'], #proyectos [data-pc='prev'], #proyectos [data-pc='next'] { display: none !important; }
+			#proyectos [data-pc='info'] { position: static !important; width: auto !important; max-width: 36rem; margin: 1rem auto 0 !important; transform: none !important; opacity: 1 !important; visibility: visible !important; }
+			#proyectos [data-pc='root']::before, #proyectos [data-pc='root']::after { display: none !important; }
+		</style>
+	</noscript>
 
 	<!-- Modal para Proyectos -->
 	<Modal
@@ -89,10 +199,8 @@ import { projects, projectsIntro } from '../../data/projects';
 </section>
 
 <script>
-	import { setupCarousel } from "../../scripts/carousel";
 	import { setupModal } from "../../scripts/modal";
-
-	setupCarousel("projects-scroll-container", "project-dots-container", ".project-card");
+	import { whenIdle } from "../../scripts/motion";
 
 	const modalImage = document.getElementById("modal-project-image") as HTMLImageElement | null;
 	const modalPlaceholder = document.getElementById("modal-project-placeholder");
@@ -110,7 +218,7 @@ import { projects, projectsIntro } from '../../data/projects';
 		cardSelector: ".project-card",
 		label: "proyectos",
 		fill: (card) => {
-			const imageSrc = card.querySelector<HTMLImageElement>(".project-image")?.src; // .src solo existe en <img>
+			const imageSrc = card.dataset.projectImage; // URL optimizada (getImage); ausente sin imagen
 			const titleText = card.querySelector(".project-title")?.textContent;
 			const descriptionText = card.querySelector(".project-description")?.textContent;
 			const projectUrl = card.dataset.projectUrl;
@@ -118,12 +226,10 @@ import { projects, projectsIntro } from '../../data/projects';
 			if (modalImage) modalImage.alt = `Capturas de la app ${titleText ?? ""}`.trim();
 
 			if (imageSrc && modalImage && modalPlaceholder) {
-				// Si hay imagen, la mostramos y ocultamos el texto
 				modalImage.src = imageSrc;
 				modalImage.classList.remove("hidden");
 				modalPlaceholder.classList.add("hidden");
 			} else if (modalImage && modalPlaceholder) {
-				// Si no hay imagen, ocultamos la imagen y mostramos el texto
 				modalImage.classList.add("hidden");
 				modalPlaceholder.classList.remove("hidden");
 				if (modalPlaceholderText) modalPlaceholderText.textContent = card.dataset.projectPlaceholder || "En proceso";
@@ -140,9 +246,15 @@ import { projects, projectsIntro } from '../../data/projects';
 			if (modalLinkIcon) modalLinkIcon.src = card.dataset.projectLinkIcon || "/assets/imgs/github.svg";
 			if (modalLink) {
 				modalLink.href = projectUrl || "#";
-				// Ocultar el botón si no hay URL
 				modalLink.style.display = projectUrl && projectUrl !== "#" ? "flex" : "none";
 			}
 		},
 	});
+
+	// Interacción y motion del coverflow: módulo aparte, en idle. Si no carga, vuelve el fallback de lista vertical.
+	whenIdle(() => {
+		import("../../scripts/motion/projects").catch(() => {
+			document.getElementById("proyectos")?.removeAttribute("data-pc-ready");
+		});
+	}, 2000);
 </script>
