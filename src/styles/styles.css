@@ -124,7 +124,6 @@
   }
 
 /* Carruseles: el navegador resuelve el gesto (horizontal -> carrusel, vertical -> página; pinch-zoom permitido) */
-#projects-scroll-container,
 #skills-scroll-container {
   touch-action: pan-x pan-y pinch-zoom;
   overscroll-behavior-x: contain; /* evita "volver atrás" al llegar al final */
@@ -132,7 +131,6 @@
 }
 
 /* Asegurar que las tarjetas no bloqueen el gesto por tener hijos con pointer-events */
-.project-card,
 .skill-card {
   pointer-events: auto;
 }
@@ -247,5 +245,419 @@
         transform: translateY(4%);
       }
     }
+  }
+}
+
+/* ============================== */
+/* PROYECTOS: coverflow (V6). Estado en --o/--a/--s y data-a/data-active de cada [data-pc=item].       */
+/* Sin data-pc-ready (sin JS): lista vertical. Con él: coverflow absoluto, solo transform/opacity.      */
+/* ============================== */
+
+/* Fallback sin JS: lista vertical, tarjeta arriba e info debajo, sin flechas ni progreso */
+[data-pc='root'] {
+  --pc-w: min(500px, 72vw);
+  position: relative;
+}
+[data-pc='stage'] {
+  list-style: none;
+  margin: 0;
+  padding: 0 1.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+}
+[data-pc='item'] {
+  position: relative;
+  width: 100%;
+  max-width: 36rem;
+}
+[data-pc='card'] {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 529 / 328;
+  overflow: hidden;
+  border-radius: var(--radius-card);
+  background: var(--color-surface-raised);
+  border: 1px solid rgb(255 255 255 / 0.1);
+}
+[data-pc='label'],
+[data-pc='prev'],
+[data-pc='next'] {
+  display: none;
+}
+[data-pc='info'] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1rem auto 0;
+  max-width: 36rem;
+  text-align: center;
+}
+[data-pc='chip'] {
+  padding: 0.125rem 0.75rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary-800);
+}
+[data-pc='title'] {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-clamp: 2;
+  overflow: hidden;
+}
+[data-pc='summary'] {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  line-clamp: 3;
+  overflow: hidden;
+}
+[data-pc='cta'] {
+  margin-top: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent);
+  color: var(--color-fg);
+  font-size: var(--text-small);
+  font-weight: 600;
+  cursor: pointer;
+  transition-property: background-color, transform;
+  transition-duration: var(--dur-fast);
+  transition-timing-function: var(--ease-smooth-out);
+}
+[data-pc='cta']:hover {
+  background: var(--color-primary-600);
+  transform: scale(1.04);
+}
+@media (prefers-reduced-motion: no-preference) {
+  [data-pc='cta']:active {
+    transform: scale(0.96);
+  }
+}
+[data-pc='cta']:focus-visible,
+[data-pc='prev']:focus-visible,
+[data-pc='next']:focus-visible {
+  outline: 2px solid var(--color-accent-fg);
+  outline-offset: 2px;
+}
+
+/* ----- Coverflow (con data-pc-ready en la sección) ----- */
+#proyectos[data-pc-ready] [data-pc='root'] {
+  margin-block: 1rem 2rem;
+  overflow-x: clip;
+}
+#proyectos[data-pc-ready] [data-pc='stage'] {
+  display: block;
+  position: relative;
+  isolation: isolate; /* encapsula los z-index de los items frente al degradado y las flechas */
+  padding: 0;
+  transition: height 0.35s var(--ease-out, ease-out);
+  height: calc(var(--pc-w) * 328 / 529 + var(--pc-info-h, 15.5rem)); /* tarjeta + bloque info (título 2 líneas, resumen 3, CTA): peor caso medido 211 px (móvil) / 237 px (1440) + 1.5rem de separación */
+}
+@media (min-width: 1024px) {
+  #proyectos[data-pc-ready] [data-pc='root'] { --pc-info-h: 17rem; }
+}
+#proyectos[data-pc-ready] [data-pc='item'] {
+  --dx: 0;
+  --sc: 1;
+  --op: 1;
+  --ry: 0deg;
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: var(--pc-w);
+  max-width: none;
+  aspect-ratio: 529 / 328;
+  z-index: calc(10 - var(--a));
+  opacity: var(--op);
+  transform-origin: 50% 50%;
+  transform: translateX(calc(-50% + var(--s) * var(--dx) * var(--pc-w))) scale(var(--sc)) rotateY(var(--ry));
+}
+/* ry = signo * ángulo: positivo empuja el borde derecho hacia atrás, así que el lado izquierdo (s=-1)
+   lleva ángulo negativo y su cara interior (derecha) queda más cerca del espectador. */
+#proyectos[data-pc-ready] [data-pc='item'][data-a='1'] { --dx: 0.52; --sc: 0.68; --op: 1; --dim: 0.4; --ry-a: 0deg; }
+#proyectos[data-pc-ready] [data-pc='item'][data-a='2'] { --dx: 0.81; --sc: 0.52; --op: 1; --dim: 0.55; --ry-a: 0deg; }
+/* PC: se ven 5 (principal + 2 por lado); a=3 y a=4 se esconden detrás del nivel 2 */
+#proyectos[data-pc-ready] [data-pc='item']:is([data-a='3'], [data-a='4']) {
+  --dx: 0.81;
+  --sc: 0.52;
+  --dim: 0.55;
+  --ry-a: 0deg;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+/* Tablet y móvil: se ven 3 (principal + 1 por lado); el nivel 2 se esconde detrás del 1 */
+@media (max-width: 1023.98px) {
+  #proyectos[data-pc-ready] [data-pc='item']:is([data-a='2'], [data-a='3'], [data-a='4']) {
+    --dx: 0.52;
+    --sc: 0.68;
+    --dim: 0.4;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+#proyectos[data-pc-ready] [data-pc='card'] {
+  position: absolute;
+  inset: 0;
+  width: auto;
+}
+/* oscurece las tarjetas de atrás con una capa negra (--dim por nivel); la activa no lleva */
+#proyectos[data-pc-ready] [data-pc='card']::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: rgb(0 0 0);
+  opacity: var(--dim, 0);
+  pointer-events: none;
+}
+#proyectos[data-pc-ready] [data-active] > [data-pc='card'] {
+  border: 1.5px solid color-mix(in srgb, var(--color-accent-fg) 50%, transparent);
+  box-shadow: 0 24px 64px -8px color-mix(in srgb, var(--color-accent) 45%, transparent); /* estática, solo en el activo */
+}
+#proyectos[data-pc-ready] [data-pc='label'] {
+  display: block;
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 2.5rem 1.25rem 1rem;
+  background: linear-gradient(to top, rgb(12 11 13 / 0.92), transparent);
+  opacity: 0;
+}
+#proyectos[data-pc-ready] [data-pc='item']:not([data-a='0']) [data-pc='label'] {
+  opacity: 1;
+}
+/* Nivel 3 (opacidad del item ≈ .26): el nombre no alcanzaría contraste legible; sigue en el aria-label */
+#proyectos[data-pc-ready] [data-pc='item'][data-a='3'] [data-pc='label'] {
+  opacity: 0;
+}
+#proyectos[data-pc-ready] [data-pc='info'] {
+  position: absolute;
+  top: calc(100% + 1rem);
+  left: 50%;
+  width: min(36rem, 92vw);
+  margin: 0;
+  transform: translateX(-50%);
+  opacity: 0;
+  visibility: hidden;
+}
+#proyectos[data-pc-ready] [data-active] > [data-pc='info'] {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Degradado de bordes hacia el fondo, por encima de los items y bajo las flechas */
+#proyectos[data-pc-ready] [data-pc='root']::before,
+#proyectos[data-pc-ready] [data-pc='root']::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  height: calc(var(--pc-w) * 328 / 529); /* solo la franja de tarjetas: el texto de info no se desvanece */
+  width: 18%;
+  z-index: var(--z-coverflow-fade);
+  pointer-events: none;
+}
+#proyectos[data-pc-ready] [data-pc='root']::before {
+  left: 0;
+  background: linear-gradient(to right, var(--color-surface), transparent);
+}
+#proyectos[data-pc-ready] [data-pc='root']::after {
+  right: 0;
+  background: linear-gradient(to left, var(--color-surface), transparent);
+}
+
+/* Flechas */
+#proyectos[data-pc-ready] :is([data-pc='prev'], [data-pc='next']) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: calc(var(--pc-w) * 328 / 529 / 2);
+  translate: 0 -50%;
+  z-index: var(--z-coverflow-nav);
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-raised);
+  border: 1px solid rgb(255 255 255 / 0.12);
+  cursor: pointer;
+  transition-property: background-color, scale, opacity;
+  transition-duration: var(--dur-fast);
+  transition-timing-function: var(--ease-smooth-out);
+}
+/* hover solo con ratón (en táctil se quedaría pegado) */
+@media (hover: hover) and (pointer: fine) {
+  #proyectos[data-pc-ready] :is([data-pc='prev'], [data-pc='next']):hover {
+    background: var(--color-secundary-600);
+    scale: 1.06;
+  }
+  /* Laterales: ligero realce al pasar el ratón (el activo no cambia) */
+  #proyectos[data-pc-ready] [data-pc='item'][data-a='1']:hover { --op: 0.93; }
+  #proyectos[data-pc-ready] [data-pc='item'][data-a='2']:hover { --op: 0.65; }
+  #proyectos[data-pc-ready] [data-pc='item'][data-a='3']:hover { --op: 0.41; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  #proyectos[data-pc-ready] :is([data-pc='prev'], [data-pc='next']):active {
+    scale: 0.96;
+  }
+}
+/* Móvil: 36 px translúcidas, dentro del margen que deja la tarjeta activa (centrado en el margen), sin solapar la activa.
+   Área de pulsación real ~44 px con ::after transparente. */
+@media (max-width: 1023.98px) {
+  /* a sangre (compensa el padding de <main>: px-4 / sm:px-8): el padding recortaría las flechas y los laterales; así
+     el margen que deja la tarjeta activa (11vw en móvil) cabe entero en el root y las flechas no la solapan */
+  #proyectos[data-pc-ready] [data-pc='root'] { margin-inline: -1rem; }
+}
+@media (min-width: 640px) and (max-width: 1023.98px) {
+  #proyectos[data-pc-ready] [data-pc='root'] { margin-inline: -2rem; }
+}
+#proyectos[data-pc-ready] :is([data-pc='prev'], [data-pc='next']) {
+  width: 2.25rem;
+  height: 2.25rem;
+  background: color-mix(in srgb, var(--color-surface-raised) 80%, transparent);
+}
+#proyectos[data-pc-ready] :is([data-pc='prev'], [data-pc='next'])::after {
+  content: '';
+  position: absolute;
+  inset: -5px;
+  border-radius: var(--radius-pill);
+}
+#proyectos[data-pc-ready] [data-pc='prev'] { left: calc((100% - var(--pc-w)) / 4 - 1.125rem); }
+#proyectos[data-pc-ready] [data-pc='next'] { right: calc((100% - var(--pc-w)) / 4 - 1.125rem); }
+@media (min-width: 640px) {
+  #proyectos[data-pc-ready] :is([data-pc='prev'], [data-pc='next']) {
+    width: 3.5rem;
+    height: 3.5rem;
+    background: var(--color-surface-raised);
+  }
+  #proyectos[data-pc-ready] :is([data-pc='prev'], [data-pc='next'])::after { inset: 0; }
+  #proyectos[data-pc-ready] [data-pc='prev'] { left: calc((100% - var(--pc-w)) / 4 - 1.75rem); }
+  #proyectos[data-pc-ready] [data-pc='next'] { right: calc((100% - var(--pc-w)) / 4 - 1.75rem); }
+}
+@media (min-width: 1024px) {
+  #proyectos[data-pc-ready] [data-pc='prev'] { left: 1.5rem; }
+  #proyectos[data-pc-ready] [data-pc='next'] { right: 1.5rem; }
+}
+
+/* Un solo proyecto: sin laterales; flechas fuera */
+#proyectos [data-pc='root'][data-count='1'] :is([data-pc='prev'], [data-pc='next']) {
+  display: none;
+}
+#proyectos[data-pc-ready] [data-pc='root'][data-count='1']::before,
+#proyectos[data-pc-ready] [data-pc='root'][data-count='1']::after {
+  display: none;
+}
+
+/* Tilt 3D SOLO en el nivel full (html[data-motion-tier] lo publica tiers.ts). lite/reduced: plano. */
+html[data-motion-tier='full'] #proyectos[data-pc-ready] [data-pc='stage'] {
+  perspective: 1400px;
+}
+html[data-motion-tier='full'] #proyectos[data-pc-ready] [data-pc='item'] {
+  --ry: calc(var(--s) * var(--ry-a, 0deg));
+}
+
+/* Transiciones: preparadas para T2 (solo con movimiento permitido). En reduced se anulan (global.css fuerza 180 ms). */
+@media (prefers-reduced-motion: no-preference) {
+  #proyectos[data-pc-ready] [data-pc='item'] {
+    transition-property: transform, opacity;
+    transition-duration: 0.6s;
+    transition-timing-function: var(--ease-smooth-out);
+  }
+  #proyectos[data-pc-ready] [data-pc='info'],
+  #proyectos[data-pc-ready] [data-pc='label'] {
+    transition-property: opacity, visibility;
+    transition-duration: 0.35s;
+    transition-timing-function: var(--ease-smooth-out);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #proyectos[data-pc-ready] :is([data-pc='item'], [data-pc='info'], [data-pc='label']) {
+    transition: none !important;
+  }
+}
+
+/* ============================== */
+/* PROYECTOS T2: interacción (arrastre, flechas deshabilitadas, cursor/focus) e intro en abanico */
+/* ============================== */
+#proyectos[data-pc-ready] [data-pc='stage'] {
+  touch-action: pan-y; /* el scroll vertical sigue siendo del navegador; lo horizontal lo gestiona el módulo */
+  transform: translateX(var(--drag, 0px)); /* --drag (px) lo escribe projects.ts durante el arrastre */
+}
+#proyectos[data-pc-ready] [data-pc='stage'] img {
+  -webkit-user-drag: none;
+}
+#proyectos[data-pc-ready] [data-pc='root'][data-pc-dragging] [data-pc='stage'] {
+  transition: none !important; /* el stage sigue al dedo sin retardo */
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: grabbing;
+}
+
+/* Tarjetas: la lateral activa el proyecto, la central abre el modal */
+#proyectos[data-pc-ready] [data-pc='card'] {
+  cursor: pointer;
+}
+#proyectos[data-pc-ready] [data-pc='card']:focus-visible {
+  /* el grosor se compensa con la escala del item (--sc) para que el aro se vea de ~2 px también en laterales */
+  outline: calc(2px / var(--sc, 1)) solid var(--color-accent-fg);
+  outline-offset: calc(3px / var(--sc, 1));
+}
+/* Foco de teclado en una lateral: opacidad completa y sin degradado de bordes encima, para que el aro se vea entero */
+#proyectos[data-pc-ready] [data-pc='item']:has(> [data-pc='card']:focus-visible) { --op: 1; }
+#proyectos[data-pc-ready] [data-pc='root']:has([data-pc='card']:focus-visible)::before,
+#proyectos[data-pc-ready] [data-pc='root']:has([data-pc='card']:focus-visible)::after {
+  opacity: 0;
+}
+
+/* Flechas en los extremos (aria-disabled: siguen enfocables, sin vuelta infinita) */
+#proyectos[data-pc-ready] :is([data-pc='prev'], [data-pc='next'])[aria-disabled='true'] {
+  opacity: 0.35;
+  cursor: default;
+}
+#proyectos[data-pc-ready] :is([data-pc='prev'], [data-pc='next'])[aria-disabled='true']:hover,
+#proyectos[data-pc-ready] :is([data-pc='prev'], [data-pc='next'])[aria-disabled='true']:active {
+  background: color-mix(in srgb, var(--color-surface-raised) 80%, transparent);
+  scale: 1;
+}
+
+/* Intro en abanico: data-pc-intro (estado inicial, lo pone el módulo solo si la sección está bajo el pliegue y se quita
+   al llegar) -> data-pc-intro-run (~1.2 s, solo mientras transitan; aporta los retardos escalonados y se limpia). */
+#proyectos[data-pc-ready] [data-pc='root'][data-pc-intro] [data-pc='item']:not([data-active]) {
+  opacity: 0;
+}
+#proyectos[data-pc-ready] [data-pc='root'][data-pc-intro] [data-pc='item'][data-active] {
+  opacity: 0;
+}
+#proyectos[data-pc-ready] [data-pc='root'][data-pc-intro] :is([data-pc='info'], [data-pc='prev'], [data-pc='next']) {
+  opacity: 0;
+}
+html[data-motion-tier='full'] #proyectos[data-pc-ready] [data-pc='root'][data-pc-intro] [data-pc='item']:not([data-active]) {
+  transform: translateX(-50%) scale(0.5) rotateY(0deg);
+}
+html[data-motion-tier='full'] #proyectos[data-pc-ready] [data-pc='root'][data-pc-intro] [data-pc='item'][data-active] {
+  transform: translateX(-50%) scale(0.92) rotateY(0deg);
+}
+@media (prefers-reduced-motion: no-preference) {
+  #proyectos[data-pc-ready] [data-pc='stage'] {
+    transition: transform 0.4s var(--ease-smooth-out);
+  }
+  #proyectos[data-pc-ready] [data-pc='root'][data-pc-intro-run] [data-pc='item'] {
+    transition-delay: calc(min(var(--a), 4) * 70ms);
+  }
+  #proyectos[data-pc-ready] [data-pc='root'][data-pc-intro-run] [data-pc='info'] {
+    transition-delay: 0.35s;
+  }
+  #proyectos[data-pc-ready] [data-pc='root'][data-pc-intro-run] :is([data-pc='prev'], [data-pc='next']) {
+    transition: opacity 0.5s var(--ease-smooth-out) 0.5s;
   }
 }

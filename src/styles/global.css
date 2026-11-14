@@ -152,6 +152,8 @@
   /* Z-index (orden actual) */
   --z-base: 0;
   --z-carousel: 40;
+  --z-coverflow-fade: 20; /* degradado de bordes del coverflow: sobre los items (z ≤ 10), bajo las flechas */
+  --z-coverflow-nav: 21; /* flechas del coverflow */
   --z-timeline-node: 2; /* nodos de la línea de tiempo sobre el carril */
   --z-header: 100;
   --z-nav: 110;
